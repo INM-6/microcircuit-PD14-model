@@ -1,0 +1,25 @@
+# Include the README
+include README.md
+
+# Include the license
+include ../LICENSES/GPL-2.0-or-later.txt
+
+# Include documentation
+recursive-include docs *.md *.rst *.txt
+
+# Include examples
+recursive-include examples *.py *.yaml *.yml *.json
+
+# Include reference data
+recursive-include reference_data *.py *.dat *.txt *.csv
+
+# Include tests
+recursive-include tests *.py
+
+# Exclude compiled files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
