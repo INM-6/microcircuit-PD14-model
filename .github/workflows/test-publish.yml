@@ -1,0 +1,96 @@
+name: Test Publish to TestPyPI
+
+on:
+  # Trigger on pushes to main branch
+  push:
+    branches: [ main, add-packaging ]
+  # Trigger on pull requests
+  pull_request:
+    branches: [ main ]
+  # Manual trigger
+  workflow_dispatch:
+
+jobs:
+  test-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      
+    - name: Setup Python
+      uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+      with:
+        python-version: '3.11'
+        
+    - name: Setup Miniconda
+      run: |
+        # Download and install Miniconda
+        MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-py311_24.1.2-0-Linux-x86_64.sh"
+        wget "$MINICONDA_URL" -O miniconda.sh
+        # Verify download succeeded
+        if [ ! -f miniconda.sh ]; then
+          echo "Failed to download Miniconda"
+          exit 1
+        fi
+        bash miniconda.sh -b -p $HOME/miniconda
+        export PATH="$HOME/miniconda/bin:$PATH"
+        echo "$HOME/miniconda/bin" >> $GITHUB_PATH
+        # Initialize conda for this shell session
+        eval "$(conda shell.bash hook)"
+        # Configure conda
+        conda config --set channel_priority strict
+        conda config --add channels conda-forge
+        conda config --remove-key channels defaults || true
+        conda config --set auto_activate_base false
+        
+    - name: Install NEST Simulator
+      run: |
+        source $HOME/miniconda/bin/activate
+        conda create -n nest-env python=3.11 -y
+        conda activate nest-env
+        conda install -c conda-forge nest-simulator -y
+        echo "CONDA_DEFAULT_ENV=nest-env" >> $GITHUB_ENV
+        echo "$HOME/miniconda/envs/nest-env/bin" >> $GITHUB_PATH
+        
+    - name: Install build dependencies
+      run: |
+        source $HOME/miniconda/bin/activate nest-env
+        python -m pip install --upgrade pip
+        pip install build twine
+        
+    - name: Build package
+      run: |
+        source $HOME/miniconda/bin/activate nest-env
+        python -m build
+      working-directory: ./PyNEST
+      
+    - name: Check package
+      run: |
+        source $HOME/miniconda/bin/activate nest-env
+        python -m twine check PyNEST/dist/*
+      
+    - name: Publish to TestPyPI
+      if: github.event_name != 'pull_request'
+      run: |
+        source $HOME/miniconda/bin/activate nest-env
+        cd PyNEST
+        python -m twine upload --repository testpypi dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TESTPYPI_API_TOKEN }}
+        
+    - name: Test installation from TestPyPI
+      run: |
+        source $HOME/miniconda/bin/activate nest-env
+        # Wait a bit for TestPyPI to process the upload
+        sleep 30
+        # Install from TestPyPI
+        pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ microcircuit
+        # Test NEST availability
+        python -c "import nest; print(f'NEST version: {nest.__version__}')"
+        # Test import
+        python -c "import microcircuit; print(f'Successfully imported microcircuit version {microcircuit.__version__}')"
