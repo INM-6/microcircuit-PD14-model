@@ -22,6 +22,9 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 '''
+Microcircuit example (Potjans & Diesmann 2014)
+----------------------------------------------
+
 Example illustrating usage of the `microcircuit` python package.
 '''
 

@@ -3,7 +3,7 @@
 ## Overview
 
 [This repository](https://github.com/INM-6/microcircuit-PD14-model) contains a detailed mathematical description and a reference implementation of the model of a cortical microcircuit proposed by [Potjans & Diesmann (2014, The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785-806)](https://doi.org/10.1093/cercor/bhs358). 
-The model describes the neuronal circuitry under ~1 mm$`^2`$ cortical surface. 
+The model describes the neuronal circuitry under ~1 mm$^2$ cortical surface.
 It comprises four cortical layers (L2/3, L4, L5, L6), each represented by a randomly connected network of excitatory and inhibitory point neurons. 
 The network connectivity is derived from anatomical and electrophysiological data.
 Connection probabilities between neurons in the network are highly specific and depend on the cell type (excitatory, inhibitory) and on the locations (cortical layers) of the pre- and postsynaptic neurons.
@@ -17,20 +17,22 @@ Specifically, the model demonstrates that the observed cell-type and layer speci
 
 |  |  |  |
 |--|--|--|
-| <img src="figures/potjans_2014_microcircuit.png" width="300"/> | <img src="figures/potjans_2014_raster_plot.png" width="400"/> | <img src="figures/potjans_2014_box_plot.png" width="400"/> |
+| <img src="https://microcircuit-pd14-model.readthedocs.io/en/latest/_images/potjans_2014_microcircuit.png" width="300"/> | <img src="https://microcircuit-pd14-model.readthedocs.io/en/latest/_images/potjans_2014_raster_plot.png" width="400"/> | <img src="https://microcircuit-pd14-model.readthedocs.io/en/latest/_images/potjans_2014_box_plot.png" width="400"/> |
 
 *Sketch of the cortical microcircuit model (left), spiking activity (middle) and distributions of time averaged single-neuron firing rates across neurons in each subpopulation (right). Adapted from ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291))*
 
 In recent years, the model became an established Computational Neuroscience benchmark for various soft- and hardware architectures ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291); [Jordan et al., 2018](https://doi.org/10.3389/fninf.2018.00002); [Rhodes et al., 2020](https://doi.org/10.1098/rsta.2019.0160); [Dasbach et al., 2021](https://doi.org/10.3389/fnins.2021.757790); [Albers et al., 2022](https://doi.org/10.3389/fninf.2022.837549); [Kurth et al., 2022](https://doi.org/10.1088/2634-4386/ac55fc); [Heittmann et al., 2022](https://doi.org/10.3389/fnins.2021.728460); [Pronold et al., 2022](https://doi.org/10.3389/fninf.2021.785068); [Pronold et al., 2022](https://doi.org/10.1016/j.parco.2022.102952); [Golosio et al., 2023](https://doi.org/10.3390/app13179598); [Kauth et al., 2023](https://doi.org/10.3389/fncom.2023.1144143); [Schmidt et al., 2024](https://doi.org/10.48550/arXiv.2412.02619); [Senk et al., 2025](https://doi.org/10.48550/arXiv.2505.21185)). 
 
 ## Model description
-A detailed mathematical, implementation agnostic description of the model and its parameters is provided [here](https://github.com/INM-6/microcircuit-PD14-model/blob/main/docs/model_description/ModelDescription_microcircuit-PD14-model.pdf).
+A detailed mathematical, implementation agnostic description of the model and its parameters is provided [here](https://microcircuit-PD14-model.readthedocs.io/en/latest/detailed_description.html).
 
 ## Model implementations
-* [PyNEST](https://github.com/INM-6/microcircuit-PD14-model/blob/main/PyNEST/README.md)
+
+* Here we provide a [PyNEST](https://microcircuit-PD14-model.readthedocs.io/en/latest/implementation.html) implementation
+  in the form of a Python package.
 
 ## Publications
-A list of studies citing and/or using the microcircuit model is provided [here](https://github.com/INM-6/microcircuit-PD14-model/blob/main/docs/publications/publications.bib) (studies *using* the model are tagged by `uses_PD14 = {yes}`). Feel free to contact us in case publications are missing in this list.
+A list of studies citing and/or using the microcircuit model is provided [here](https://microcircuit-PD14-model.readthedocs.io/en/latest/publications/publications.html)
 
 ## Repository contents
 

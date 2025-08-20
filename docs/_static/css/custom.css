@@ -21,6 +21,10 @@ a.md-tabs__link, a.md-source {
   background-color: var(--nest-orange);
  }
 
+.md-typeset table:not([class]) th {
+  background-color: #fff;
+}
+
 /* To add matching styling for the header in index.html */
 div[role="main"] .md-header {
   background-color: var(--nest-orange);
