@@ -38,7 +38,7 @@ A detailed mathematical, implementation-agnostic description of the model and it
 A PyNEST implementation in the form of a Python package
 
 ## Publications
-[<img src="figures/Plesser25_295_fig1.png" height="200"/>](https://microcircuit-PD14-model.readthedocs.io/en/latest/publications/publications.html)
+[<img src="figures/Plesser25_20251205.png" height="280"/>](https://microcircuit-PD14-model.readthedocs.io/en/latest/publications/publications.html)
 
 List of studies citing and/or using the microcircuit model
 
