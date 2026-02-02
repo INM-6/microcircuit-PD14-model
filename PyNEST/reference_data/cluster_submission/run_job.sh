@@ -1,3 +1,5 @@
+#!/bin/bash -x
+
 # -*- coding: utf-8 -*-
 #
 # run_job.sh
@@ -6,7 +8,6 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-#!/bin/bash -x
 #SBATCH --partition=hamsteinZen3
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=2
