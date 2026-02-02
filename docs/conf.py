@@ -48,8 +48,7 @@ exclude_patterns = []
 source_suffix = [".rst", ".md"]
 myst_enable_extensions = ["colon_fence",
                           "dollarmath"]
-bibtex_bibfiles = ["publications/publications.bib",
-                   "publications/PD14_uses_only.bib"]
+bibtex_bibfiles = ["publications/publications.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "unsrt"
 
