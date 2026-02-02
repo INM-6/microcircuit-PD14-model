@@ -30,17 +30,17 @@ A community review ([Plesser et al., 2025](https://doi.org/10.1093/cercor/bhaf29
 
 <!-- https://microcircuit-PD14-model.readthedocs.io/en/latest/model_description.html -->
 
-A detailed mathematical, implementation-agnostic description of the model and its parameters
+A detailed mathematical, implementation-agnostic description of the model and its parameters is provided [here](https://microcircuit-pd14-model.readthedocs.io/en/latest/_static/microcircuit-pd14-model.pdf).
 
 ## Model implementations
 [<img src="figures/modelimplementation_icon.png" height="200"/>](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html)
 
-A PyNEST implementation in the form of a Python package
+A PyNEST implementation in the form of a Python package is found [here](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html).
 
 ## Publications
 [<img src="figures/publications_icon.png" height="200"/>](https://microcircuit-PD14-model.readthedocs.io/en/latest/publications/publications.html)
 
-List of studies citing and/or using the microcircuit model
+A list of studies citing and/or using the microcircuit model is given [here](https://microcircuit-PD14-model.readthedocs.io/en/latest/publications/publications.html).
 
 ## Repository contents
 
