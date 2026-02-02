@@ -14,6 +14,7 @@ Publications that use the PD14 microcircuit model.
 ```{bibliography}
 :list: bullet
 :filter: uses_pd14 % "yes"
+:style: unsrtyear
 ```
 
 ```{tab-item} All Citations
@@ -22,6 +23,7 @@ All publications that cite PD14.
 ```{bibliography}
 :all:
 :list: bullet
+:style: unsrtyear
 ```
 
 ````
