@@ -2,6 +2,10 @@
 
 Please contact us in case publications are missing from the list below.
 
+## Citation Statistics
+
+![PD14 Cumulative Citations](_static/images/PD14_pubs_cumulative_bar.svg)
+
 ````{tab-set}
 
 ```{tab-item} Uses PD14
