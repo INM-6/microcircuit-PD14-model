@@ -111,3 +111,22 @@ dt:target {
    background-color: black;
 }
 
+/* sphinx-design tabs styling */
+.sd-tab-set > input:checked + label {
+  color: var(--nest-orange) !important;
+  border-color: var(--nest-orange) !important;
+}
+
+.sd-tab-set > label:hover {
+  color: var(--nest-orange) !important;
+  border-bottom-color: var(--nest-orange) !important;
+}
+
+.sd-tab-set > label {
+  border-bottom: 2px solid transparent;
+}
+
+.sd-tab-set > input:not(:checked) + label:hover {
+  color: var(--nest-orange) !important;
+}
+}

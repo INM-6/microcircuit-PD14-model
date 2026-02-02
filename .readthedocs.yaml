@@ -32,5 +32,4 @@ python:
        path: PyNEST/
        extra_requirements:
          - doc
-
-
+         
