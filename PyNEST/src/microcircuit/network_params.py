@@ -100,8 +100,7 @@ net_dict = {
     "delay_exc_mean": 1.5,
     # mean delay of inhibitory connections (in ms)
     "delay_inh_mean": 0.75,
-    # relative standard deviation of the delay of excitatory and
-    # inhibitory connections
+    # CV of excitatory and inhibitory delays
     "delay_rel_std": 0.5,
     # type of constant background (cortico-cortical) input
     "bg_input_type": "dc", # 'poisson' or 'dc'
