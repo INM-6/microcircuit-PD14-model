@@ -51,7 +51,7 @@ or, without cloning the entire repository, by
   make install
   ```
 - Python 3.x
-- docopt-ng, matplotlib, numpy, psutil, ruamel.yaml (handled by python package dependencies)
+- docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
 
 ## Testing
 

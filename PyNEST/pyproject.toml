@@ -52,6 +52,7 @@ dependencies = [
     "numpy",
     "psutil",
     "ruamel.yaml",
+    "scipy",
     #"gathermetadata@git+ssh://git@github.com/INM-6/gather-metadata"
 ]
 

@@ -1,0 +1,118 @@
+# -*- coding: utf-8 -*-
+#
+# plot_reference_analysis.py
+#
+# This file is part of https://github.com/INM-6/microcircuit-PD14-model
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+#####################
+
+# Snakefile
+
+from params import params as ref_dict
+
+SEEDS = ref_dict["RNG_seeds"]
+DATA_PATH = ref_dict["data_path"]
+SIM_TIME = str( int( ref_dict["t_sim"] * 1.0e-3 ) )
+
+rule all:
+    """
+    Final rule to run all tests.
+    Requires the completion of data generation, analysis, ensemble statistics, and plotting.
+    """
+
+    input:
+        f"{DATA_PATH}/data_T{SIM_TIME}s/ensemble_statistics.done",
+        f"{DATA_PATH}/data_T{SIM_TIME}s/plots.done"
+
+
+rule test_generate_reference_data:
+    """
+    Generate reference data for each seed.
+    When successfull creates a 'raw.done' file in the respective seed directory.
+    """
+
+    output:
+        touch(f"{DATA_PATH}/data_T{SIM_TIME}s/seed-{{seed}}/raw.done")
+    params:
+        path=lambda wildcards: f"{DATA_PATH}/data_T{SIM_TIME}s/seed-{wildcards.seed}"
+    shell:
+        """
+        mkdir -p {params.path}
+        python3 generate_reference_data.py \
+            --seed {wildcards.seed} \
+            --path {params.path}
+        touch {output}
+        """
+
+
+rule test_analyze_reference_data:
+    """
+    Analyze the generated reference data for each seed.
+    When successful creates an 'analyzed.done' file in the respective seed directory.
+    """
+
+    input:
+        f"{DATA_PATH}/data_T{SIM_TIME}s/seed-{{seed}}/raw.done"
+    output:
+        touch(f"{DATA_PATH}/data_T{SIM_TIME}s/seed-{{seed}}/analyzed.done")
+    params:
+        path=lambda wildcards: f"{DATA_PATH}/data_T{SIM_TIME}s/seed-{wildcards.seed}"
+    shell:
+        """
+        python3 analyze_reference_data.py \
+            --seed {wildcards.seed} \
+            --path {params.path}
+        touch {output}
+        """
+
+
+rule test_compute_ensemble_statistics:
+    """
+    Compute ensemble statistics across all seeds.
+    When successful creates an 'ensemble_statistics.done' file in the data directory.
+    """
+
+    input:
+        expand(f"{DATA_PATH}/data_T{SIM_TIME}s/seed-{{seed}}/analyzed.done", seed=SEEDS)
+    output:
+        touch(f"{DATA_PATH}/data_T{SIM_TIME}s/ensemble_statistics.done")
+    shell:
+        """
+        python3 compute_ensemble_statistics.py
+        touch {output}
+        """
+
+
+rule test_plot_reference_analysis:
+    """
+    Generate plots from the ensemble statistics.
+    When successful creates a 'plots.done' file in the data directory.
+    """
+    
+    input:
+        f"{DATA_PATH}/data_T{SIM_TIME}s/ensemble_statistics.done"
+    output:
+        touch(f"{DATA_PATH}/data_T{SIM_TIME}s/plots.done")
+    shell:
+        """
+        python3 plot_reference_analysis.py
+        touch {output}
+        """
+
+import shutil
+onsuccess:
+    shutil.rmtree(".snakemake")
+    test_success()
+    
+##############################################################################################
+def test_success():
+    print("="*60)
+    print("✅ All tests completed successfully!")
+    print(f"  • Simulations ran for seeds: {SEEDS}")
+    print("  • Analysis and ensemble statistics finished")
+    print("  • Plots generated")
+    print(f"  • Data location: {DATA_PATH}/data_T{SIM_TIME}s/")
+    print("="*60)
+

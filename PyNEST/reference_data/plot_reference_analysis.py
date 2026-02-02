@@ -39,7 +39,9 @@ populations = net_dict['populations'] # list of populations
 scaling_factor = ref_dict['scaling_factor']
 net_dict["N_scaling"] = scaling_factor
 net_dict["K_scaling"] = scaling_factor
-sim_dict['data_path'] = 'data/data_T' + str( int( ref_dict['t_sim'] * 1.0e-3 ) ) + 's/'
+
+sim_dict['data_path'] = ref_dict['data_path'] + '/data_T' + str( int( ref_dict['t_sim'] * 1.0e-3 ) ) + 's/'
+
 
 ## set path for storing spike data and figures
 ### TODO revise data path
@@ -184,7 +186,7 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
     rcParams['ytick.labelsize']   = 8
     rcParams['xtick.labelsize']   = 8
     rcParams['ytick.major.size']  = 0   ## remove y ticks      
-    rcParams['text.usetex']       = True 
+    rcParams['text.usetex']       = False 
     rcParams['legend.framealpha'] = 1.0
     rcParams['legend.edgecolor']  = 'k'
     data_path = sim_dict['data_path']
@@ -256,7 +258,8 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
 
         textbox = r'%s' % pop
         if mean is not None:
-            textbox += r'\\{\tiny $D_\mathsf{KS} = %.2f$}' % mean
+            #textbox += r'\\{\tiny $D_\mathsf{KS} = %.2f$}' % mean
+            textbox += '\n$D_\mathsf{KS} = %.2f$' % mean
         
             ax_ks.hist( ks_values, bins=n_seeds, color='gray', alpha=0.5 )
             ax_ks.axvline( mean, color='red', linestyle='--', label='Mean KS-distance' )
@@ -311,9 +314,11 @@ def main():
     spike_ccs_hist_mat, spike_ccs_best_bins, spike_ccs_stats = compute_data_dist( observable=spike_ccs, observable_name='spike_ccs', observable_limits=ref_dict['cc_lim'], bin_size=ref_dict['cc_binsize'] )
 
     # Plot distributions and KS distances
-    plot_data_dists( 'rate', r'\begin{center} time averaged single neuron\\firing rate (s$^{-1}$) \end{center}', rate_hist_mat, rate_best_bins, rate_ks_distances, observable_limits=ref_dict['rate_lim'] )
+    plot_data_dists( 'rate', 'time averaged single neuron\nfiring rate (s$^{-1}$)', rate_hist_mat, rate_best_bins, rate_ks_distances, observable_limits=ref_dict['rate_lim'] )
+    #plot_data_dists( 'rate', r'\begin{center} time averaged single neuron\\firing rate (s$^{-1}$) \end{center}', rate_hist_mat, rate_best_bins, rate_ks_distances, observable_limits=ref_dict['rate_lim'] )
     plot_data_dists( 'spike_cvs', r'spike irregularity (ISI CV)', spike_cvs_hist_mat, spike_cvs_best_bins, spike_cvs_ks_distances, observable_limits=ref_dict['cv_lim'] )
-    plot_data_dists( 'spike_ccs', r'\begin{center} spike correlation coefficient\\(bin size $%.1f$ ms) \end{center}' % ref_dict['binsize'], spike_ccs_hist_mat, spike_ccs_best_bins, spike_ccs_ks_distances, observable_limits=ref_dict['cc_lim'] )
+    plot_data_dists( 'spike_ccs', 'spike correlation coefficient\n(bin size $%.1f$ ms)' % ref_dict['binsize'], spike_ccs_hist_mat, spike_ccs_best_bins, spike_ccs_ks_distances, observable_limits=ref_dict['cc_lim'] )
+    #plot_data_dists( 'spike_ccs', r'\begin{center} spike correlation coefficient\\(bin size $%.1f$ ms) \end{center}' % ref_dict['binsize'], spike_ccs_hist_mat, spike_ccs_best_bins, spike_ccs_ks_distances, observable_limits=ref_dict['cc_lim'] )
 
     ## current memory consumption of the python process (in MB)
     import psutil

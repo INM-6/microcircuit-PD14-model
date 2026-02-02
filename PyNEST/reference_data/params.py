@@ -16,18 +16,22 @@ params = {
     # Adapted model and simulation parameters
     #########################
     # scaling factor of the network
-    #'scaling_factor': 0.2,
-    'scaling_factor': 1.0,    
+    'scaling_factor': 0.2,
+    #'scaling_factor': 1.0,    
     # RNG seeds for generating model relizations
-    'RNG_seeds': ['12345' + str(i) for i in range(0, 10)],
+    #'RNG_seeds': ['12345' + str(i) for i in range(0, 10)],
+    'RNG_seeds': ['12345' + str(i) for i in range(0, 5)],
     # pre-simulation time (for network stabilization) in ms
     't_presim': 500.0,
     # simulation time in ms
-    #'t_sim': 1e+3,    
+    't_sim': 1e+3,    
     #'t_sim': 1.0e+4,
-    't_sim': 9.0e+5,
+    #'t_sim': 9.0e+5,
     # local number of threads
-    'local_num_threads': 64,
+    #'local_num_threads': 64,
+    'local_num_threads': 4,
+    # data path
+    'data_path': 'data',
     ##
     #########################
     # analysis parameters
@@ -37,7 +41,8 @@ params = {
     # RNG seed for random neuron subsampling (for CC anlysis)
     'seed_subsampling': 12345,
     # number of neurons per population for pairwise statistics
-    'subsample_size': 250, 
+    #'subsample_size': 250,
+    'subsample_size': 50, 
     # bin size for generation of spike-count signals (for CC analysis)
     'binsize': 2.0,
     ##
