@@ -190,13 +190,13 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
 
     # Create figure with two subplots if we have entries to show
     if bib_entries:
-        fig = plt.figure(figsize=(16, 7))
+        fig = plt.figure(figsize=(16, 7), facecolor='none')  # Transparent background
         # Left subplot for text (30% width)
         ax_text = plt.subplot2grid((1, 10), (0, 0), colspan=3)
         # Right subplot for chart (70% width)
         ax = plt.subplot2grid((1, 10), (0, 3), colspan=7)
     else:
-        fig, ax = plt.subplots(figsize=(10, 7))
+        fig, ax = plt.subplots(figsize=(10, 7), facecolor='none')  # Transparent background
 
     years = sorted(cumulative_all.keys())
     all_values = [cumulative_all[y] for y in years]
@@ -223,7 +223,7 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
                 bar.get_height() / 2,
                 str(value),
                 ha='center', va='center',
-                fontsize=8, color='black', weight='bold'
+                fontsize=11, color='black', weight='bold'
             )
 
     # Add value labels for "Uses PD14" segment
@@ -235,7 +235,7 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
                 y_pos,
                 str(value),
                 ha='center', va='center',
-                fontsize=8, color='white', weight='bold'
+                fontsize=11, color='white', weight='bold'
             )
 
     # Add total labels on top
@@ -245,14 +245,13 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
             ax.text(
                 year, total + max(all_values) * 0.01, str(total),
                 ha='center', va='bottom',
-                fontsize=10, weight='bold', color='black'
+                fontsize=13, weight='bold', color='black'
             )
 
     # Styling
-    ax.set_xlabel('Year', fontsize=12)
-    ax.set_ylabel('Cumulative Citations', fontsize=12)
-    ax.set_title('PD14 Cumulative Citations', fontsize=14, weight='bold')
-    ax.legend(fontsize=11, loc='upper left')
+    ax.set_xlabel('Year', fontsize=16, weight='bold')
+    ax.set_title('PD14 Cumulative Citations', fontsize=18, weight='bold')
+    ax.legend(fontsize=14, loc='upper left')
     ax.grid(axis='y', alpha=0.3, linestyle='--')
 
     # Optimize Y-axis ticks
@@ -270,10 +269,11 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
 
     ax.set_yticks(range(0, int(max_val) + y_step, y_step))
     ax.set_ylim(0, int(max_val) + y_step * 0.25)
+    ax.tick_params(axis='y', labelsize=13)
 
     # X-axis ticks
     ax.set_xticks(years)
-    ax.set_xticklabels([str(y) for y in years], rotation=45, ha='right')
+    ax.set_xticklabels([str(y) for y in years], rotation=45, ha='right', fontsize=13)
     ax.set_xlim(min(years) - 0.5, max(years) + 0.5)
 
     # Add BibTeX entries panel if provided
@@ -294,7 +294,7 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
         # Add title above the gray box with same formatting as chart title
         title_y = box_bottom + box_height + 0.02
         ax_text.text(0.5, title_y, 'Latest Publications',
-                     fontsize=14, weight='bold',
+                     fontsize=18, weight='bold',
                      horizontalalignment='center',
                      verticalalignment='bottom',
                      transform=ax_text.transAxes,
@@ -302,7 +302,7 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
 
         # Add light gray background that matches the graph axis height exactly
         from matplotlib.patches import Rectangle
-        bg_rect = Rectangle((-0.05, box_bottom), 1.1, box_height,
+        bg_rect = Rectangle((-0.40, box_bottom), 1.6, box_height,
                             facecolor='#f0f0f0',
                             edgecolor='#cccccc',
                             linewidth=1,
@@ -312,7 +312,7 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
         ax_text.add_patch(bg_rect)
 
         # Format and display entries - start just below the top of the box
-        y_position = box_bottom + box_height - 0.02
+        y_position = box_bottom + box_height - 0.01
         for i, entry in enumerate(bib_entries):
             # Extract entry type and key
             lines = entry.strip().split('\n')
@@ -329,65 +329,158 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
 
             # Add entry header with colored formatting
             header_text = f"@{entry_type}"
-            key_text = f"{{{entry_key},"
+            key_text = "{" + entry_key + "},"
 
             # Display @entrytype in red and bold
-            ax_text.text(0.05, y_position, header_text,
-                         fontfamily='monospace', fontsize=8,
+            ax_text.text(-0.37, y_position, header_text,
+                         fontfamily='monospace', fontsize=12,
                          color='red', weight='bold',
                          verticalalignment='top',
                          transform=ax_text.transAxes,
                          zorder=1)
 
             # Display key in red
-            ax_text.text(0.05 + len(header_text) * 0.014, y_position, key_text,
-                         fontfamily='monospace', fontsize=8,
+            ax_text.text(-0.37 + len(header_text) * 0.029, y_position, key_text,
+                         fontfamily='monospace', fontsize=12,
                          color='red',
                          verticalalignment='top',
                          transform=ax_text.transAxes,
                          zorder=1)
 
-            y_position -= 0.026
+            y_position -= 0.032
 
             # Add remaining lines (wrapped)
             for line in lines[1:]:
                 line = line.strip()
                 if not line or line == '}':
                     if line == '}':
-                        ax_text.text(0.05, y_position, line,
-                                     fontfamily='monospace', fontsize=7,
+                        ax_text.text(-0.37, y_position, line,
+                                     fontfamily='monospace', fontsize=10,
                                      color='black',
                                      verticalalignment='top',
                                      transform=ax_text.transAxes,
                                      zorder=1)
-                        y_position -= 0.022
+                        y_position -= 0.028
                     continue
 
-                # Wrap long lines
-                wrapped_lines = textwrap.wrap(line, width=48)
+                # Check if line contains a BibTeX key (word before =)
+                if '=' in line:
+                    key_match = re.match(r'^(\s*\w+\s*)(=.*)$', line)
+                    if key_match:
+                        key_part = key_match.group(1)  # e.g., "title "
+                        rest_part = key_match.group(2)  # e.g., "= {value},"
+
+                        # Check if line needs wrapping
+                        full_line = key_part + rest_part
+                        if len(full_line) > 60:
+                            # Wrap the rest part if needed
+                            wrapped_rest = textwrap.wrap(rest_part, width=60 - len(key_part))
+
+                            # Display first line with key in red and rest in black
+                            ax_text.text(-0.37, y_position, key_part,
+                                         fontfamily='monospace', fontsize=10,
+                                         color='red',
+                                         verticalalignment='top',
+                                         transform=ax_text.transAxes,
+                                         zorder=1)
+
+                            x_offset = len(key_part) * 0.03
+                            ax_text.text(-0.37 + x_offset, y_position, wrapped_rest[0] if wrapped_rest else rest_part,
+                                         fontfamily='monospace', fontsize=10,
+                                         color='black',
+                                         verticalalignment='top',
+                                         transform=ax_text.transAxes,
+                                         zorder=1)
+                            y_position -= 0.028
+
+                            # Display continuation lines in black
+                            for wrapped_line in wrapped_rest[1:]:
+                                ax_text.text(-0.37, y_position, wrapped_line,
+                                             fontfamily='monospace', fontsize=10,
+                                             color='black',
+                                             verticalalignment='top',
+                                             transform=ax_text.transAxes,
+                                             zorder=1)
+                                y_position -= 0.028
+                        else:
+                            # Line fits, display key in red and rest in black
+                            ax_text.text(-0.37, y_position, key_part,
+                                         fontfamily='monospace', fontsize=10,
+                                         color='red',
+                                         verticalalignment='top',
+                                         transform=ax_text.transAxes,
+                                         zorder=1)
+
+                            x_offset = len(key_part) * 0.03
+                            ax_text.text(-0.37 + x_offset, y_position, rest_part,
+                                         fontfamily='monospace', fontsize=10,
+                                         color='black',
+                                         verticalalignment='top',
+                                         transform=ax_text.transAxes,
+                                         zorder=1)
+                            y_position -= 0.028
+                        continue
+
+                # Wrap long lines without keys
+                wrapped_lines = textwrap.wrap(line, width=60)
                 for wrapped_line in wrapped_lines:
-                    ax_text.text(0.05, y_position, wrapped_line,
-                                 fontfamily='monospace', fontsize=7,
+                    ax_text.text(-0.37, y_position, wrapped_line,
+                                 fontfamily='monospace', fontsize=10,
                                  color='black',
                                  verticalalignment='top',
                                  transform=ax_text.transAxes,
                                  zorder=1)
-                    y_position -= 0.022
+                    y_position -= 0.028
 
             # Add spacing between entries
-            y_position -= 0.03
+            y_position -= 0.01
 
     fig.tight_layout()
 
-    # Save in multiple formats
+    # Save version without border first (with white background)
     os.makedirs(output_dir, exist_ok=True)
-    for fmt in ['svg', 'png', 'eps']:
-        output_path = os.path.join(output_dir, f"PD14_pubs_cumulative_bar.{fmt}")
-        if fmt in ['png', 'eps']:
-            fig.savefig(output_path, dpi=300, bbox_inches='tight')
-        else:
-            fig.savefig(output_path, bbox_inches='tight')
-        print(f"Saved: {output_path}")
+    output_path = os.path.join(output_dir, "PD14_pubs_cumulative_bar.svg")
+    fig.savefig(output_path, bbox_inches='tight', facecolor='white')
+    print(f"Saved: {output_path}")
+
+    # Add white background with rounded corners and blue border for icon version
+    from matplotlib.patches import FancyBboxPatch
+
+    # Get the figure size in inches
+    fig_width, fig_height = fig.get_size_inches()
+
+    # Create white background patch (drawn first, behind everything)
+    background_patch = FancyBboxPatch(
+        (0.005, 0.005),  # Start slightly inside to account for border width
+        0.99, 0.99,  # Width and height (slightly less than full to account for border)
+        boxstyle="round,pad=0.06",  # Rounded corners
+        linewidth=0,  # No border on background
+        edgecolor='none',
+        facecolor='white',  # White fill
+        transform=fig.transFigure,  # Use figure coordinates
+        zorder=-1000,  # Draw behind everything
+        clip_on=False
+    )
+    fig.patches.append(background_patch)
+
+    # Create blue border patch (drawn on top)
+    border_patch = FancyBboxPatch(
+        (0.005, 0.005),  # Start slightly inside to account for border width
+        0.99, 0.99,  # Width and height (slightly less than full to account for border)
+        boxstyle="round,pad=0.06",  # Rounded corners
+        linewidth=12,  # Border thickness
+        edgecolor='#0969da',  # Blue color from publication_icon.png
+        facecolor='none',  # Transparent fill
+        transform=fig.transFigure,  # Use figure coordinates
+        zorder=1000,  # Draw on top
+        clip_on=False
+    )
+    fig.patches.append(border_patch)
+
+    # Save icon version with border
+    output_path_icon = os.path.join(output_dir, "PD14_pubs_cumulative_bar_icon.svg")
+    fig.savefig(output_path_icon, bbox_inches='tight', transparent=True)
+    print(f"Saved: {output_path_icon}")
 
     plt.close(fig)
 
