@@ -31,6 +31,7 @@ parameters.
 
 import numpy as np
 
+
 def get_exc_inh_matrix(val_exc, val_inh, num_pops):
     """Creates a matrix for excitatory and inhibitory values.
 
@@ -57,9 +58,9 @@ def get_exc_inh_matrix(val_exc, val_inh, num_pops):
 
 net_dict = {
     # factor to scale the number of neurons
-    "N_scaling": 1.,
+    "N_scaling": 1.0,
     # factor to scale the indegrees
-    "K_scaling": 1.,
+    "K_scaling": 1.0,
     # neuron model
     "neuron_model": "iaf_psc_exp",
     # names of the simulated neuronal populations
@@ -75,7 +76,9 @@ net_dict = {
     #
     # Since these rates were only taken from one simulation, they alone are not sufficient for verification.
     # For that, rates should be compared to mean values over multiple runs with different RNG seeds.
-    "full_mean_rates": np.array([0.903, 2.965, 4.414, 5.876, 7.569, 8.633, 1.105, 7.829]),
+    "full_mean_rates": np.array(
+        [0.903, 2.965, 4.414, 5.876, 7.569, 8.633, 1.105, 7.829]
+    ),
     # connection probabilities (the first index corresponds to the targets
     # and the second to the sources)
     "conn_probs": np.array(
@@ -103,7 +106,7 @@ net_dict = {
     # CV of excitatory and inhibitory delays
     "delay_rel_std": 0.5,
     # type of constant background (cortico-cortical) input
-    "bg_input_type": "dc", # 'poisson' or 'dc'
+    "bg_input_type": "dc",  # 'poisson' or 'dc'
     # indegree of external connections to the different populations (same order
     # as in 'populations')
     "K_ext": np.array([1600, 1500, 2100, 1900, 2000, 1900, 2900, 2100]),
@@ -121,9 +124,24 @@ net_dict = {
     # parameters of the neuron model
     "neuron_params": {
         # membrane potential average for the neurons (in mV)
-        "V0_mean": {"original": -58.0, "optimized": [-68.28, -63.16, -63.33, -63.45, -63.11, -61.66, -66.72, -61.43]},
+        "V0_mean": {
+            "original": -58.0,
+            "optimized": [
+                -68.28,
+                -63.16,
+                -63.33,
+                -63.45,
+                -63.11,
+                -61.66,
+                -66.72,
+                -61.43,
+            ],
+        },
         # standard deviation of the average membrane potential (in mV)
-        "V0_std": {"original": 10.0, "optimized": [5.36, 4.57, 4.74, 4.94, 4.94, 4.55, 5.46, 4.48]},
+        "V0_std": {
+            "original": 10.0,
+            "optimized": [5.36, 4.57, 4.74, 4.94, 4.94, 4.55, 5.46, 4.48],
+        },
         # reset membrane potential of the neurons (in mV)
         "E_L": -65.0,
         # threshold potential of the neurons (in mV)
@@ -144,7 +162,9 @@ net_dict = {
 # derive matrix of mean PSPs,
 # the mean PSP of the connection from L4E to L23E is doubled
 PSP_matrix_mean = get_exc_inh_matrix(
-    net_dict["PSP_exc_mean"], net_dict["PSP_exc_mean"] * net_dict["g"], len(net_dict["populations"])
+    net_dict["PSP_exc_mean"],
+    net_dict["PSP_exc_mean"] * net_dict["g"],
+    len(net_dict["populations"]),
 )
 PSP_matrix_mean[0, 2] = 2.0 * net_dict["PSP_exc_mean"]
 
@@ -153,7 +173,9 @@ updated_dict = {
     "PSP_matrix_mean": PSP_matrix_mean,
     # matrix of mean delays
     "delay_matrix_mean": get_exc_inh_matrix(
-        net_dict["delay_exc_mean"], net_dict["delay_inh_mean"], len(net_dict["populations"])
+        net_dict["delay_exc_mean"],
+        net_dict["delay_inh_mean"],
+        len(net_dict["populations"]),
     ),
 }
 

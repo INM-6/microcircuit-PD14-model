@@ -134,3 +134,9 @@ requires = ["flit_core >=3.2,<4"]
 
 [tool.flit.module]
 name = "microcircuit"
+
+# Black
+# config see https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#command-line-options
+#
+[tool.black]
+line-length = 120
