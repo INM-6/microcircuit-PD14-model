@@ -3,7 +3,7 @@
 ## Snakefile
 ##
 ## This file is part of https://github.com/INM-6/microcircuit-PD14-model
-## 
+##
 ## SPDX-License-Identifier: CC-BY-NC-SA-4.0
 ##
 
@@ -22,7 +22,7 @@ rule compile_tex_source:
 		'ModelDescription_{MODEL}.pdf'
 	run:
 		shell('pdflatex {input}[0]')
-		shell('pdflatex {input}[0]')      
+		shell('pdflatex {input}[0]')
 
 rule convert_network_sketch_to_pdf:
 	input:

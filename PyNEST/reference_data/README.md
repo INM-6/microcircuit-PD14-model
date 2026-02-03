@@ -13,7 +13,7 @@ python generate_reference_data.py --seed <RNGseed> --path <data_path>
 
 The script uses the parameters defined in [`params.py`](params.py), which overwrite some of the default parameters in [../src/microcircuit](../src/microcircuit).
 The random number generator seed used to create a realization of the model and the data path can be set via the (optional) command line arguments `<RNGseed>` and `<data_path>`.
-  
+
 ## Data analysis
 
 The analysis of the spike data documented here closely follows the strategy used in [(Dasbach et al., 2021)](https://doi.org/10.3389/fnins.2021.757790).
@@ -80,7 +80,7 @@ snakemake -j <num_cores>
 ```
 The rule ```test_generate_reference_data``` generates a test data set and, upon successful completion of the simulations, creates the temporary file ```./data/data_T<sim_time_in_s>s/seed-<RNGseed>/raw.done```.
 The rule ```test_analyze_reference_data``` uses this file as input to perform the single-realization analysis described in [sec. 3](#single-network-realization) for each simulation in the test dataset. When the analysis is complete, it produces the temporary file ```./data/data_T<sim_time_in_s>s/seed-<RNGseed>/analysis.done```.
-This file is then used as input for the rule ```test_compute_ensemble_statistics```, which computes the ensemble statistics as described in [sec. 4](#ensemble-of-network-realizations). Upon completion, it generates ```./data/data_T<sim_time_in_s>s/seed-<RNGseed>/ensemble_statistics.done```. 
+This file is then used as input for the rule ```test_compute_ensemble_statistics```, which computes the ensemble statistics as described in [sec. 4](#ensemble-of-network-realizations). Upon completion, it generates ```./data/data_T<sim_time_in_s>s/seed-<RNGseed>/ensemble_statistics.done```.
 Finally, the rule ```test_plot_reference_analysis``` takes this file as input and generates the plots, along with the file ```plots.done```. If plots are generated correctly, the test is marked as successful.
 
 ## Example of a cluster submission workflow
@@ -102,5 +102,4 @@ For convenience, we provide sets of simulated and ananlyzed reference data for d
 The spike data is stored in text files `data_T<sim_time_in_s>s/seed-<RNGseed>/spike_recorder-<rec-id>-<thread-id>.dat` (1st column: neuron ID, 2nd column: spike time in ms).
 Here, `<sim_time_in_s>` refers to the simulation time in seconds, `<RNGseed>` to the random number generator seed used to generate a specific realization of the model, `<rec-id>` to the population specific spike-recorder ID, and `<thread-id>` to the thread ID.
 Each subfolder in addition contains metadata documenting the node IDs for each neuron population (`nodes.json`), the complete sets of model and simulation parameters (`sim_dict.json`, `net_dict.json`, `stim_dict.json`), as well as the results of the data analysis for each network realization (`rates.json`, `spikes_cvs.json`, `spikes_ccs.json`).
-The results of the data analysis describing the statistics of the respective ensemble of network realizations (seeds) are stored in `data_T<sim_time_in_s>s` (`rates.json`, `spikes_cvs.json`, `spikes_ccs.json`, `rate_ks_distances.json`, `spike_cvs_ks_distances.json`, `spike_ccs_ks_distances.json`). 
-
+The results of the data analysis describing the statistics of the respective ensemble of network realizations (seeds) are stored in `data_T<sim_time_in_s>s` (`rates.json`, `spikes_cvs.json`, `spikes_ccs.json`, `rate_ks_distances.json`, `spike_cvs_ks_distances.json`, `spike_ccs_ks_distances.json`).

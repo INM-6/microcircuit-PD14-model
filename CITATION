@@ -12,11 +12,11 @@
 }
 
 @article{Senk25_arxiv,
-      title={Constructive community race: full-density spiking neural network model drives neuromorphic computing}, 
+      title={Constructive community race: full-density spiking neural network model drives neuromorphic computing},
       author={Johanna Senk and Anno C. Kurth and Steve Furber and Tobias Gemmeke and Bruno Golosio and Arne Heittmann and James C. Knight and Eric M\"uller and Tobias Noll and Thomas Nowotny and Gorka Peraza Coppola and Luca Peres and Oliver Rhodes and Andrew Rowley and Johannes Schemmel and Tim Stadtmann and Tom Tetzlaff and Gianmarco Tiddia and Sacha J. van Albada and Jos{\'e} Villamar and Markus Diesmann},
       year={2025},
       journal = {arXiv},
       pages = {2505.21185 [cs.PF]},
       doi = {10.48550/arXiv.2505.21185},
-      url={https://arxiv.org/abs/2505.21185}, 
+      url={https://arxiv.org/abs/2505.21185},
 }

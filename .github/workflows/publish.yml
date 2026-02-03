@@ -10,16 +10,16 @@ jobs:
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
       contents: read
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      
+
     - name: Setup Python
       uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
       with:
         python-version: '3.11'
-        
+
     - name: Setup Miniconda
       run: |
         # Download and install Miniconda
@@ -40,7 +40,7 @@ jobs:
         conda config --add channels conda-forge
         conda config --remove-key channels defaults || true
         conda config --set auto_activate_base false
-        
+
     - name: Install NEST Simulator
       run: |
         source $HOME/miniconda/bin/activate
@@ -49,24 +49,24 @@ jobs:
         conda install -c conda-forge nest-simulator -y
         echo "CONDA_DEFAULT_ENV=nest-env" >> $GITHUB_ENV
         echo "$HOME/miniconda/envs/nest-env/bin" >> $GITHUB_PATH
-        
+
     - name: Install build dependencies
       run: |
         source $HOME/miniconda/bin/activate nest-env
         python -m pip install --upgrade pip
         pip install build twine
-        
+
     - name: Build package
       run: |
         source $HOME/miniconda/bin/activate nest-env
         python -m build
       working-directory: ./PyNEST
-      
+
     - name: Check package
       run: |
         source $HOME/miniconda/bin/activate nest-env
         python -m twine check PyNEST/dist/*
-      
+
     - name: Test package before publishing
       run: |
         source $HOME/miniconda/bin/activate nest-env
@@ -74,7 +74,7 @@ jobs:
         pip install PyNEST/dist/*.whl
         # Test import
         python -c "import microcircuit; print(f'Successfully imported microcircuit version {microcircuit.__version__}')"
-        
+
     - name: Publish to PyPI
       if: github.repository_owner == 'INM-6'
       run: |

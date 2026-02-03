@@ -23,7 +23,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'''
+"""
 PyNEST implementation of the cortical microcircuit model of Potjans & Diesmann (2014).
 
 Usage: microcircuit [options] run
@@ -32,16 +32,15 @@ Usage: microcircuit [options] run
 Options:
     -v, --verbose       increase output
     -h, --help          print this text
-'''
+"""
 import logging
-import time
-
 import pprint
+import time
 from pprint import pformat
-from docopt import docopt       # type: ignore
 
 import nest
 import numpy as np
+from docopt import docopt  # type: ignore
 
 from microcircuit.network import Network
 from microcircuit.network_params import default_net_dict as net_dict
@@ -51,6 +50,7 @@ from microcircuit.stimulus_params import default_stim_dict as stim_dict
 log = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
 
+
 def run_example():
 
     ## set network scale
@@ -58,7 +58,7 @@ def run_example():
     net_dict["N_scaling"] = scaling_factor
     net_dict["K_scaling"] = scaling_factor
 
-    sim_dict['data_path'] = 'data_scale_%.2f/' % scaling_factor
+    sim_dict["data_path"] = "data_scale_%.2f/" % scaling_factor
 
     time_start = time.time()
 
@@ -95,8 +95,12 @@ def run_example():
     # The computation of spike rates discards the presimulation time to exclude
     # initialization artifacts.
 
-    raster_plot_interval = np.array([stim_dict["th_start"] - 100.0, stim_dict["th_start"] + 100.0])
-    firing_rates_interval = np.array([sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]])
+    raster_plot_interval = np.array(
+        [stim_dict["th_start"] - 100.0, stim_dict["th_start"] + 100.0]
+    )
+    firing_rates_interval = np.array(
+        [sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]]
+    )
     net.evaluate(raster_plot_interval, firing_rates_interval)
     time_evaluate = time.time()
 
@@ -116,20 +120,21 @@ def run_example():
     )
 
     net.store_metadata()
-    
+
+
 def main():
-    'Start main CLI entry point.'
+    "Start main CLI entry point."
     args = docopt(__doc__)
-    if args['--verbose']:
+    if args["--verbose"]:
         log.setLevel(logging.DEBUG)
     log.debug(pformat(args))
 
-    #log.info("Hello World")
+    # log.info("Hello World")
 
-    if args['run']:        
+    if args["run"]:
         run_example()
-        
-    if args['config']:
+
+    if args["config"]:
 
         print()
         print("Model parameters:")
@@ -139,7 +144,9 @@ def main():
         print()
         print("Simulation parameters:")
         print("----------------------")
-        pprint.pprint(sim_dict)                
+        pprint.pprint(sim_dict)
         print()
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     main()

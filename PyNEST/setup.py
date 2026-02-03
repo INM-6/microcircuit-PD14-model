@@ -22,8 +22,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'Packaging configuration.'
+"Packaging configuration."
 
-from setuptools import setup        # type: ignore
+from setuptools import setup  # type: ignore
 
-setup()     # everything configured via pyproject.toml
+setup()  # everything configured via pyproject.toml

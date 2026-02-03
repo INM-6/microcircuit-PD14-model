@@ -21,7 +21,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-""" PyNEST Microcircuit: Stimulus Parameters
+"""PyNEST Microcircuit: Stimulus Parameters
 -----------------------------------------------
 
 A dictionary with parameters for an optional external transient stimulation.

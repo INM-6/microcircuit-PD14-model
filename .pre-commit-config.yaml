@@ -1,0 +1,77 @@
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0  # this is optional, use `pre-commit autoupdate` to get the latest rev!
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+  # - repo: local
+  #   hooks:
+  #     - id: bump-my-version
+  #       name: bump-my-version
+  #       entry: bump-my-version
+  #       args: ["replace", "--allow-dirty"]
+  #       pass_filenames: false
+  #       language: system
+  - repo: https://github.com/psf/black
+    rev: 25.12.0
+    hooks:
+      - id: black
+  - repo: https://github.com/PyCQA/isort
+    rev: 7.0.0
+    hooks:
+      - id: isort
+  # - repo: https://github.com/PyCQA/flake8
+  #   rev: 7.3.0
+  #   hooks:
+  #     - id: flake8
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.19.1
+  #   hooks:
+  #   -   id: mypy
+  #       additional_dependencies:
+  #         - jinja2
+  #         - 'matplotlib-stubs'
+  #         - 'pandas-stubs'
+  #         - pydantic
+  #         - pylint-pydantic
+  #         - pytest
+  #         - 'python-configuration[yaml]' # [tokenize-rt==3.2.0]
+  #         - python-dateutil
+  #         - python-gitlab
+  #         - rich_click
+  #         - ruamel.yaml
+  #         - seaborn
+  #         - semver
+  #         - types-python-dateutil
+  #         - 'types-requests'
+  #         - 'types-tqdm'
+  #       args: [--python-version=3.10]
+  # - repo: https://github.com/PyCQA/pydocstyle
+  #   rev: 6.3.0
+  #   hooks:
+  #     - id: pydocstyle
+  # - repo: https://github.com/PyCQA/pylint
+  #   rev: v4.0.4
+  #   hooks:
+  #     - id: pylint
+  #       additional_dependencies:
+  #         - jinja2
+  #         - 'matplotlib-stubs'
+  #         - 'pandas-stubs'
+  #         - pydantic
+  #         - pylint-pydantic
+  #         - pytest
+  #         - 'python-configuration[yaml]' # [tokenize-rt==3.2.0]
+  #         - python-dateutil
+  #         - python-gitlab
+  #         - rich_click
+
+  #         - ruamel.yaml
+  #         - seaborn
+  #         - semver
+  #         - tqdm
+  #         - types-python-dateutil
+  #         - 'types-requests'
+  #         - 'types-tqdm'

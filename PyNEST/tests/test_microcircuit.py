@@ -6,14 +6,14 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'''
+"""
 Unit test including network creation, connection and simulation.
-'''
+"""
 
 #####################
 import nest
-import pytest
 import numpy as np
+import pytest
 
 ## import model implementation
 from microcircuit import network
@@ -27,16 +27,17 @@ from microcircuit.stimulus_params import default_stim_dict as stim_dict
 
 # set scaling factor of simulation
 scaling_factor = 0.2
-net_dict['N_scaling'] = scaling_factor
-net_dict['K_scaling'] = scaling_factor
+net_dict["N_scaling"] = scaling_factor
+net_dict["K_scaling"] = scaling_factor
+
 
 def test_simulation():
-    
+
     ## set simulation time
-    sim_dict['t_sim'] = 100.0 
+    sim_dict["t_sim"] = 100.0
 
     def run_simulation():
-        
+
         ## create instance of the network
         net = network.Network(sim_dict, net_dict, stim_dict)
 
@@ -55,18 +56,18 @@ def test_simulation():
         result = run_simulation()
 
     except Exception as e:
-        pytest.fail(f'Simulation raised an exception: {e}')
+        pytest.fail(f"Simulation raised an exception: {e}")
 
     assert result is not None
 
-    print('======================================')
-    print('')
-    print('Test passed')
-    print('')
-    print('microcircuit.simulate() runs correctly')
-    print('')
-    print('======================================')
+    print("======================================")
+    print("")
+    print("Test passed")
+    print("")
+    print("microcircuit.simulate() runs correctly")
+    print("")
+    print("======================================")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test_simulation()
-
