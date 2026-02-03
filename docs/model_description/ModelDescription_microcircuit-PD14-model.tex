@@ -78,7 +78,7 @@ pdfkeywords={}
 \newcommand{\note}[1]{\textcolor{red}{[\it #1]}}
 \newcommand{\drvd}[1]{\textcolor{gray}{#1}} %% font style for derived parameters
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 \title{Model description:\\ \textbf{Cortical Microcircuit} \citep{Potjans14}}
@@ -116,53 +116,53 @@ It does not contain any information on specific numerical implementations.
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.8\textwidth-2.\marg}@{\hspace*{\marg}}
   |}
-  \hline 
+  \hline
   \multicolumn{2}{|>{\color{white}\columncolor{black}}c|}{\textbf{Summary}}\\
-  \hline 
+  \hline
   \textbf{Populations} & $8$ cortical populations in $4$ layers ($\text{L2/3}$, $\text{L4}$, $\text{L5}$,
   $\text{L6}$), driven by cortico-cortical inputs ($\mathcal{C}$) and a thalamic population ($\mathcal{T}$)\\
-  \hline 
+  \hline
   \textbf{Connectivity} & random, independent, population specific\\
-  \hline 
+  \hline
   \textbf{Neuron model} & cortex: leaky integrate-and-fire (LIF); cortico-cortical inputs: constant currents (DC); thalamus: Poisson point process\\
-  \hline 
+  \hline
   \textbf{Synapse model} & exponential postsynaptic currents with static, normally distributed weights and delays\\
-  \hline 
+  \hline
   \textbf{Predictions} & population specific spiking activity\\
 
   \hline
   \multicolumn{2}{|c|}{\centering\parbox{0.95\linewidth}{\centering\includegraphics{figures/NetworkSketch_microcircuit-PD14-model.pdf}\\[-5ex] \hfill (see \href{https://doi.org/10.1371/journal.pcbi.1010086.g008}{legend})}}\\
   \hline
 \end{tabular}
-%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%
 \begin{tabular}{
   |@{\hspace*{\marg}}p{0.4\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.4\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |}
-  \hline 
+  \hline
   \multicolumn{3}{|>{\color{white}\columncolor{black}}c|}{\textbf{Populations}}\\
-  \hline 
+  \hline
   \textbf{Name} & \textbf{Elements} & \textbf{Size}\\
   \hline
   cortical populations & LIF & $N_{x}$ \\
   $x \in \{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\mathcal{I}_{23},\mathcal{I}_{4},\mathcal{I}_{5},\mathcal{I}_{6}\}$ & & \\
-  \hline 
+  \hline
   total network $\mathcal{P} = \bigcup_{x} x$ & LIF & $N= \sum_{x} N_{x}$\\
   & & (see remark \ref{remark:network_scaling})\\
   \hline
   cortico-cortical subpopulations $\mathcal{C}_{x}$ & population specific constant currents & $N_{x}$ \\
   \hline
   total population of cortico-cortical inputs & population specific constant currents & $N= \sum_{x} N_{x}$ \\
-  $\mathcal{C} = \bigcup_{x} \mathcal{C}_x$ & & \\ 
-  \hline 
+  $\mathcal{C} = \bigcup_{x} \mathcal{C}_x$ & & \\
+  \hline
   $\mathcal{P} = \bigcup_{x} x$ & LIF & $N= \sum_{x} N_{x}$\\
-  \hline 
+  \hline
    $\mathcal{T}$ & realizations of Poisson point process & $N_{\mathcal{T}}$ \\
    \hline
    $\mathcal{C}=\bigcup_{x}\mathcal{C}_{x}$ & population specific currents & $N= \sum_{x} N_{x}$
    \\
-  \hline 
+  \hline
 \end{tabular}
 %%%%%%%%%%%%%%%%%%%
 \caption{Description of the network model (continued on next page).}
@@ -175,19 +175,19 @@ It does not contain any information on specific numerical implementations.
 \addtocounter{table}{-1}
 \begin{table}[H]
 %%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%
 \begin{tabular}{
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.6\textwidth-2.\marg}@{\hspace*{\marg}}
   |}
-  \hline 
+  \hline
   \multicolumn{3}{|>{\color{white}\columncolor{black}}c|}{\textbf{Connectivity}}\\
   \hline
   \textbf{Source} & \textbf{Target} & \textbf{Pattern}\\
   \hline
   $x \in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$ & $y \in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$ &
-                            \vspace{-1ex}                                                                                  
+                            \vspace{-1ex}
                             \begin{itemize}[topsep=0pt,leftmargin=*]
 				    \item random, fixed total number $Q_{yx}$ of connections\cref{def:random_fixed_total_number} (see remark \ref{remark:network_scaling})
                             \item synaptic weights $J_{ij}$ ($\forall{}i\in y, j\in x$)
@@ -195,13 +195,13 @@ It does not contain any information on specific numerical implementations.
                             \end{itemize}\\
   \hline
   $\mathcal{T}$ & $y \in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$ &
-                            \vspace{-1ex}                                               
+                            \vspace{-1ex}
                             \begin{itemize}[topsep=0pt,leftmargin=*]
-				    \item random, fixed total number $Q_{y\mathcal{T}}$ of connections\cref{def:random_fixed_total_number} 
+				    \item random, fixed total number $Q_{y\mathcal{T}}$ of connections\cref{def:random_fixed_total_number}
                             \item synaptic weights $J_{ij}$ ($\forall{}i\in y, j\in \mathcal{T}$)                            \item spike-transmission delays $d_{ij}$ ($\forall{}i\in y, j\in \mathcal{T}$)
                             \end{itemize}\\
   \hline
-  $\mathcal{C}_{y}$ & $y \in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$ & 
+  $\mathcal{C}_{y}$ & $y \in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$ &
                             \begin{itemize}[align=left,leftmargin=*]
 				                    \item one-to-one\cref{def:one_to_one}
                             %\item synaptic weights $J_{ij}$ ($\forall{}i\in y, j\in \mathcal{C}_{y}$)
@@ -244,29 +244,29 @@ It does not contain any information on specific numerical implementations.
 %%
 \begin{table}[H]
 \renewcommand{\arraystretch}{1.2}
-%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%
 \begin{tabular}{
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.8\textwidth-2.\marg}@{\hspace*{\marg}}
   |}
-  \hline 
+  \hline
   \multicolumn{2}{|>{\color{white}\columncolor{black}}c|}{\textbf{Neurons}}\\
   \hline
   \multicolumn{2}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Cortical neurons}}\\
   \hline
   \textbf{Type} & leaky integrate-and-fire (LIF)\\
-  \hline 
+  \hline
   \textbf{Description} & dynamics of membrane potential $V_{i}(t)$ and spiking activity $s_i(t)$ of neuron $i\in x$ for $x\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$:
                          \begin{itemize}
                          \item emission of $k$th ($k=1,2,\ldots$) spike of neuron $i$ at time $t_{i}^{k}$ if
                            \begin{equation}
-                             V_{i}\left(t_{i}^{k}\right)\geq\theta  
+                             V_{i}\left(t_{i}^{k}\right)\geq\theta
                            \end{equation}
                            with spike threshold $\theta$
-                         \item spike train $\displaystyle s_i(t)=\sum_k \delta(t-t_i^k)$                           
+                         \item spike train $\displaystyle s_i(t)=\sum_k \delta(t-t_i^k)$
                          \item reset and refractoriness:
                            \begin{equation}
-				   \forall{}k,\ \forall t \in \left[t_{i}^{k},\,t_{i}^{k}+\tauR\right]:\quad V_{i}(t)=V_\text{reset}  
+				   \forall{}k,\ \forall t \in \left[t_{i}^{k},\,t_{i}^{k}+\tauR\right]:\quad V_{i}(t)=V_\text{reset}
                            \end{equation}
                             with refractory period $\tauR$ and reset potential $V_\text{reset}$
                          \item subthreshold dynamics of membrane potential $V_{i}(t)$:
@@ -281,11 +281,11 @@ It does not contain any information on specific numerical implementations.
                            with membrane time constant $\tauM$, membrane resistance $\RM$, resting potential $E_\text{L}$, total synaptic input current $I_i(t)$ (see ``Synapses''), and constant background current $I_{i,\mathcal{C}_y}=I_{\mathcal{C}_y}$ for $i\in{}y$ (see ``Cortico-cortical inputs'')
                         \item[] (see App.\,\ref{sec:normal_form} for the normal form of the combined subthreshold neuron-synapse dynamics)
                          \end{itemize}\\
-  \hline 
+  \hline
   \multicolumn{2}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Thalamic neurons}}\\
   \hline
   \textbf{Type} & Poisson point process \\
-  \hline 
+  \hline
   \textbf{Description} &  spike trains $s_{i}(t)$ ($i\in\mathcal{T}$) modeled as independent realizations of Poisson point process with piece-wise constant rate
   \begin{equation}
     \nu_{\mathcal{T}}(t) =
@@ -299,7 +299,7 @@ It does not contain any information on specific numerical implementations.
   \multicolumn{2}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Cortico-cortical inputs}}\\
   \hline
   \textbf{Type} & constant (direct) currents (DC) \\
-  \hline 
+  \hline
 	\textbf{Description} & population specific constant input current of magnitude
 \begin{equation*}
 	I_{\mathcal{C}_x} = K_{\mathcal{C}_x} \cdot I_{\mathcal{C}}
@@ -312,7 +312,7 @@ It does not contain any information on specific numerical implementations.
     generated by a Poissonian spike train with rate $\nu_{\mathcal{C}}$, convolved with an exponential kernel with amplitude $\bar{I}$ and time constant $\tauS$ (see remark \ref{remark:cortico_cortical_dc})
   \\
   \hline
-  
+
 \end{tabular}
 %%%%%%%%%%%%%%%%%%%
 \caption{Description of the network model (continued).}
@@ -327,13 +327,13 @@ It does not contain any information on specific numerical implementations.
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.8\textwidth-2.\marg}@{\hspace*{\marg}}
   |}
-  \hline 
+  \hline
   \multicolumn{2}{|>{\color{white}\columncolor{black}}c|}{
   \textbf{Synapses}
   }\\
-  \hline 
+  \hline
   \textbf{Type} & exponential postsynaptic currents with static weights and delays \\
-  \hline 
+  \hline
   \textbf{Description} &
   \begin{itemize}
 	  %\item total synaptic input current $I_{ij}(t)$ from neuron $j$ to neuron $i$ ($\forall i \in y\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$ and $\forall j \in x\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}, \mathcal{T}, \mathcal{C}\}$):
@@ -347,26 +347,26 @@ It does not contain any information on specific numerical implementations.
 			f_{i} (t) = \sum_{x} \sum_{j} f_{ij} (t) = \sum_{x} \sum_{j} \hat{I}_{ij} s_{j}(t-d_{ij})
 		\end{equation}
                 of weighted spike trains with static synaptic weigths $\hat{I}_{ij}$, synaptic time constant $\tauS$, and spike transmission delays $d_{ij}$
-        \item[] (see App.\,\ref{sec:normal_form} for the normal form of the combined subthreshold neuron-synapse dynamics)	
+        \item[] (see App.\,\ref{sec:normal_form} for the normal form of the combined subthreshold neuron-synapse dynamics)
 	\item solution of \eqref{eq:synaptic_current} for $\displaystyle f_{ij}(t)=\hat{I}_{ij}s_{j}(t)$ and $I_{ij}(t=0)=0$:
 		\begin{equation}
 			\text{PSC}_{ij}(t)=\hat{I}_{ij} \exp(-t/\tauS)\Theta(t)
 		\end{equation}
 		with Heaviside function $\Theta(\cdot)$
-	\item[$\curvearrowright$] (exponential decaying) posynaptic current triggered by a single presynaptic spike 
+	\item[$\curvearrowright$] (exponential decaying) posynaptic current triggered by a single presynaptic spike
 	\item solution of \eqref{eq:membrane_potential} for $I_i(t)=\text{PSC}_{ij}(t)$, $V_i(t=0)=0$, and $E_\text{L}=0$:
                            \begin{equation}
                              \text{PSP}_{ij}(t)=
 				     \hat{I}_{ij}\RM \frac{\tauS}{\tauS - \tauM}
-				     \left(e^{-t/\tauS}-e^{-t/\tauM}\right) \Theta(t) 
+				     \left(e^{-t/\tauS}-e^{-t/\tauM}\right) \Theta(t)
                            \end{equation}
                          \item PSC amplitude (synaptic weight):
-                           \begin{equation}                          
+                           \begin{equation}
                              \hat{I}_{ij}
                              =\frac{J_{ij}}{J_\text{unit}(\tauM,\tauS,\RM)}
                            \end{equation}
-                           parameterized by PSP amplitude                    
-                           $J_{ij}=\text{max}_t\bigl(\text{PSP}_{ij}(t)\bigr)$ 
+                           parameterized by PSP amplitude
+                           $J_{ij}=\text{max}_t\bigl(\text{PSP}_{ij}(t)\bigr)$
                          \item[] with unit PSP amplitude (PSP amplitude for $\hat{I}_{ij}=1$):
                            \begin{equation}
                              J_\text{unit}(\tauM,\tauS,\RM)=
@@ -385,7 +385,7 @@ It does not contain any information on specific numerical implementations.
 \label{tab:model_description_3}
 \end{table}
 \clearpage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% model description table: Synapses (cnt) and Initial conditions
 %%
 \begin{table}[H]
@@ -393,16 +393,16 @@ It does not contain any information on specific numerical implementations.
   |@{\hspace*{\marg}}p{0.2\textwidth-2.\marg}@{\hspace*{\marg}}
   |@{\hspace*{\marg}}p{0.8\textwidth-2.\marg}@{\hspace*{\marg}}
   |}
-  \hline 
+  \hline
   \multicolumn{2}{|>{\color{white}\columncolor{black}}c|}{
 	  \textbf{Synapses (continued)}
   }\\
-  \hline 
+  \hline
   \textbf{Description} &
   \begin{itemize}
   \item synaptic weights
   \begin{equation}
-	  \hat{I}_{ij} = \begin{cases} 
+	  \hat{I}_{ij} = \begin{cases}
       \text{max}(0,z_{yx}), & j \in x\in\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\mathcal{T}\} \\
       \text{min}(0,z_{yx}), & j \in x\in\{\mathcal{I}_{23},\mathcal{I}_{4},\mathcal{I}_{5},\mathcal{I}_{6}\} \\
       \bar{I}_{yx}, & j \in x=\mathcal{C}_y \\
@@ -417,7 +417,7 @@ It does not contain any information on specific numerical implementations.
   \item[] note: clipping of synaptic weights leads to a deviation of the total number of synapses with non-zero weights from $K_{yx}$ (see ``Connectivity'')
   \item distributed synaptic delays
   \begin{equation}
-      d_{ij} = \begin{cases} 
+      d_{ij} = \begin{cases}
 	      \text{max}(d_\text{min},z_{yx}), & \forall i,\ \forall j \in x\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6},\mathcal{T}\} \\
       	\bar{d}_{yx}, & \forall i,\ \forall j \in x=\mathcal{C}_y \\
       \end{cases}
@@ -464,13 +464,13 @@ It does not contain any information on specific numerical implementations.
 %%
 \renewcommand{\arraystretch}{1.2}
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% parameters table
 \def\widthA{0.1}
 \def\widthB{0.2}
 \def\widthC{0.7}
 \begin{table}[H]
-%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%
   \begin{tabular}{|@{\hspace*{\marg}}p{1.0\textwidth-2.\marg}@{\hspace*{\marg}}|}
     \hline
     \multicolumn{1}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Network and connectivity}}\\
@@ -524,9 +524,9 @@ It does not contain any information on specific numerical implementations.
     |@{\hspace*{\marg}}p{\widthC\textwidth-2.\marg}@{\hspace*{\marg}}
     |}
   \hline
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \multicolumn{3}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Neuron}}\\
-\hline 
+\hline
 \textbf{Name} & \textbf{Value} & \textbf{Description}\\
 \hline
 $\theta$ & $-50\mV$ & spike threshold \\
@@ -580,7 +580,7 @@ $\nu_{\mathcal{C}_y}$ & $8\sps$ & ``rate'' of cortico-cortical inputs ($\forall 
 \end{tabular}
 \caption{Model parameters. Parameters derived from other parameters are marked in gray (continued on next page).}
 \end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% parameters table (cnt)
 \clearpage
 \begin{table}[H]
@@ -591,9 +591,9 @@ $\nu_{\mathcal{C}_y}$ & $8\sps$ & ``rate'' of cortico-cortical inputs ($\forall 
     |}
 \hline
 \multicolumn{3}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Synapse}}\\
-\hline 
+\hline
 \textbf{Name} & \textbf{Value} & \textbf{Description}\\
-\hline 
+\hline
 $J$ & $0.15\mV$ & (mean) weight (PSP amplitude) of excitatory synapses\\
 \hline
 \drvd{$\bar{I}_{yx}$} &  & synaptic weights\\
@@ -609,12 +609,12 @@ $\bar{d}_{yx}$ &  & mean spike transmission delays\\
               & $1.5\ms$ & $x\in\left\{ \mathcal{E}_{23}, \mathcal{E}_{4}, \mathcal{E}_{5}, \mathcal{E}_{6},\mathcal{T},\mathcal{C}_y\right\} $,
 $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\mathcal{I}_{23},\mathcal{I}_{4},\mathcal{I}_{5},\mathcal{I}_{6}\right\}$
   \\
- & $0.75\ms$ & $x\in\left\{ \mathcal{I}_{23}, \mathcal{I}_{4}, \mathcal{I}_{5}, \mathcal{I}_{6}\right\}$, 
+ & $0.75\ms$ & $x\in\left\{ \mathcal{I}_{23}, \mathcal{I}_{4}, \mathcal{I}_{5}, \mathcal{I}_{6}\right\}$,
 $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\mathcal{I}_{23},\mathcal{I}_{4},\mathcal{I}_{5},\mathcal{I}_{6}\right\}$ \\
  \hline
   $\sigma_{\text{d},yx}$ & $0.5\cdot\bar{d}_{yx}$ & standard deviation of spike transmission delays\\
   \hline
-  $d_\text{min}$      & $0.1\ms$      & minimal spike transmission delay\\ 
+  $d_\text{min}$      & $0.1\ms$      & minimal spike transmission delay\\
 \hline
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \multicolumn{3}{|>{\color{black}\columncolor{lightgray}}c|}{\textbf{Initial conditions}}\\
@@ -646,7 +646,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
 \renewcommand{\appendixname}{}
 %\appendix
 \begin{appendices}
-  \renewcommand{\thesection}{A\arabic{section}}  
+  \renewcommand{\thesection}{A\arabic{section}}
 \section{Single-neuron dynamics in normal form (subthreshold)}
 \label{sec:normal_form}
 \begin{itemize}
@@ -672,7 +672,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
       \dot{x}_{i} + \frac{1}{\tauS} x_{i} &= \frac{\RM}{\tauM} f_{i}(t)\\
       \dot{v}_{i} + \frac{1}{\tauM} v_{i} -  x_{i}  &= 0
     \end{aligned}
-  \end{equation} 
+  \end{equation}
 \item normal form of neuron-$i$ dynamics \eqref{eq:1st_order_ode_rescaled}:
   \begin{equation}
     \label{eq:normal_form}
@@ -680,29 +680,29 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   \end{equation}
   with $D=2$ dimensional state vector
   \begin{equation}
-    \label{eq:normal_form_state_vector}    
-    \bm{y}_i(t) = 
+    \label{eq:normal_form_state_vector}
+    \bm{y}_i(t) =
     \begin{pmatrix}
       x_{i}(t)   \,,\,
-      v_{i}(t)       
+      v_{i}(t)
     \end{pmatrix}^\text{T},
   \end{equation}
   with constant $(D\times{}D)$ matrix
   \begin{equation}
-    \label{eq:normal_form_coupling_matrix}    
-    \bm{A} = 
+    \label{eq:normal_form_coupling_matrix}
+    \bm{A} =
     \begin{bmatrix}
       -1/\tauS & 0\\
-      1        & -1/\tauM  
-    \end{bmatrix},	   
+      1        & -1/\tauM
+    \end{bmatrix},
   \end{equation}
   and inhomogeneity vector
   \begin{equation}
-    \label{eq:normal_form_inhomogeneity}        
-    \bm{f}_i(t) = 
+    \label{eq:normal_form_inhomogeneity}
+    \bm{f}_i(t) =
     \begin{pmatrix}\displaystyle
       \frac{\RM}{\tauM} f_{i}(t)     \,,\,
-      0               
+      0
     \end{pmatrix}^\text{T}
   \end{equation}
   \citep[see Sec.\,3.2.2 in][]{Rotter99_381}
@@ -715,7 +715,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
     \end{aligned}
   \end{equation}
 \end{itemize}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Exact integration of  single-neuron dynamics (subthreshold)}
 \label{sec:exact_integration}
 
@@ -732,7 +732,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
     \label{eq:matrix_exponential}
     \bm{P} = e^{\bm{A}\Delta}
   \end{equation}
-  with components 
+  with components
   \begin{equation}
     %\def\cnstrntwdth{0.5\linewidth}
     %\def\vspc{3ex}
@@ -752,13 +752,13 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
 %%
 \begin{enumerate}
 %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \label{remark:network_scaling}
-  In the PyNEST implementation of the model provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, the model size can be configured by the parameters \texttt{N\_scaling} and \texttt{K\_scaling}, which scale the number of neurons in the network and the number of synapses per neuron (in-degree), respectively. 
+  In the PyNEST implementation of the model provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, the model size can be configured by the parameters \texttt{N\_scaling} and \texttt{K\_scaling}, which scale the number of neurons in the network and the number of synapses per neuron (in-degree), respectively.
   The original (default) full-scale model corresponds to \texttt{N\_scaling=1} and \texttt{K\_scaling=1}.
   Downscaling the model enables running it in the presence of limited computing resources (e.g., on a laptop).
   The scaling of the synapse number affects both the connections within the local network and the external (cortico-cortical) inputs.
-  %% 
+  %%
   Without any compensation, changing the number of synapses would change the statistics of the total input current
   \begin{equation}
     \label{eq:total_synaptic_input_current}
@@ -768,18 +768,18 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   In the PyNEST implementation provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, this change in the activity statistics is suppressed by rescaling the average synaptic weights $\bar{I}_{yx}$ and injecting an additional constant input current into each neuron.
   In the following, we outline this compensation procedure.
   %%
-  \par  
+  \par
   Under the assumption that the spike trains $s_j(t)$ can be described by stationary Poisson point processes with rates $\nu_j$, the mean and the variance of the total synaptic input current \cref{eq:total_synaptic_input_current} read\footnote{Here, we have absorbed the constant cortico-cortical input current $I_{i,\mathcal{C}}$ into the sum across all presynaptic sources.}
   \begin{equation}
     \label{eq:mean_and_variances_synaptic_input}
-      \mu_i      =             \tauS \sum_{x\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6},\mathcal{C}_y\}} \sum_j \hat{I}_{ij}   \nu_j 
+      \mu_i      =             \tauS \sum_{x\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6},\mathcal{C}_y\}} \sum_j \hat{I}_{ij}   \nu_j
       \quad\text{and}\quad
       \sigma_i^2 = \frac{1}{2} \tauS \sum_x \sum_j \hat{I}_{ij}^2 \nu_j  .
   \end{equation}
   If we further assume that the variance $\sigma_{\text{s},yx}^2$ of the synaptic weight distribution can be neglected, the population averaged mean and variance are approximated by
   \begin{equation}
     \label{eq:mean_and_variances_synaptic_input_pop_av}
-    \mu_y      =\langle\mu_i\rangle_{i\in{}y}       = \tauS            \sum_x K_{yx}  \bar{I}_{yx}   \nu_x 
+    \mu_y      =\langle\mu_i\rangle_{i\in{}y}       = \tauS            \sum_x K_{yx}  \bar{I}_{yx}   \nu_x
     \quad\text{and}\quad
     \sigma_y^2 = \langle\sigma_i^2\rangle_{i\in{}y}  = \frac{1}{2}\tauS \sum_x K_{yx} \bar{I}_{yx}^2 \nu_x  .
   \end{equation}
@@ -798,7 +798,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   \end{equation}
   If we furthermore inject an additional constant input current with amplitude
   \begin{equation}
-   \Delta\mu_y = \left(1-\sqrt{f}\right)  \mu_y 
+   \Delta\mu_y = \left(1-\sqrt{f}\right)  \mu_y
   \end{equation}
   into all neurons in population $y$, we simultaneously preserve the mean of the total input current:
   \begin{equation}
@@ -811,9 +811,9 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   (see remark \ref{remark:dc_scaling_constraints}).
   For more details and other scaling methods, see \citep{Albada15}.
 %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \label{remark:cortico_cortical_dc}
-  In the original model of \citet{Potjans14}, the cortico-cortical inputs to neurons in population $y$ are modeled as $K_{y\mathcal{C}_{y}}$ independent realizations $s_j(t)$ ($j\in\mathcal{C}_y,\ y\in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$) of a Poisson point process with constant rate $\nu_{\mathcal{C}_y}$, filtered by an exponential kernel $\text{PSC}(t)$ with time constant $\tauS$ and amplitude $\bar{I}_{y\mathcal{C}_y}$.   
+  In the original model of \citet{Potjans14}, the cortico-cortical inputs to neurons in population $y$ are modeled as $K_{y\mathcal{C}_{y}}$ independent realizations $s_j(t)$ ($j\in\mathcal{C}_y,\ y\in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$) of a Poisson point process with constant rate $\nu_{\mathcal{C}_y}$, filtered by an exponential kernel $\text{PSC}(t)$ with time constant $\tauS$ and amplitude $\bar{I}_{y\mathcal{C}_y}$.
   In the implementation provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, these Poissonian inputs are replaced by constant external currents (DC).
   DC inputs are computationally less expensive, exactly reproducible, and lead to similar network activity statistics.
   When replacing cortico-cortical input spikes $s_j(t)$ by DC inputs, the current implementation preserves the mean input current
@@ -823,7 +823,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
     = K_{y\mathcal{C}_y} \cdot \tauS \cdot \bar{I}_{y\mathcal{C}_y} \cdot \nu_{\mathcal{C}_y} .
   \end{equation}
 %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \label{remark:dc_scaling_constraints}
   In the scaled version of the model, the neurons receive --in addition to the cortico-cortical inputs-- an additional constant input current of magnitude $\Delta\mu_y = ( 1 - \sqrt{f}) \mu_y$ (see remark \ref{remark:network_scaling}).
   The total DC input current injected into neurons of population $y$ is hence given by
@@ -834,7 +834,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
     & = I_{y\mathcal{C}_y}^* + \left( 1 - \sqrt{f} \right) \mu_y\\
     & = \sqrt{f} I_{y\mathcal{C}_y} + \left( 1 - \sqrt{f} \right) \left( \mu_{y,\text{loc}} + I_{y\mathcal{C}_y}\right) \\
     & = I_{y\mathcal{C}_y} + \left( 1 - \sqrt{f} \right) \mu_{y,\text{loc}}
-    ,      
+    ,
     \end{aligned}
   \end{equation}
   where $I_{y\mathcal{C}_y}^* = \tauS \cdot fK_{y\mathcal{C}_y} \cdot \bar{I}_{y\mathcal{C}_y}/\sqrt{f} = \sqrt{f} I_{y\mathcal{C}_y}$ denotes the rescaled cortico-cortical input current, and  $\mu_{y,\text{loc}}=\mu_y - I_{y\mathcal{C}_y}$ the mean input current resulting from synaptic inputs from the local network.
@@ -847,10 +847,10 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   To ensure that population $y$ of the scaled network becomes is activated by the external inputs, the scaling factor $f$ must fulfill
   \begin{equation}
     \label{eq:scaling_factor_constraint}
-      I_{y\mathcal{C}_y} + \left( 1 - \sqrt{f} \right) \mu_{y,\text{loc}} \geq I_{\text{rh},y} 
+      I_{y\mathcal{C}_y} + \left( 1 - \sqrt{f} \right) \mu_{y,\text{loc}} \geq I_{\text{rh},y}
       \quad\Leftrightarrow\quad
       f
-      \begin{cases} 
+      \begin{cases}
         \ge f_y^* & \text{if}\ \mu_{y,\text{loc}} < 0 \\
         \le f_y^* & \text{if}\ \mu_{y,\text{loc}} > 0 \\
       \end{cases},
@@ -864,17 +864,17 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   In this case, the critical scaling factor $f_y^*$ defines a lower bound for $f$.
   If the network is downscaled too much such that $f<f_y^*$ for some population $y$, this population can only be activated by other populations $y'$ where $f>f_{y'}^*$.
 %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \label{remark:initial_conditions} The original model of \citet{Potjans14} uses \emph{population unspecific} normal distributions of initial membrane potentials.
 By default, the current implementation uses \emph{population specific} initial membrane potential distributions instead to speed up convergence to the stationary state.
 In the reference implementation provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, the type of initial conditions can be set by the parameter \texttt{V0\_type} (\texttt{"optimized"} [default] or \texttt{"original"}).
 In \citep{Senk25_arxiv}, the population specific initial conditions are refered to as \emph{amended} initial conditions.
-  %%% 
+  %%%
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{appendices}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% references
 %% \clearpage
 \pdfbookmark[1]{References}{toc}
@@ -885,10 +885,10 @@ In \citep{Senk25_arxiv}, the population specific initial conditions are refered 
   \newblock Scalability of asynchronous networks is limited by one-to-one mapping between effective connectivity and correlations.
   \newblock {\em PLoS Computational Biology} 11(9):e1004490.
   \newblock \url{https://doi.org/10.1371/journal.pcbi.1004490}
-    
+
 \bibitem[Potjans et al., 2014]{Potjans14}
   Potjans, T. C., Diesmann, M. (2014).
-  \newblock The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. 
+  \newblock The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model.
   \newblock {\em Cerebral Cortex} 24(3):785–806.
   \newblock \url{https://doi.org/10.1093/cercor/bhs358}
 
@@ -903,12 +903,12 @@ In \citep{Senk25_arxiv}, the population specific initial conditions are refered 
   \newblock Connectivity concepts in neuronal network modeling.
   \newblock {\em PLoS Computational Biology} 18(9):e1010086.
   \newblock \url{https://doi.org/10.1371/journal.pcbi.1010086}
-  
+
   \bibitem[Senk et al., 2025]{Senk25_arxiv}
-  Senk, J., Kurth, A., Furber, S., Gemmeke, T., Golosio, B., Heittmann, A., Knight, J. C., M\"uller, E., Noll, T., Nowotny, T., Peraza Coppola, G., Peres, L., Rhodes, O., Rowley, A., Schemmel, J., Stadtmann, T., Tetzlaff, T., Tiddia, G., van Albada, S. J., Villamar, J., \& Diesmann, M. (2025). 
+  Senk, J., Kurth, A., Furber, S., Gemmeke, T., Golosio, B., Heittmann, A., Knight, J. C., M\"uller, E., Noll, T., Nowotny, T., Peraza Coppola, G., Peres, L., Rhodes, O., Rowley, A., Schemmel, J., Stadtmann, T., Tetzlaff, T., Tiddia, G., van Albada, S. J., Villamar, J., \& Diesmann, M. (2025).
   \newblock Constructive community race: full-density spiking neural network model drives neuromorphic computing.
   \newblock arXiv:2505.21185.
-  \newblock \url{https://doi.org/10.48550/arXiv.2505.21185}  
+  \newblock \url{https://doi.org/10.48550/arXiv.2505.21185}
 \end{thebibliography}
 
 \end{document}

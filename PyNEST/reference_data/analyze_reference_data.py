@@ -82,7 +82,7 @@ def analyze_single_neuron_stats( observable_name: str, func: callable ) -> dict:
     observable = {} # list of single neuron observable [pop][neuron]
     recording_interval = ( max( ref_dict['t_min'], ref_dict['t_presim'] ), ref_dict['t_presim'] + ref_dict['t_sim'] )
 
-    
+
     data_path = sim_dict['data_path']
     nodes = helpers.json2dict( data_path + 'nodes.json' )
 
@@ -119,10 +119,10 @@ def analyze_pairwise_stats( observable_name: str, func: callable ) -> dict:
 
     #cc_binsize = 2. # in ms
     observable = {}  # list of pairwise spike count correlations [pop][correlation]
-    
+
     data_path = sim_dict['data_path']
     nodes = helpers.json2dict( data_path + 'nodes.json' )
-    
+
     for pop in populations:
         observable[pop] = {}
 

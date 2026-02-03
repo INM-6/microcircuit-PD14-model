@@ -94,7 +94,7 @@ def compute_data_dist( observable: dict, observable_name: str, observable_limits
         min_binsizes = np.min( binsizes, axis=0 ) # get min bin size across seeds for each population
         min_min_bin_vals = np.min( min_bin_vals, axis=0 ) # get min of min bin value across seeds for each population
         max_max_bin_vals = np.max( max_bin_vals, axis=0 ) # get max of max bin value across seeds for each population
-        
+
         binsize = np.min( min_binsizes ) # use min of min bin sizes across populations as bin size
         min_min_min_bin_val = np.min( min_min_bin_vals ) # use min of min bin values across populations as min bin value
         max_max_max_bin_val = np.max( max_max_bin_vals ) # use max of max bin values across populations as max bin value
@@ -117,7 +117,7 @@ def compute_data_dist( observable: dict, observable_name: str, observable_limits
             for cpop, pop in enumerate( populations ):
                 bin_min_vals[cseed][cpop] = np.min( np.array( observable[cseed_str][pop] ) ).tolist() # store min observable value
                 bin_max_vals[cseed][cpop] = np.max( np.array( observable[cseed_str][pop] ) ).tolist() # store max observable value
-        
+
         min_min_bin_vals = np.min( bin_min_vals, axis=0 ) # get min of min bin values across seeds for each population
         max_max_bin_vals = np.max( bin_max_vals, axis=0 ) # get max of max bin values across seeds for each population
 
@@ -130,7 +130,7 @@ def compute_data_dist( observable: dict, observable_name: str, observable_limits
         observable_best_bins = {}
         for cpop, pop in enumerate( populations ):
             observable_best_bins[cpop] = (min_range, max_range, min_width, np.arange( min_range, max_range + min_width, min_width ).tolist()) # store best binning for each population (min, max, bin_size, bin_edges)
-        
+
     # calculate histogram for each seed and each population (data_distribution(...))
     observable_hists = [] # list of histograms [seed][pop][histogram]
     observable_hist_mat = {} # matrix of histograms [pop][seed][histogram]
@@ -185,8 +185,8 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
     rcParams['axes.labelsize']    = 8
     rcParams['ytick.labelsize']   = 8
     rcParams['xtick.labelsize']   = 8
-    rcParams['ytick.major.size']  = 0   ## remove y ticks      
-    rcParams['text.usetex']       = False 
+    rcParams['ytick.major.size']  = 0   ## remove y ticks
+    rcParams['text.usetex']       = False
     rcParams['legend.framealpha'] = 1.0
     rcParams['legend.edgecolor']  = 'k'
     data_path = sim_dict['data_path']
@@ -240,7 +240,7 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
             if observable_name == 'spike_ccs':
                 ax_hist.set_xticks( [observable_limits[0]/2, 0, observable_limits[1]/2],
                                   [r'$%.2f$' % (observable_limits[0]/2), r'$0$', r'$%.2f$' % (observable_limits[1]/2)] )
-            
+
         else:
             ax_hist.set_xlim( 0, x_max_hist )
             ax_hist.set_xticks([0, x_max_hist/2], [r'$0$', r'$%.0f$' % (x_max_hist/2)] )
@@ -249,7 +249,7 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
                 ax_hist.set_xticks([x_min_hist/2, 0, x_max_hist/2], [r'$%.2f$' % (x_min_hist/2), r'$0$', r'$%.2f$' % (x_max_hist/2)] )
 
         ax_hist.set_ylim( 0, np.max( pop_mean_hist ) * 1.2 )
-        
+
         ks_values = observable_ks_distances[pop]["list"]
         mean = std = None
         if len( ks_values ) > 0:
@@ -260,7 +260,7 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
         if mean is not None:
             #textbox += r'\\{\tiny $D_\mathsf{KS} = %.2f$}' % mean
             textbox += '\n$D_\mathsf{KS} = %.2f$' % mean
-        
+
             ax_ks.hist( ks_values, bins=n_seeds, color='gray', alpha=0.5 )
             ax_ks.axvline( mean, color='red', linestyle='--', label='Mean KS-distance' )
             ax_ks.axvline( mean + std, color='blue', linestyle='--', label='Mean + Std' )
@@ -270,7 +270,7 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
                 verticalalignment='top', horizontalalignment='right' )
         ax_ks.text( 0.95, 0.95, r'%s' % pop, transform=ax_ks.transAxes, fontsize=8,
                 verticalalignment='top', horizontalalignment='right' )
-            
+
         if cpop % 2 == 0:
             ax_hist.set_ylabel( r'rel. freq.' )
             ax_hist.set_yticks( [] )
@@ -278,7 +278,7 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
             ax_ks.set_yticks( [] )
         else:
             ax_hist.set_yticks( [] )
-    
+
     ax_ks.set_xlim( 0, ks_max * 1.1)
     ax_ks.set_xticks( [0, ks_max / 2], [r'$0$', r'$%.2f$' % (ks_max / 2)] )
 
@@ -288,13 +288,13 @@ def plot_data_dists( observable_name: str, x_label: str, observable_hist_mat: di
     fig_ks.text(0.5, 0.0, r'KS-distance', ha="center", va="center")
     fig_ks.savefig(f'{data_path}{observable_name}_KS_distances.pdf',
                bbox_inches="tight", pad_inches=0.02)
-    
+
     # save figures for README.md
     fig_hist.savefig(f'figures/{observable_name}_distributions_T' + str( int( ref_dict['t_sim'] * 1.0e-3 ) ) + 's.png',
                  bbox_inches="tight", pad_inches=0.02)
     fig_ks.savefig(f'figures/{observable_name}_KS_distances_T' + str( int( ref_dict['t_sim'] * 1.0e-3 ) ) + 's.png',
                bbox_inches="tight", pad_inches=0.02)
-    
+
 
 def main():
     data_path = sim_dict['data_path']

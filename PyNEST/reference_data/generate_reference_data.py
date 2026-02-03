@@ -58,7 +58,7 @@ sim_dict["local_num_threads"] = ref_dict['local_num_threads']
 
 def main():
 
-    ## start timer 
+    ## start timer
     time_start = time.time()
 
     ## create instance of the network
@@ -121,7 +121,7 @@ def main():
     print()
 
     net.store_metadata()
-    
+
 #####################
 
 if __name__== '__main__':

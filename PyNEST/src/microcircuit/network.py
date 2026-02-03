@@ -96,7 +96,7 @@ class Network:
             self.__create_dc_stim_input()
         if self.stim_dict["thalamic_input"]:
             self.__create_thalamic_stim_input()
-        
+
 
     def connect(self):
         """Connects the network.
@@ -165,7 +165,7 @@ Storing simulation metadata to {self.sim_dict['data_path']}
 
             ### store system metadata
             #os.system('cd %s; gathermetadata system_metadata' % self.sim_dict['data_path'])
-            
+
     def simulate(self, t_sim):
         """Simulates the microcircuit.
 
@@ -282,13 +282,13 @@ Storing simulation metadata to {self.sim_dict['data_path']}
                     if DC_amp[i] < I_rh:
                         warnings.warn(
                             "\nPopulation {} is sub-threshold with downscaled DC input amplitude and may not fire. ".format(pop)
-                        )          
+                        )
 
         # store final parameters as class attributes
         self.weight_matrix_mean = PSC_matrix_mean
         self.weight_ext = PSC_ext
         self.DC_amp = DC_amp
-        
+
         # thalamic input
         if self.stim_dict["thalamic_input"]:
             num_th_synapses = helpers.num_synapses_from_conn_probs(

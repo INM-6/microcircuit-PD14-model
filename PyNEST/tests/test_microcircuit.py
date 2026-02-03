@@ -31,12 +31,12 @@ net_dict['N_scaling'] = scaling_factor
 net_dict['K_scaling'] = scaling_factor
 
 def test_simulation():
-    
+
     ## set simulation time
-    sim_dict['t_sim'] = 100.0 
+    sim_dict['t_sim'] = 100.0
 
     def run_simulation():
-        
+
         ## create instance of the network
         net = network.Network(sim_dict, net_dict, stim_dict)
 
@@ -69,4 +69,3 @@ def test_simulation():
 
 if __name__ == '__main__':
     test_simulation()
-

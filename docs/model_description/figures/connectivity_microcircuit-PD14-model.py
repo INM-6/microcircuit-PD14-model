@@ -12,7 +12,7 @@ Created on Tue Oct 31 12:01:38 2023
 @author: peraza
 """
 
-import numpy as np 
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
@@ -50,4 +50,3 @@ ax = plt.gca()
 plt.tight_layout(pad=0.5)
 plt.savefig('connectivity_microcircuit-PD14-model.svg')
 #plt.show()
-

@@ -1,7 +1,7 @@
 # PyNEST implementation
 
-[![www.python.org](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org) 
-<a href="http://www.nest-simulator.org"> <img src="https://github.com/nest/nest-simulator/blob/master/doc/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a> 
+[![www.python.org](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org)
+<a href="http://www.nest-simulator.org"> <img src="https://github.com/nest/nest-simulator/blob/master/doc/logos/nest-simulated.png" alt="NEST simulated" width="50"/></a>
 
 ## Installing the python package `microcircuit`
 
@@ -16,17 +16,17 @@ We recommend installing the python package inside a python environment:
   ```
   source venv/bin/activate
   ```
-- Update pip: 
+- Update pip:
   ```
   pip install -U pip
   ```
 
-The `microcircuit` python package can be installed by 
+The `microcircuit` python package can be installed by
   ```bash
   git clone https://github.com/inm-6/microcircuit-PD14-model
   pip install microcircuit-PD14-model/PyNEST
   ```
-  
+
 or, without cloning the entire repository, by
 
   ```
@@ -85,8 +85,8 @@ Recent performance benchmarking results for the microcircuit model can be found 
 
 ## Implementation details
 
-This implementation uses the [`iaf_psc_exp`](https://nest-simulator.org/documentation/models/iaf_psc_exp.html) neuron and the [`static_synapse`](https://nest-simulator.org/documentation/models/static_synapse.html) synapse models provided in [NEST]. 
-The network is connected according to the [`fixed_total_number`](https://nest-simulator.org/documentation/synapses/connectivity_concepts.html#random-fixed-total-number) connection rule in NEST. 
+This implementation uses the [`iaf_psc_exp`](https://nest-simulator.org/documentation/models/iaf_psc_exp.html) neuron and the [`static_synapse`](https://nest-simulator.org/documentation/models/static_synapse.html) synapse models provided in [NEST].
+The network is connected according to the [`fixed_total_number`](https://nest-simulator.org/documentation/synapses/connectivity_concepts.html#random-fixed-total-number) connection rule in NEST.
 The neuron dynamics is integrated in a time-driven manner using exact integration with a simulation step size `sim_resolution` [(Rotter & Diesmann, 1999)][1].
 
 The PyNEST implementation runs with [NEST 3.6](https://github.com/nest/nest-simulator.git) [(Villamar et al., 2023)][2].

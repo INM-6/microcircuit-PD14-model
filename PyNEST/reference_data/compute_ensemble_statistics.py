@@ -55,7 +55,7 @@ def concatenate_data( observable_name: str ) -> dict:
     Concatenate data across different seeds.
     ----------------------------------------
     Parameters:
-    - observable_name: str 
+    - observable_name: str
         Name of the observable to concatenate (e.g., 'rates', 'spike_cvs', 'spike_ccs').
         Needs to match the filename used to store the data per seed in 'analyze_reference_data.py'.
     -----------------------------------------
@@ -73,7 +73,7 @@ def concatenate_data( observable_name: str ) -> dict:
         data_per_seed = helpers.json2dict( f'{data_path}{observable_name}.json' ) # load data per seed as dictionary sorted by populations
 
         observable[cseed] = data_per_seed # concatenate data
-    
+
     helpers.dict2json( observable, sim_dict['data_path'] + f'{observable_name}.json' ) # store concatenated data as json file
 
     return observable
@@ -103,7 +103,7 @@ def compute_ks_distances( observable: dict, observable_name: str ) -> dict:
         for cseed, seed in enumerate( seeds ):
             observable[cseed][pop] = np.delete( observable[cseed][pop], np.where( np.isnan( observable[cseed][pop] ) ) ) # clean data: remove NaNs
 
-        n_seeds = len( seeds ) 
+        n_seeds = len( seeds )
 
         for i in range( n_seeds ):
             observable_ks_distances[pop]["seeds"][i] = {}
@@ -120,7 +120,7 @@ def main():
     rates = concatenate_data( 'rates' )
     spike_cvs = concatenate_data( 'spike_cvs' )
     spike_ccs = concatenate_data( 'spike_ccs' )
-    
+
     compute_ks_distances( rates, 'rate' )
     compute_ks_distances( spike_cvs, 'spike_cvs' )
     compute_ks_distances( spike_ccs, 'spike_ccs' )

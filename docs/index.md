@@ -16,5 +16,3 @@ model_description.md
 pynest_implementation.md
 publications/publications.md
 ```
-
-

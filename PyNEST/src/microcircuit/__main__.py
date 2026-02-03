@@ -116,7 +116,7 @@ def run_example():
     )
 
     net.store_metadata()
-    
+
 def main():
     'Start main CLI entry point.'
     args = docopt(__doc__)
@@ -126,9 +126,9 @@ def main():
 
     #log.info("Hello World")
 
-    if args['run']:        
+    if args['run']:
         run_example()
-        
+
     if args['config']:
 
         print()
@@ -139,7 +139,7 @@ def main():
         print()
         print("Simulation parameters:")
         print("----------------------")
-        pprint.pprint(sim_dict)                
+        pprint.pprint(sim_dict)
         print()
 if __name__ == '__main__':
     main()

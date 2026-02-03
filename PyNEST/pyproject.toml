@@ -29,15 +29,15 @@ readme = "README.md"
 license = {text = "GPL-2.0-or-later"}
 authors = [
     { name = "Tom Tetzlaff", email = "t.tetzlaff@fz-juelich.de" },
-    { name = "Johanna Senk", email = "j.senk@fz-juelich.de" }    
+    { name = "Johanna Senk", email = "j.senk@fz-juelich.de" }
 ]
 maintainers = [
     { name = "Tom Tetzlaff", email = "t.tetzlaff@fz-juelich.de" },
-    { name = "Johanna Senk", email = "j.senk@fz-juelich.de" }    
+    { name = "Johanna Senk", email = "j.senk@fz-juelich.de" }
 ]
 keywords = [
     "neuroscience",
-    "computational neuroscience", 
+    "computational neuroscience",
     "cortical microcircuit",
     "NEST simulator",
     "neural networks",
@@ -48,7 +48,7 @@ requires-python = ">=3.8"
 dependencies = [
     "docopt-ng",
     "matplotlib",
-    # "nest-simulator",   ## needs `pip install nest-simulator` to become available    
+    # "nest-simulator",   ## needs `pip install nest-simulator` to become available
     "numpy",
     "psutil",
     "ruamel.yaml",

@@ -50,10 +50,10 @@ net_dict["K_scaling"] = scaling_factor
 
 ## set path for storing spike data and figures
 sim_dict['data_path'] = 'data_scale_%.2f/' % scaling_factor
-    
+
 def main():
 
-    ## start timer 
+    ## start timer
     time_start = time.time()
 
     ## create instance of the network
@@ -82,7 +82,7 @@ def main():
     ## current memory consumption of the python process (in MB)
     import psutil
     mem = psutil.Process().memory_info().rss / (1024 * 1024)
-    
+
     #####################
     ## plot spikes and firing rate distribution
     print()
@@ -114,7 +114,7 @@ def main():
     print()
     print('##########################################')
     print()
-    
+
 #####################
 
 if __name__== '__main__':

@@ -90,7 +90,7 @@ rule test_plot_reference_analysis:
     Generate plots from the ensemble statistics.
     When successful creates a 'plots.done' file in the data directory.
     """
-    
+
     input:
         f"{DATA_PATH}/data_T{SIM_TIME}s/ensemble_statistics.done"
     output:
@@ -105,7 +105,7 @@ import shutil
 onsuccess:
     shutil.rmtree(".snakemake")
     test_success()
-    
+
 ##############################################################################################
 def test_success():
     print("="*60)
@@ -115,4 +115,3 @@ def test_success():
     print("  • Plots generated")
     print(f"  • Data location: {DATA_PATH}/data_T{SIM_TIME}s/")
     print("="*60)
-

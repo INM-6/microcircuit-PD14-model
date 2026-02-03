@@ -206,7 +206,7 @@ def adjust_weights_and_input_to_synapse_scaling(
     indegree_matrix = full_num_synapses / full_num_neurons[:, np.newaxis]
     input_rec = np.sum(mean_PSC_matrix * indegree_matrix * full_mean_rates, axis=1) # local input currents in full scale network
 
-    DC_amp_new = DC_amp + 0.001 * tau_syn * (1.0 - np.sqrt(K_scaling)) * input_rec 
+    DC_amp_new = DC_amp + 0.001 * tau_syn * (1.0 - np.sqrt(K_scaling)) * input_rec
 
     if bg_input_type == "poisson":
         input_ext = PSC_ext * K_ext * bg_rate
@@ -216,7 +216,7 @@ def adjust_weights_and_input_to_synapse_scaling(
 
 def compute_rheo_base_current(V_th, E_L, C_m, tau_m):
     """Computes the rheobase current for a given threshold voltage, resting potential, membrane capacitance, and membrane time constant.
-    
+
     The rheobase current is the minimum current required to bring the membrane potential to the threshold voltage.
 
     Parameters
@@ -286,14 +286,14 @@ def plot_raster(path, name, begin, end, N_scaling):
     rcParams['axes.labelsize']    = 8
     rcParams['ytick.labelsize']   = 8
     rcParams['xtick.labelsize']   = 8
-    rcParams['ytick.major.size']  = 0   ## remove y ticks      
-    rcParams['text.usetex']       = False 
+    rcParams['ytick.major.size']  = 0   ## remove y ticks
+    rcParams['text.usetex']       = False
     rcParams['legend.framealpha'] = 1.0
     rcParams['legend.edgecolor']  = 'k'
 
     plt.figure(1)
     plt.clf()
-    
+
     stp = 1
 
     if N_scaling > 0.1:
@@ -314,9 +314,9 @@ def plot_raster(path, name, begin, end, N_scaling):
     plt.xlim(begin, end)
     all_neurons = np.unique(all_neurons)
     plt.ylim(all_neurons[0], all_neurons[-1])
-    
+
     plt.subplots_adjust(bottom=0.13,left=0.12,top=0.97,right=0.95)
-    plt.savefig(os.path.join(path, "raster_plot.png"))    
+    plt.savefig(os.path.join(path, "raster_plot.png"))
 
 def firing_rates(path, name, begin, end):
     """Computes mean and standard deviation of firing rates per population.
@@ -377,7 +377,7 @@ def boxplot(path, populations):
 
     """
 
-    fig_size = (4,3) ## figure size (inch)    
+    fig_size = (4,3) ## figure size (inch)
     pop_names = [string.replace("23", "2/3") for string in populations]
     label_pos = list(range(len(populations), 0, -1))
     color_list = ["#af143c", "#595289"]
@@ -399,13 +399,13 @@ def boxplot(path, populations):
     rcParams['axes.labelsize']    = 8
     rcParams['ytick.labelsize']   = 8
     rcParams['xtick.labelsize']   = 8
-    rcParams['text.usetex']       = False 
+    rcParams['text.usetex']       = False
     rcParams['legend.framealpha'] = 1.0
     rcParams['legend.edgecolor']  = 'k'
 
     plt.figure(1)
     plt.clf()
-    
+
     bp = plt.boxplot(
         rates_per_neuron_rev, notch=False, sym="rs", whis=0, medianprops=medianprops, meanprops=meanprops, meanline=True, showmeans=True, vert=False
     )
@@ -425,7 +425,7 @@ def boxplot(path, populations):
         k = i % 2
         boxPolygon = Polygon(boxCoords, facecolor=color_list[k])
         plt.gca().add_patch(boxPolygon)
-        
+
     plt.ylabel(r'neuron population')
     plt.xlabel("firing rate (spikes/s)")
     plt.yticks(label_pos, pop_names)
@@ -519,7 +519,7 @@ def __load_spike_times(path, name, begin, end):
 #################################################
 def get_data_file_list(path, label):
     '''
-    Searches for files with extension "*.dat" in directory "path" with names starting with "label", 
+    Searches for files with extension "*.dat" in directory "path" with names starting with "label",
     and returns list of file names.
 
     Arguments
@@ -537,21 +537,21 @@ def get_data_file_list(path, label):
 
 
     '''
- 
+
     ## get list of files names
     files = []
     for file_name in os.listdir(path):
         if file_name.endswith('.dat') and file_name.startswith(label):
             files += [file_name]
     files.sort()
-    
+
     assert len(files)>0 ,'No files of type "%s*.dat" found in path "%s".' % (label,path)
 
     return files
 
 
 #################################################
-def load_spike_data(path, label, time_interval = None, pop = None, skip_rows = 3):        
+def load_spike_data(path, label, time_interval = None, pop = None, skip_rows = 3):
     '''
     Load spike data from files.
 
@@ -584,19 +584,19 @@ def load_spike_data(path, label, time_interval = None, pop = None, skip_rows = 3
     if type(time_interval) == tuple:
         print('Loading spike data in interval (%.1f ms, %.1f ms] ...' % (time_interval[0], time_interval[1]) )
     else:
-        print('Loading spike data...')        
+        print('Loading spike data...')
 
     files = get_data_file_list(path, label)
-    
+
     ## open spike files and read data
     spikes = []
     for file_name in files:
         try:
-            buf = np.loadtxt('%s/%s' % (path,file_name),skiprows=skip_rows) ## load spike file while skipping the header            
+            buf = np.loadtxt('%s/%s' % (path,file_name),skiprows=skip_rows) ## load spike file while skipping the header
             if buf.shape[0]>0:
                 if buf.shape == (2,):
                     buf = np.reshape(buf, (1,2))  ## needs to be reshaped to 2-dimensional array in case there is only a single row
-                spikes += [buf] 
+                spikes += [buf]
         except:
             print('Error: %s' % sys.exc_info()[1])
             print('Remove non-numeric entries from file %s (e.g. in file header) by specifying (optional) parameter "skip_rows".\n' % (file_name))
@@ -607,18 +607,18 @@ def load_spike_data(path, label, time_interval = None, pop = None, skip_rows = 3
         spikes = np.array(spikes[0])
     elif len(spikes)==0:
         spikes = np.array([])
-        
+
     spike_dict = {}
-    
+
     if spikes.shape == (0,):
         print("WARNING: No spikes contained in %s/%s*." % (path,label))
         spike_dict['senders'] = np.array([])
-        spike_dict['times'] = np.array([])        
+        spike_dict['times'] = np.array([])
     else:
         ## extract spikes in specified time interval
         if time_interval != None:
             if type(time_interval) == tuple:
-                ind = (spikes[:,1]>=time_interval[0]) * (spikes[:,1]<=time_interval[1]) 
+                ind = (spikes[:,1]>=time_interval[0]) * (spikes[:,1]<=time_interval[1])
                 spikes = spikes[ind,:]
             else:
                 print("Warning: time_interval must be a tuple or None. All spikes are loaded.")
@@ -626,7 +626,7 @@ def load_spike_data(path, label, time_interval = None, pop = None, skip_rows = 3
         if type(pop) == nest.NodeCollection or type(pop) == list:
             spikes_subset = []
             for cn,nid in enumerate(pop):  ## loop over all neurons
-                print("Spike extraction from %d/%d (%d%%) neurons completed" % (cn+1, len(pop), 1.*(cn+1)/len(pop)*100), end = '\r')            
+                print("Spike extraction from %d/%d (%d%%) neurons completed" % (cn+1, len(pop), 1.*(cn+1)/len(pop)*100), end = '\r')
                 ind = np.where(spikes[:,0] == nid)[0]
                 spikes_subset += list(spikes[ind,:])
             spikes = np.array(spikes_subset)
@@ -643,7 +643,7 @@ def load_spike_data(path, label, time_interval = None, pop = None, skip_rows = 3
 
         spike_dict['senders'] = spike_dict['senders'][ind]
         spike_dict['times'] = spike_dict['times'][ind]
-    
+
     return spike_dict
 
 ##########################################################################
@@ -668,7 +668,7 @@ def dict2json(dictionary,filename):
 
     with open(filename, 'w') as file:
         json.dump(dictionary, file, indent=4, default=to_list)
-        
+
 ##########################################################################
 def json2dict(filename):
     '''
@@ -685,7 +685,7 @@ def json2dict(filename):
                 Python dictionary.
 
     '''
-    
+
     with open(filename, 'r') as file:
         dictionary = json.load(file)
 
@@ -712,19 +712,19 @@ def truncate_spike_data(spikes, interval):
                            Truncated spike data.
 
     '''
-    
+
     assert(type(spikes) == dict)
     assert('senders' in spikes)
-    assert('times' in spikes)        
+    assert('times' in spikes)
     assert(len(spikes['senders'])==len(spikes['times']))
-        
+
     ind1=np.where(spikes['times'] >= interval[0])[0]
     ind2=np.where(spikes['times'][ind1] <= interval[1])[0]
 
     spikes_trunc = {}
     spikes_trunc['senders']=spikes['senders'][ind2]
-    spikes_trunc['times']=spikes['times'][ind2]    
-    
+    spikes_trunc['times']=spikes['times'][ind2]
+
     return spikes_trunc
 
 #################################################
@@ -752,19 +752,19 @@ def time_averaged_single_neuron_firing_rates(spikes, pop, interval):
     '''
     assert(type(spikes) == dict)
     assert('senders' in spikes)
-    assert('times' in spikes)        
+    assert('times' in spikes)
     assert(len(spikes['senders'])==len(spikes['times']))
 
     spikes = truncate_spike_data(spikes, interval)
-    
-    rates = []    
+
+    rates = []
     D=(interval[1]-interval[0])
-    for n in pop:        
+    for n in pop:
         rates += [ len(np.where(spikes['senders'] == n)[0]) * 1./D * 1e3]
     return rates
 
 #################################################
-def single_neuron_isi_cvs(spikes, pop, interval):    
+def single_neuron_isi_cvs(spikes, pop, interval):
     '''
     Computes coefficient of variation (CV) of inter-spike intervals (ISIs)
     for each neuron in the specified population within a given observation time interval.
@@ -789,16 +789,16 @@ def single_neuron_isi_cvs(spikes, pop, interval):
 
     assert(type(spikes) == dict)
     assert('senders' in spikes)
-    assert('times' in spikes)        
+    assert('times' in spikes)
     assert(len(spikes['senders'])==len(spikes['times']))
-    
+
     spikes = truncate_spike_data(spikes, interval)
 
     cvs = []
     for n in pop:
         ind = np.where(spikes['senders'] == n)
         spike_times = np.sort(spikes['times'][ind])
-        if len(spike_times) > 2:            
+        if len(spike_times) > 2:
             intervals = np.diff(spike_times)
             cv = np.std(intervals)/np.mean(intervals)
             assert( all( cv != err for err in ( np.nan, np.inf ) ) ), ( cv, n, intervals, spike_times )
@@ -807,10 +807,10 @@ def single_neuron_isi_cvs(spikes, pop, interval):
     return np.array(cvs)
 
 #################################################
-def generate_spike_counts(spikes, pop, interval, binsize):    
+def generate_spike_counts(spikes, pop, interval, binsize):
     '''
     Converts spike data into spike-count signals.
-    
+
     Parameters:
     -----------
     spikes:                dict
@@ -837,24 +837,24 @@ def generate_spike_counts(spikes, pop, interval, binsize):
 
     assert(type(spikes) == dict)
     assert('senders' in spikes)
-    assert('times' in spikes)        
+    assert('times' in spikes)
     assert(len(spikes['senders'])==len(spikes['times']))
-    
+
     times = np.arange(interval[0],interval[1]+binsize,binsize)
     spike_counts = []
     for n in pop:
         ind = np.where(spikes['senders']==n)
         spike_times = spikes['times'][ind]
         spike_counts += [list(np.histogram(spike_times, times)[0])]
-        
+
     spike_counts = np.array(spike_counts)
-    return spike_counts, times   
+    return spike_counts, times
 
 #################################################
-def pairwise_spike_count_correlations(spikes, pop, interval, binsize):    
+def pairwise_spike_count_correlations(spikes, pop, interval, binsize):
     '''
     Computes pairwise spike-count correlation coefficients.
-    
+
     Parameters:
     -----------
     spikes:                dict
@@ -878,18 +878,18 @@ def pairwise_spike_count_correlations(spikes, pop, interval, binsize):
 
     assert(type(spikes) == dict)
     assert('senders' in spikes)
-    assert('times' in spikes)        
+    assert('times' in spikes)
     assert(len(spikes['senders'])==len(spikes['times']))
-    
+
     spikes=truncate_spike_data(spikes, interval)
-    
+
     spike_counts, times = generate_spike_counts(spikes, pop, interval, binsize)
-    
+
     ## calculate correlation coefficients for each pair
     cc_matrix=np.corrcoef(spike_counts)
 
     ## extract elements above diagonal
-    ccs=[]    
+    ccs=[]
     for cn, n in enumerate(pop):
         ccs+=list(cc_matrix[cn,cn+1:])
 
@@ -964,7 +964,7 @@ def data_distribution(data, label, unit='', hist_bin=None):
     stat['sd']          = np.std(data).item()
 
     print()
-    print('%s statistics:' % label)    
+    print('%s statistics:' % label)
     print('\tsample size = %d'      % (stat['sample_size']        ))
     print('\tmean        = %.3f %s' % (stat['mean']        , unit ))
     print('\tmedian      = %.3f %s' % (stat['median']      , unit ))
@@ -986,9 +986,9 @@ def data_distribution(data, label, unit='', hist_bin=None):
                 bins = np.array([0,stat['min'],2*stat['min']])
         elif isinstance(hist_bin, (list, np.ndarray)):
             bins = hist_bin
-    
-    data_hist, bins = np.histogram(data,bins=bins)    
-    
+
+    data_hist, bins = np.histogram(data,bins=bins)
+
     return data_hist, bins[:-1], stat
 
 ##########################################################################
