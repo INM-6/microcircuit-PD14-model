@@ -29,13 +29,13 @@ microcircuit.
 
 """
 
+import json
 import os
 
 import matplotlib.pyplot as plt
+import nest
 import numpy as np
 from matplotlib.patches import Polygon
-import json
-import nest
 
 if "DISPLAY" not in os.environ:
     import matplotlib

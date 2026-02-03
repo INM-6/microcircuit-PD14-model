@@ -30,6 +30,7 @@ Example illustrating usage of the `microcircuit` python package.
 
 #####################
 import time
+
 import nest
 import numpy as np
 

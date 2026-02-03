@@ -1,14 +1,15 @@
 import sys
 from pathlib import Path
 
+# Import pybtex modules at top level  # noqa: E402
+from pybtex.style.formatting.unsrt import Style as UnsrtStyle  # noqa: E402
+from pybtex.style.sorting import BaseSortingStyle  # noqa: E402
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# Import pybtex modules at top level  # noqa: E402
-from pybtex.style.formatting.unsrt import Style as UnsrtStyle  # noqa: E402
-from pybtex.style.sorting import BaseSortingStyle  # noqa: E402
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information

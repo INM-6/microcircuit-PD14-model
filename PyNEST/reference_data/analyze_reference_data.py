@@ -11,27 +11,26 @@
 Analyze reference data generated with generate_reference_data.py.
 """
 
+import json
+import random
 import time
+from argparse import ArgumentParser
+from pathlib import Path
+
 import nest
 import numpy as np
-import json
+
+## import analysis parameters
+from params import params as ref_dict
 from scipy.stats import ks_2samp as ks
-import random
 
 ## import model implementation
-from microcircuit import network
-from microcircuit import helpers
+from microcircuit import helpers, network
 
 ## import (default) parameters (network, simulation, stimulus)
 from microcircuit.network_params import default_net_dict as net_dict
 from microcircuit.sim_params import default_sim_dict as sim_dict
 from microcircuit.stimulus_params import default_stim_dict as stim_dict
-
-## import analysis parameters
-from params import params as ref_dict
-
-from pathlib import Path
-from argparse import ArgumentParser
 
 parser = ArgumentParser()
 parser.add_argument("--seed", type=int, default=12345)

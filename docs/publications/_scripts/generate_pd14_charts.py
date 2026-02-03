@@ -7,8 +7,8 @@ cumulative bar charts showing "All Citations" vs "Uses PD14" over time.
 
 import os
 import re
-from datetime import datetime
 import textwrap
+from datetime import datetime
 
 # Optional matplotlib import with fallback
 try:

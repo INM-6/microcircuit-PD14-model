@@ -12,9 +12,9 @@ Created on Tue Oct 31 12:01:38 2023
 @author: peraza
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Write down connectivity matrix
 

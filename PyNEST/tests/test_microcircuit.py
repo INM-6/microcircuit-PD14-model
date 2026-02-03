@@ -12,8 +12,8 @@ Unit test including network creation, connection and simulation.
 
 #####################
 import nest
-import pytest
 import numpy as np
+import pytest
 
 ## import model implementation
 from microcircuit import network

@@ -34,14 +34,13 @@ Options:
     -h, --help          print this text
 """
 import logging
-import time
-
 import pprint
+import time
 from pprint import pformat
-from docopt import docopt  # type: ignore
 
 import nest
 import numpy as np
+from docopt import docopt  # type: ignore
 
 from microcircuit.network import Network
 from microcircuit.network_params import default_net_dict as net_dict

@@ -140,3 +140,13 @@ name = "microcircuit"
 #
 [tool.black]
 line-length = 120
+
+# isort
+# config see https://pycqa.github.io/isort/docs/configuration/config_files
+#
+[tool.isort]
+atomic = true
+line_length = 120
+multi_line_output = 3
+profile = "black"
+skip_gitignore = true
