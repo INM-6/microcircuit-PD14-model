@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent.resolve()))
 
 try:
     # Import and run chart generator script
-    from _scripts.generate_pd14_charts import main as charts_main
+    from publications._scripts.generate_pd14_charts import main as charts_main
     print("Running generate_pd14_charts.py...")
     charts_main()
 except Exception as e:

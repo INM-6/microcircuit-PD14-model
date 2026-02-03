@@ -399,15 +399,16 @@ def main(input_paths=None, output_dir=None):
         project_root = os.path.dirname(os.path.abspath(__file__))
         docs_dir = os.path.dirname(project_root)
         input_paths = [
-            os.path.join(docs_dir, "publications", "publications.bib"),
-            os.path.join(docs_dir, "publications", "PD14_uses_only.bib"),
+            os.path.join(docs_dir, "publications.bib"),
+            os.path.join(docs_dir, "PD14_uses_only.bib"),
         ]
 
     # Define output directory
     if output_dir is None:
         project_root = os.path.dirname(os.path.abspath(__file__))
         docs_dir = os.path.dirname(project_root)
-        output_dir = os.path.join(docs_dir, "_static", "images")
+        parent_docs_dir = os.path.dirname(docs_dir)
+        output_dir = os.path.join(parent_docs_dir, "_static", "images")
 
     print("=" * 60)
     print("PD14 Chart Generator")
