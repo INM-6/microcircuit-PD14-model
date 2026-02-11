@@ -23,10 +23,10 @@
 
 [project]
 name = "microcircuit"
-description = "PyNEST implementation of the cortical microcircuit model of Potjans & Diesmann (2014)."
-dynamic = ["version"]
 readme = "README.md"
-license = {text = "GPL-2.0-or-later"}
+dynamic = ["version", "description"]  ## see __init__.py
+license = "GPL-2.0-or-later"
+license-files = ["LICENSE"]
 authors = [
     { name = "Tom Tetzlaff", email = "t.tetzlaff@fz-juelich.de" },
     { name = "Johanna Senk", email = "j.senk@fz-juelich.de" }    
@@ -43,26 +43,10 @@ keywords = [
     "neural networks",
     "brain modeling"
 ]
-
-requires-python = ">=3.8"
-dependencies = [
-    "docopt-ng",
-    "matplotlib",
-    # "nest-simulator",   ## needs `pip install nest-simulator` to become available    
-    "numpy",
-    "psutil",
-    "ruamel.yaml",
-    "scipy",
-    #"gathermetadata@git+ssh://git@github.com/INM-6/gather-metadata"
-]
-
-[metadata]
-description-file = "README.md"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -75,6 +59,17 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 
+requires-python = ">=3.8"
+dependencies = [
+    "docopt-ng",
+    "matplotlib",
+    # "nest-simulator",   ## needs `pip install nest-simulator` to become available
+    "numpy",
+    "psutil",
+    "ruamel.yaml",
+    "scipy",
+]
+
 [project.urls]
 "Homepage" = "https://github.com/INM-6/microcircuit-PD14-model"
 "Documentation" = "https://github.com/INM-6/microcircuit-PD14-model/blob/main/README.md"
@@ -83,7 +78,6 @@ classifiers = [
 "Changelog" = "https://github.com/INM-6/microcircuit-PD14-model/releases"
 
 [project.scripts]
-#run_microcircuit = "microcircuit.run_microcircuit:main"
 microcircuit = "microcircuit.__main__:main"
 
 [project.optional-dependencies]
@@ -131,6 +125,3 @@ doc = [
 [build-system]
 build-backend = "flit_core.buildapi"
 requires = ["flit_core >=3.2,<4"]
-
-[tool.flit.module]
-name = "microcircuit"

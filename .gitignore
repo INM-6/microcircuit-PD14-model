@@ -1,4 +1,4 @@
 *~
-docs/sg_execution_times.rst
-docs/auto_examples
 build/
+__pycache__
+.snakemake
