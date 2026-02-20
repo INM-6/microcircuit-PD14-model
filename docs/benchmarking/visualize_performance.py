@@ -95,7 +95,7 @@ def export_latex(data):
             # "bibentry": r"",
             "authoryear": r"",
             "rtf": r"Real-time factor $q_\text{RTF}$",
-            "esyn_muJ": r"Energy per synaptic event $E_\text{syn}$ ($\mu$J)",
+            "esyn_muJ": r"Energy per synaptic event $E_\text{syn}$ ($\mu\text{J}$)",
             "simulator": r"Simulator",
             "num_nodes": r"\#Nodes",
             "system": r"System",
