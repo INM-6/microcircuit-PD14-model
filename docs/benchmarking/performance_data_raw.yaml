@@ -1,0 +1,229 @@
+# chronological list of data points
+
+# unique identifier of data point: alphabetic citation style followd by
+# a,b,c,... for individual data points
+# all data points are used in the table, but whether they are shown in the plot
+# can be switched on or off
+- vAl+18a:
+  # whether to show this data point in the real-time factor vs. year plot
+  - show_rtf_year: true
+  # whether to show this data point in the energy vs. synaptic event vs.
+  # inverse real-time factor plot
+  - show_esyn_rtf: true
+  # reference in authoryear format for table export
+  - authoryear: van Albada et al. (2018)
+  # bibentry used in brain.bib
+  - bibentry: VanAlbada18_291
+  # publication year
+  - year: 2018
+  # simulator identifier
+  - simulator: nest_cpu
+  # number of compute nodes
+  - num_nodes: 12
+  # system info, node characterization
+  - system: 2 Intel Xeon E52680v3
+  # process node in nm
+  - process_node_nm: 22
+  # real-time factor
+  - rtf: 2.465
+  # energy per synaptic event in muJ
+  - esyn_muJ: 9.94133
+  # external drive used for energy measurement ("DC" or "Poisson")
+  - drive: DC
+  # comment for internal use only 
+  - comment: DC input, fastest configuration, vp=576; esyn_muJ without network switch is 9.34968, energy estimate with Infiniband switch
+
+- vAl+18b:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: van Albada et al. (2018)
+  - bibentry: VanAlbada18_291
+  - year: 2018
+  - simulator: nest_cpu
+  - num_nodes: 3
+  - system: 2 Intel Xeon E52680v3
+  - process_node_nm: 22
+  - rtf: 4.584
+  - esyn_muJ: 5.81562
+  - drive: DC
+  - comment: DC input, most energy efficient configuration, vp=144, energy estimate with Infiniband switch
+
+- vAl+18c:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: van Albada et al. (2018)
+  - bibentry: VanAlbada18_291
+  - year: 2018
+  - simulator: spinnaker
+  - num_nodes: 6
+  - system: 48 x 18 x ARM-968
+  - process_node_nm: 130
+  - rtf: 20
+  - esyn_muJ: 4.4 
+  - drive: DC
+  - comment: 
+
+- KN18:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Knight and Nowotny (2018)
+  - bibentry: Knight18_941
+  - year: 2018
+  - simulator: genn
+  - num_nodes: 1
+  - system: Tesla V100
+  - process_node_nm: 12
+  - rtf: 1.838
+  - esyn_muJ: 0.47
+  - drive: Poisson
+  - comment: energy estimated by authors
+
+- Rho+19a:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Rhodes et al. (2019)
+  - bibentry: Rhodes19_20190160
+  - year: 2019
+  - simulator: spinnaker
+  - num_nodes: 12
+  - system: 48 x 18 x ARM-968
+  - process_node_nm: 130
+  - rtf: 1.
+  - esyn_muJ: 0.601
+  - drive: DC
+  - comment: DC input
+
+- Rho+19b:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Rhodes et al. (2019)
+  - bibentry: Rhodes19_20190160
+  - year: 2019
+  - simulator: spinnaker
+  - num_nodes: 12
+  - system: 48 x 18 x ARM-968
+  - process_node_nm: 130
+  - rtf: 1.
+  - esyn_muJ: 0.628
+  - drive: Poisson
+  - comment: Poisson input
+
+- Gol+21:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Golosio et al. (2021)
+  - bibentry: Golosio21_627620
+  - year: 2021
+  - simulator: nest_gpu
+  - num_nodes: 1
+  - system: RTX 2080 Ti
+  - process_node_nm: 12
+  - rtf: 1.055 
+  - esyn_muJ: 0.25
+  - drive: Poisson
+  - comment: new measurement from socket with the same workstation used for Gol+21
+
+- Kni+21:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Knight et al. (2021)
+  - bibentry: Knight21_15
+  - year: 2021
+  - simulator: genn
+  - num_nodes: 1
+  - system: Titan RTX
+  - process_node_nm: 12
+  - rtf: 0.7
+  - esyn_muJ:
+  - drive: Poisson 
+  - comment:
+
+- Hei+22:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Heittmann et al. (2022)
+  - bibentry: heittmann22_728460
+  - year: 2022
+  - simulator: csnn
+  - num_nodes: 345
+  - system: IBM INC-3000
+  - process_node_nm: 28
+  - rtf: 0.25
+  - esyn_muJ: 0.284
+  - drive: Poisson 
+  - comment: energy measured in Supply PMU
+
+- Kur+22a:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Kurth et al. (2022)
+  - bibentry: Kurth_2022
+  - year: 2022
+  - simulator: nest_cpu
+  - num_nodes: 2
+  - system: 2 AMD EPYC Rome 7702
+  - process_node_nm: 7
+  - rtf: 0.53
+  - esyn_muJ: 0.48 
+  - drive: DC 
+  - comment: two nodes, 4 MPI
+
+- Kur+22b:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Kurth et al. (2022)
+  - bibentry: Kurth_2022 
+  - year: 2022
+  - simulator: nest_cpu
+  - num_nodes: 1
+  - system: 2 AMD EPYC Rome 7702
+  - process_node_nm: 7
+  - rtf: 0.67
+  - esyn_muJ: 0.33
+  - drive: DC
+  - comment: one node, 2 MPI
+
+- Gol+23a:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Golosio, Villamar, Tiddia et al. (2023)
+  - bibentry: Golosio23_9598
+  - year: 2023
+  - simulator: nest_gpu
+  - num_nodes: 1
+  - system: RTX 4090
+  - process_node_nm: 5
+  - rtf: 0.386
+  - esyn_muJ: 0.104
+  - drive: DC
+  - comment:
+
+- Gol+23b:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Golosio, Villamar, Tiddia et al. (2023)
+  - bibentry: Golosio23_9598
+  - year: 2023
+  - simulator: genn
+  - num_nodes: 1
+  - system: RTX 4090
+  - process_node_nm: 5
+  - rtf: 0.2719
+  - esyn_muJ: 0.074
+  - drive: Poisson
+  - comment: not by simulator developers
+
+- Kau+23:
+  - show_rtf_year: true
+  - show_esyn_rtf: true
+  - authoryear: Kauth et al. (2023)
+  - bibentry: kauth23_1144143
+  - year: 2023
+  - simulator: neuroaix
+  - num_nodes: 35
+  - system: NetFPGA SUME
+  - process_node_nm: 28
+  - rtf: 0.05
+  - esyn_muJ: 0.04755
+  - drive: DC 
+  - comment: 
