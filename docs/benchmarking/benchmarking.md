@@ -19,6 +19,7 @@ of studies and values are given in this [table](figures/performance_summary.md).
 
 ## Benchmarking recipe
 
+| | |
 |----------------|-----------------|
 | External drive | State whether DC or Poisson is used|
 | Initial conditions | Amended initial conditions: distribute membrane potentials normally with population-specific mean and variance|
@@ -35,5 +36,6 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 
 [1]: <https://doi.org/10.1088/2634-4386/ae379a> "Senk et al. (2026). Constructive community race: full-density spiking neural network model drives neuromorphic computing. Neuromorphic Computing and Engineering 6(1):012001. doi:10.1088/2634-4386/ae379a" 
 [Senk et al. (2026). Constructive community race: full-density spiking neural network model drives neuromorphic computing. Neuromorphic Computing and Engineering 6(1):012001. doi:10.1088/2634-4386/ae379a](https://doi.org/10.1088/2634-4386/ae379a)
+
 
 
