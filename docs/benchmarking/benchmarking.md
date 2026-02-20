@@ -11,9 +11,13 @@ individual studies. (a) Ratio between time passed on wall-clock and stretch of t
 year of publication in semi logarithmic representation. (b) Real-time factor as a function of energy per synaptic event in double
 logarithmic representation. Dashed line from fit through all data points with a slope of one. (c) Real-time factor versus process
 node in double logarithmic representation. Dashed line from fit through CPU and GPU data points with a slope of two. Citations
-of studies and values are given [here](figures/performance_summary.md). Figure from Senk et al., 2026.
-
+of studies and values are given [here](figures/performance_summary.md). Figure from [(Senk et al., 2026)][1].
 
 ## Benchmarking recipe
 
+
+## References
+
+[1]: <https://doi.org/10.1088/2634-4386/ae379a> "Senk et al. (2026). Constructive community race: full-density spiking neural network model drives neuromorphic computing. Neuromorphic Computing and Engineering 6(1):012001. doi:10.1088/2634-4386/ae379a" 
+[Senk et al. (2026). Constructive community race: full-density spiking neural network model drives neuromorphic computing. Neuromorphic Computing and Engineering 6(1):012001. doi:10.1088/2634-4386/ae379a](https://doi.org/10.1088/2634-4386/ae379a)
 
