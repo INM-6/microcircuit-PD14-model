@@ -3,17 +3,17 @@
 <img src="figures/Senk26_012001.png" width="800"/>
 
 ## Performance data of different computing platforms
-```{include} figures/performance_summary.md
-```
-Performance data of considered studies. 
-A code name disambiguates the studies and refers to the bibliography (number in brackets). 
-The real-time factor $q_\text{RTF}$ and the energy per synaptic event 
-$E_\text{syn}$ are the performance results obtained with the simulation 
-technologies characterized by simulator name, number of nodes, system specification, and 
-the process node as the industrial specification of the chip technology. The external drive 
-indicates the background input used (DC or Poisson).
 
 <img src="figures/performance_summary.png" width="800"/>
+Progress of the community in reduction of time to solution and energy consumption for the PD14 model. Colors group
+hardware architectures and shapes indicate algorithmic approach (legend). Abbreviations in panels further disambiguate 
+individual studies. (a) Ratio between time passed on wall-clock and stretch of time covered by the model (real-time factor) versus the
+year of publication in semi logarithmic representation. (b) Real-time factor as a function of energy per synaptic event in double
+logarithmic representation. Dashed line from fit through all data points with a slope of one. (c) Real-time factor versus process
+node in double logarithmic representation. Dashed line from fit through CPU and GPU data points with a slope of two. Citations
+of studies and values are given [here](figures/performance_summary.md). Figure from Senk et al., 2026.
+
 
 ## Benchmarking recipe
+
 
