@@ -19,6 +19,17 @@ of studies and values are given in this [table](figures/performance_summary.md).
 
 ## Benchmarking recipe
 
+|----------------|-----------------|
+| External drive | State whether DC or Poisson is used|
+| Initial conditions | Amended initial conditions: distribute membrane potentials normally with population-specific mean and variance|
+| Warm-up time  | Discard the initial 500 ms of model time from the data to be analyzed|
+| Simulation duration | Accuracy: $T_\text{model}=15\ \text{min}$, performance:  $T_\text{model}\ge 10\ \text{s}$|
+| Repeated simulations | Average across ten random seeds|
+| Spike recording | Accuracy: yes, performance: no|
+| Accuracy | Compute distributions of 1) single-neuron *firing rate* (FR), 2) *coefficient of variation* (CV) of the inter-spike intervals (ISI), and 3) short-term spike-count *correlation coefficients* (CC), and compare with reference data|
+| Performance | Measure real-time factor $q_\text{RTF}$ and the energy per synaptic event $E_\text{syn}$ (include all contributions necessary for running the simulations at the power outlet)|
+
+Checklist with recommended model and simulation parameters for the PD14 model. Table from [(Senk et al., 2026)][1].
 
 ## References
 
