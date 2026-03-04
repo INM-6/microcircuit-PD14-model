@@ -107,15 +107,38 @@ def load_and_process_data(bib_paths):
 
 
 def get_last_two_entries(bib_path):
-    """Extract the last two BibTeX entries from a file."""
+
+    """Extract the last two BibTeX entries from a file, wrapping at 60 chars and limiting to 15 lines."""
     if not os.path.exists(bib_path):
         return []
 
     entries = parse_bibtex_entries(bib_path)
     filtered = filter_preprints(entries)
 
-    # Return last two entries
-    return filtered[-2:] if len(filtered) >= 2 else filtered
+    # Get last two entries
+    raw_entries = filtered[-2:] if len(filtered) >= 2 else filtered
+
+    # Wrap each entry at 60 characters and limit to 17 lines
+    wrapped_entries = []
+    for entry_text in raw_entries:
+        lines = entry_text.strip().split('\n')
+        wrapped_lines = []
+
+        for line in lines:
+            # Wrap long lines at 60 characters
+            if len(line) > 60:
+                wrapped_lines.extend(textwrap.wrap(line, width=60))
+            else:
+                wrapped_lines.append(line)
+
+            # Limit to 15 lines total
+            if len(wrapped_lines) >= 17:
+                break
+
+        if wrapped_lines:
+            wrapped_entries.append('\n'.join(wrapped_lines))
+
+    return wrapped_entries
 
 
 def format_bibtex_entry_for_display(entry_text):
@@ -433,7 +456,7 @@ def generate_cumulative_bar_chart(cumulative_all, cumulative_uses, output_dir, b
                     y_position -= 0.028
 
             # Add spacing between entries
-            y_position -= 0.01
+            y_position -= 0.02
 
     fig.tight_layout()
 
