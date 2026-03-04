@@ -476,6 +476,24 @@ Storing simulation metadata to {self.sim_dict['data_path']}
 
         for i, target_pop in enumerate(self.pops):
             for j, source_pop in enumerate(self.pops):
+
+                ## this case distinction would not have been necessary if nest.random.normal(mean,std) permitted std=0
+                if self.net_dict["delay_rel_std"]==0:
+                    delay = self.net_dict["delay_matrix_mean"][i][j]
+                else:
+                    delay = nest.math.redraw(
+                        nest.random.normal(
+                            mean=self.net_dict["delay_matrix_mean"][i][j],
+                            std=(self.net_dict["delay_matrix_mean"][i][j] * self.net_dict["delay_rel_std"])
+                        ),
+                        min=nest.resolution - 0.5 * nest.resolution,
+                        max=np.inf
+                    )
+                    # resulting minimum delay is equal to resolution, see:
+                    # https://nest-simulator.readthedocs.io/en/latest/nest_behavior
+                    # /random_numbers.html#rounding-effects-when-randomizing-delays
+
+                
                 if self.num_synapses[i][j] >= 0.0:
                     conn_dict_rec = {"rule": "fixed_total_number", "N": self.num_synapses[i][j]}
 
@@ -496,19 +514,8 @@ Storing simulation metadata to {self.sim_dict['data_path']}
                             min=w_min,
                             max=w_max,
                         ),
-                        "delay": nest.math.redraw(
-                            nest.random.normal(
-                                mean=self.net_dict["delay_matrix_mean"][i][j],
-                                std=(self.net_dict["delay_matrix_mean"][i][j] * self.net_dict["delay_rel_std"]),
-                            ),
-                            # resulting minimum delay is equal to resolution, see:
-                            # https://nest-simulator.readthedocs.io/en/latest/nest_behavior
-                            # /random_numbers.html#rounding-effects-when-randomizing-delays
-                            min=nest.resolution - 0.5 * nest.resolution,
-                            max=np.inf,
-                        ),
+                        "delay": delay,
                     }
-
                     nest.Connect(source_pop, target_pop, conn_spec=conn_dict_rec, syn_spec=syn_dict)
 
     def __connect_recording_devices(self):
