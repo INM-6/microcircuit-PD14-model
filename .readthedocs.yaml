@@ -14,6 +14,8 @@ build:
       - cp -r figures/* docs/_static/images/
       # Replace GitHub paths with Sphinx paths in README.md
       - sed -i "s|figures/|_static/images/|g" README.md
+      # Install packages needed for image creation 
+      - pip install pandas numpy matplotlib
     build:
      pdf:
         - echo "building pdf $READTHEDOCS_OUTPUT"
