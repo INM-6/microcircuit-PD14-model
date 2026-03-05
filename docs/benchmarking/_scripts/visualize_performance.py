@@ -567,7 +567,12 @@ def add_label(ax, label, offset=[0, 0], weight="bold", fontsize_scale=1.2):
     return
 
 
-if __name__ == "__main__":
+def main():
+    """Main function to run the visualization."""
     perf_data = read_data("performance_data_raw.yaml")
     export_latex(perf_data)
     performance_summary_manuscript(perf_data)
+
+
+if __name__ == "__main__":
+    main()
