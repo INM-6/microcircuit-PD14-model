@@ -54,6 +54,15 @@ try:
 except Exception as e:
     print(f"Warning: Could not run generate_pd14_charts.py: {e}")
 
+try:
+    # Import and run visulize performance script
+    from benchmarking._scripts.visualize_performance import main as visualize_main
+    print("Running visualize_performance.py...")
+    visualize_main()
+except Exception as e:
+    print(f"Warning: Could not run visualize_performance.py: {e}")
+
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
@@ -74,6 +83,7 @@ myst_enable_extensions = ["colon_fence",
 bibtex_bibfiles = ["publications/publications.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "unsrt"
+
 
 class SortByYearDescending(BaseSortingStyle):
     def sort(self, entries):

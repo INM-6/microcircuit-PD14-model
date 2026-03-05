@@ -7,11 +7,12 @@ import matplotlib.lines as mlines
 from matplotlib.ticker import MaxNLocator
 import pandas as pd
 import yaml
-import tabulate
+
+__all__ = ['read_data', 'export_latex', 'performance_summary_manuscript', 'quantity_vs_year', 'rtf_vs_energy', 'rtf_vs_processnode']
+
 
 # https://personal.sron.nl/~pault/
 import tol_colors
-
 # matplotlib.rc('text', usetex=True)
 plt.rcParams.update(
     {
@@ -152,21 +153,27 @@ def performance_summary_manuscript(data):
 
     ax1 = plt.subplot(gs[1])
     add_label(ax1, "b")
-    rtf_vs_energy(perf_data, legend=False, axis=ax1)
+    rtf_vs_energy(data, legend=False, axis=ax1)
     ax1.spines[["right", "top"]].set_visible(False)
     ax1.set_yticklabels([])
     ax1.set_ylabel("")
 
     ax2 = plt.subplot(gs[2])
     add_label(ax2, "c")
-    rtf_vs_processnode(perf_data, legend=False, axis=ax2)
+    rtf_vs_processnode(data, legend=False, axis=ax2)
     ax2.spines[["right", "top"]].set_visible(False)
     ax2.set_yticklabels([])
     ax2.set_ylabel("")
 
-    os.system("mkdir -p figures")
+    # os.system("mkdir -p figures")
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    docs_dir = os.path.dirname(project_root)
+    parent_docs_dir = os.path.dirname(docs_dir)
+    output_dir = os.path.join(parent_docs_dir, "_static", "images")
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, "performance_summary.png")
     # plt.savefig("figures/performance_summary.eps")
-    plt.savefig("figures/performance_summary.png")
+    plt.savefig(output_path)
 
 
 def quantity_vs_year(
@@ -467,7 +474,10 @@ def rtf_vs_processnode(
 
 
 def read_data(filename):
-    with open(filename, "r") as stream:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, filename)
+
+    with open(file_path, "r") as stream:
         data = yaml.safe_load(stream)
 
     rows = []
@@ -558,10 +568,14 @@ def add_label(ax, label, offset=[0, 0], weight="bold", fontsize_scale=1.2):
     return
 
 
-if __name__ == "__main__":
-
+def main():
+    """Main function to run the visualization."""
     perf_data = read_data("performance_data_raw.yaml")
-
     export_latex(perf_data)
-
     performance_summary_manuscript(perf_data)
+
+
+if __name__ == "__main__":
+    main()
+
+
