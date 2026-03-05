@@ -15,7 +15,7 @@ build:
       # Replace GitHub paths with Sphinx paths in README.md
       - sed -i "s|figures/|_static/images/|g" README.md
       # Install packages needed for image creation 
-      - pip install pandas numpy matplotlib
+      - pip install pandas numpy matplotlib tol_colors
     build:
      pdf:
         - echo "building pdf $READTHEDOCS_OUTPUT"
