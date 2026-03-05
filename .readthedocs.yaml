@@ -22,8 +22,6 @@ build:
         - pdflatex -interaction=nonstopmode -recorder --jobname="microcircuit-pd14-model"  "docs/model_description/ModelDescription_microcircuit-PD14-model.tex"
         - cp microcircuit-pd14-model.pdf _readthedocs/html/_static/
         - ls _readthedocs/html/_static
-        - cd docs/benchmarking/ && python3 visualize_performance.py && cd ../..
-        - cp docs/benchmarking/figures/performance_summary.png _readthedocs/html/_static/
 sphinx:
   builder: html
   configuration: docs/conf.py

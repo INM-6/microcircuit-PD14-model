@@ -54,6 +54,15 @@ try:
 except Exception as e:
     print(f"Warning: Could not run generate_pd14_charts.py: {e}")
 
+try:
+    # Import and run visulize performance script
+    from benchmarking._scripts.visualize_performance import main as charts_main
+    print("Running visualize_performance.py...")
+    charts_main()
+except Exception as e:
+    print(f"Warning: Could not run visualize_performance.py: {e}")
+
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 

@@ -163,9 +163,17 @@ def performance_summary_manuscript(data):
     ax2.set_yticklabels([])
     ax2.set_ylabel("")
 
-    os.system("mkdir -p figures")
+    # os.system("mkdir -p figures")
+    output_dir = ""
+    if output_dir is None:
+        project_root = os.path.dirname(os.path.abspath(__file__))
+        docs_dir = os.path.dirname(project_root)
+        parent_docs_dir = os.path.dirname(docs_dir)
+        output_dir = os.path.join(parent_docs_dir, "_static", "images")
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, "performance_summary.png")
     # plt.savefig("figures/performance_summary.eps")
-    plt.savefig("figures/performance_summary.png")
+    plt.savefig(output_path)
 
 
 def quantity_vs_year(
