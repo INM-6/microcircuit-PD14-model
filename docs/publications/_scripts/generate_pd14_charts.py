@@ -107,7 +107,6 @@ def load_and_process_data(bib_paths):
 
 
 def get_last_two_entries(bib_path):
-
     """Extract the last two BibTeX entries from a file, wrapping at 60 chars and limiting to 15 lines."""
     if not os.path.exists(bib_path):
         return []
@@ -118,8 +117,10 @@ def get_last_two_entries(bib_path):
     # Get last two entries
     raw_entries = filtered[-2:] if len(filtered) >= 2 else filtered
 
-    # Wrap each entry at 60 characters and limit to 17 lines
+    # Wrap each entry at 60 characters and limit to 15 lines total
     wrapped_entries = []
+    total_lines = 0
+
     for entry_text in raw_entries:
         lines = entry_text.strip().split('\n')
         wrapped_lines = []
@@ -131,12 +132,18 @@ def get_last_two_entries(bib_path):
             else:
                 wrapped_lines.append(line)
 
-            # Limit to 15 lines total
-            if len(wrapped_lines) >= 17:
+            # Check total lines limit
+            if total_lines + len(wrapped_lines) > 34:
+                wrapped_lines = wrapped_lines[:34 - total_lines]
+                total_lines = 34
                 break
 
+        total_lines += len(wrapped_lines)
         if wrapped_lines:
             wrapped_entries.append('\n'.join(wrapped_lines))
+
+        if total_lines >= 34:
+            break
 
     return wrapped_entries
 
@@ -565,3 +572,5 @@ def main(input_paths=None, output_dir=None):
 if __name__ == "__main__":
     import sys
     sys.exit(main())
+
+
