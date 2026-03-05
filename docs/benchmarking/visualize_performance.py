@@ -7,7 +7,6 @@ import matplotlib.lines as mlines
 from matplotlib.ticker import MaxNLocator
 import pandas as pd
 import yaml
-import tabulate
 
 # https://personal.sron.nl/~pault/
 import tol_colors

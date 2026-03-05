@@ -75,6 +75,7 @@ bibtex_bibfiles = ["publications/publications.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "unsrt"
 
+
 class SortByYearDescending(BaseSortingStyle):
     def sort(self, entries):
         year_key = 'year'
