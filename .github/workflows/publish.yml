@@ -22,21 +22,12 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
-        
-    - name: Install NEST Simulator via conda
-      uses: conda-incubator/setup-miniconda@v3
-      with:
-        auto-update-conda: true
-        python-version: '3.11'
-        channels: conda-forge
-        channel-priority: strict
-        activate-environment: nest-env
+        python-version: '3.12'
         
     - name: Install NEST and build tools
       shell: bash -el {0}
       run: |
-        conda install -c conda-forge nest-simulator -y
+        pip install git+https://github.com/nest/nest-simulator
         pip install --upgrade pip build
         
     - name: Build package
