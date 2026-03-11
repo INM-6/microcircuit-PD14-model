@@ -52,7 +52,12 @@ jobs:
     # Skip the publish step for PRs
     - name: Publish to PyPI
       if: github.event_name == 'release'  # Only run on release events
-      uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
-      with:
-        packages-dir: PyNEST/dist/
-        verbose: true
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        # Install twine
+        pip install twine
+
+        # Publish to PyPI
+        python -m twine upload --repository pypi PyNEST/dist/*
