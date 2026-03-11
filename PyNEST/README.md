@@ -69,7 +69,7 @@ After installation, the `microcircuit` python package can be imported in a pytho
 import microcircuit
 ```
 
-See [this example](https://microcircuit-PD14-model.readthedocs.io/en/latest/auto_examples/index.html) for a more detailed illustration of how the package can be used.
+See [this examples](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
 
 ## Memory requirements
 

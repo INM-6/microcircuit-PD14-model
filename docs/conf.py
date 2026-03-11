@@ -1,4 +1,7 @@
+import json
+import shutil
 import sys
+import uuid
 from pathlib import Path
 
 # Configuration file for the Sphinx documentation builder.
@@ -23,6 +26,26 @@ sys.path.insert(0, str(Path('..', 'PyNEST/src').resolve()))
 # Add docs directory to path so we can import _scripts
 sys.path.insert(0, str(Path(__file__).parent.resolve()))
 
+nb_dest = Path(__file__).parent / "microcircuit_example.ipynb"
+shutil.copy(
+    Path(__file__).parent.parent / "PyNEST/examples/microcircuit_example.ipynb",
+    nb_dest,
+)
+
+try:
+    with open(nb_dest) as f:
+        nb = json.load(f)
+    nb["cells"].insert(1, {
+        "cell_type": "markdown",
+        "id": str(uuid.uuid4()),
+        "metadata": {},
+        "source": ["{octicon}`download;1em` {download}`Download this notebook <microcircuit_example.ipynb>`"],
+    })
+    with open(nb_dest, "w") as f:
+        json.dump(nb, f, indent=1)
+except Exception as e:
+    print(f"Warning: Could not inject download link into notebook: {e}")
+
 try:
     # Import and run chart generator script
     from publications._scripts.generate_pd14_charts import main as charts_main
@@ -34,8 +57,7 @@ except Exception as e:
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["myst_parser",
-              # "m2r2",
+extensions = ["myst_nb",
               "sphinx_gallery.gen_gallery",
               "sphinx_design",
               "sphinx.ext.mathjax",
@@ -44,14 +66,14 @@ extensions = ["myst_parser",
               "sphinx.ext.intersphinx"]
 
 templates_path = ['_templates']
-exclude_patterns = []
+nb_execution_mode = "off"
+exclude_patterns = ["auto_examples/*.ipynb"]
 source_suffix = [".rst", ".md"]
 myst_enable_extensions = ["colon_fence",
                           "dollarmath"]
 bibtex_bibfiles = ["publications/publications.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "unsrt"
-
 
 class SortByYearDescending(BaseSortingStyle):
     def sort(self, entries):

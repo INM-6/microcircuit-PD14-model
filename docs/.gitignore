@@ -3,3 +3,4 @@
 *.out
 sg_execution_times.rst
 auto_examples
+microcircuit_example.ipynb

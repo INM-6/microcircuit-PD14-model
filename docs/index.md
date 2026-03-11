@@ -15,6 +15,8 @@
 model_description.md
 pynest_implementation.md
 publications/publications.md
+benchmarking/benchmarking.md
+microcircuit_example
 ```
 
 

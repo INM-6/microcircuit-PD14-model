@@ -1,3 +1,7 @@
+---
+orphan: true
+---
+
 | Study   |                                         |   Real-time factor $q_\text{RTF}$ |   Energy per synaptic event $E_\text{syn}$ ($\mu\text{J}$) | Simulator   |   \#Nodes | System                |   Process node (nm) | External drive   |
 |:--------|:----------------------------------------|----------------------------------:|-----------------------------------------------------------:|:------------|----------:|:----------------------|--------------------:|:-----------------|
 | vAl+18a | van Albada et al. (2018)                |                             2.465 |                                                      9.941 | NEST CPU    |        12 | 2 Intel Xeon E52680v3 |                  22 | DC               |
