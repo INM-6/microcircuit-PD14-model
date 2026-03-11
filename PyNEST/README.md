@@ -39,7 +39,16 @@ or, without cloning the entire repository, by
 
   We recommend installing NEST locally within the virtual environment:
   ```bash
-  pip install git+https://github.com/nest/nest-simulator
+  git clone https://github.com/nest/nest-simulator
+  ## for a specific <VERSION> (e.g. <VERSION>=v3.9), use
+  ## git clone --depth 1 --branch <VERSION> https://github.com/nest/nest-simulator
+  cd nest-simulator
+  mkdir build
+  cd build
+  pip install -r ../requirements_pynest.txt
+  cmake ..
+  make
+  make install
   ```
 - Python 3.x
 - docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
