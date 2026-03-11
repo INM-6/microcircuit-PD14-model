@@ -97,7 +97,7 @@ Note that these examples are user and system specific and need to be adapted to 
 
 ## Sets of simulated and analyzed reference data
 
-For convenience, we provide sets of simulated and ananlyzed reference data for different simulation times and network realizations (RNG seeds) at [Zenodo](TODO:AddLinkToZenodo).
+For convenience, we provide sets of simulated and ananlyzed reference data for different simulation times and network realizations (RNG seeds) at [Zenodo](https://doi.org/10.5281/zenodo.18957278).
 
 The spike data is stored in text files `data_T<sim_time_in_s>s/seed-<RNGseed>/spike_recorder-<rec-id>-<thread-id>.dat` (1st column: neuron ID, 2nd column: spike time in ms).
 Here, `<sim_time_in_s>` refers to the simulation time in seconds, `<RNGseed>` to the random number generator seed used to generate a specific realization of the model, `<rec-id>` to the population specific spike-recorder ID, and `<thread-id>` to the thread ID.
