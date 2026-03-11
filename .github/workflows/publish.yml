@@ -1,9 +1,12 @@
+pypi-workflow/.github/workflows/publish.yml
 name: Build and Publish to PyPI
 
 on:
   release:
     types: [published]
   workflow_dispatch:  # Allows manual testing from GitHub Actions tab
+  pull_request:       # Add this to run on pull requests
+    branches: [ main ]  # Only run on PRs targeting main branch
 
 jobs:
   build-and-publish:
@@ -14,16 +17,16 @@ jobs:
     permissions:
       id-token: write  # Required for trusted publishing to PyPI
       contents: read
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        
+
     - name: Install NEST Simulator via conda
       uses: conda-incubator/setup-miniconda@v3
       with:
@@ -32,26 +35,28 @@ jobs:
         channels: conda-forge
         channel-priority: strict
         activate-environment: nest-env
-        
+
     - name: Install NEST and build tools
       shell: bash -el {0}
       run: |
         conda install -c conda-forge nest-simulator -y
         pip install --upgrade pip build
-        
+
     - name: Build package
       shell: bash -el {0}
       working-directory: ./PyNEST
       run: python -m build
-      
+
     - name: Run basic test
       shell: bash -el {0}
       run: |
         pip install PyNEST/dist/*.whl
         python -c "import microcircuit; print(f'✓ Successfully imported microcircuit version {microcircuit.__version__}')"
         python -c "import nest; import microcircuit; print('✓ Basic imports working')"
-        
+
+    # Skip the publish step for PRs
     - name: Publish to PyPI
+      if: github.event_name == 'release'  # Only run on release events
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         packages-dir: PyNEST/dist/
