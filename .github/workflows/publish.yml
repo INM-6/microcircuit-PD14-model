@@ -1,6 +1,9 @@
 name: Publish to PyPI
 
 on:
+  push:
+    branches:
+      - fix-pypi-upload
   release:
     types: [published]
   workflow_dispatch:  # Allows manual testing from GitHub Actions tab
