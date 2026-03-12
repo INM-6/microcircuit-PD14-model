@@ -3,6 +3,13 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
+  workflow_dispatch:  # Allows manual testing from GitHub Actions tab
+    inputs:
+      branch:
+        description: 'Branch to publish from'
+        required: true
+        default: 'fix-pypi-upload'
+      
 
 jobs:
   publish:
@@ -14,6 +21,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        ref: ${{ github.event.inputs.branch || 'fix-pypi-upload' }}
       
     - name: Setup Python
       uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
@@ -76,11 +85,11 @@ jobs:
         python -c "import microcircuit; print(f'Successfully imported microcircuit version {microcircuit.__version__}')"
         
     - name: Publish to PyPI
-      if: github.repository_owner == 'INM-6'
+      if: github.event_name == 'release' || github.event.inputs.branch == 'fix-pypi-upload'
       run: |
         source $HOME/miniconda/bin/activate nest-env
         cd PyNEST
-        python -m twine upload dist/*
+        python -m twine upload --verbose dist/*
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
