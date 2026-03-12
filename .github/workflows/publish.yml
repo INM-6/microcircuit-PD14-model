@@ -88,7 +88,7 @@ jobs:
         python -c "import microcircuit; print(f'Successfully imported microcircuit version {microcircuit.__version__}')"
         
     - name: Publish to PyPI
-      if: github.event_name == 'release' || github.event.inputs.branch == 'fix-pypi-upload'
+      # if: github.event_name == 'release' || github.event.inputs.branch == 'fix-pypi-upload'
       run: |
         source $HOME/miniconda/bin/activate nest-env
         cd PyNEST
