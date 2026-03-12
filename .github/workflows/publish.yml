@@ -1,86 +1,72 @@
-name: Publish to PyPI
+name: Build and Publish to PyPI
 
 on:
   release:
     types: [published]
+  workflow_dispatch:  # Allows manual testing from GitHub Actions tab
+  pull_request:       # Add this to run on pull requests
+    branches: [ main ]  # Only run on PRs targeting main branch
 
 jobs:
-  publish:
+  build-and-publish:
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/microcircuit
     permissions:
-      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write  # Required for trusted publishing to PyPI
       contents: read
-    
+
     steps:
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          git \
+          python3 \
+          python3-pip \
+          libboost-dev \
+          python3-venv
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      
+      uses: actions/checkout@v4
+
     - name: Setup Python
-      uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        
-    - name: Setup Miniconda
+
+    # Replace conda setup with direct pip installation
+    - name: Install NEST and build tools
       run: |
-        # Download and install Miniconda
-        MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-py311_24.1.2-0-Linux-x86_64.sh"
-        wget "$MINICONDA_URL" -O miniconda.sh
-        # Verify download succeeded
-        if [ ! -f miniconda.sh ]; then
-          echo "Failed to download Miniconda"
-          exit 1
-        fi
-        bash miniconda.sh -b -p $HOME/miniconda
-        export PATH="$HOME/miniconda/bin:$PATH"
-        echo "$HOME/miniconda/bin" >> $GITHUB_PATH
-        # Initialize conda for this shell session
-        eval "$(conda shell.bash hook)"
-        # Configure conda
-        conda config --set channel_priority strict
-        conda config --add channels conda-forge
-        conda config --remove-key channels defaults || true
-        conda config --set auto_activate_base false
-        
+        python -m pip install --upgrade pip
+        pip install build
+
+    # Install NEST Simulator directly via pip
+    # As long as `pip install nest-simulator` is not yet available, this is the simplest option. 
     - name: Install NEST Simulator
       run: |
-        source $HOME/miniconda/bin/activate
-        conda create -n nest-env python=3.11 -y
-        conda activate nest-env
-        conda install -c conda-forge nest-simulator -y
-        echo "CONDA_DEFAULT_ENV=nest-env" >> $GITHUB_ENV
-        echo "$HOME/miniconda/envs/nest-env/bin" >> $GITHUB_PATH
-        
-    - name: Install build dependencies
-      run: |
-        source $HOME/miniconda/bin/activate nest-env
-        python -m pip install --upgrade pip
-        pip install build twine
-        
+        pip install "nest-simulator @ git+https://github.com/nest/nest-simulator"  
+       
+
     - name: Build package
-      run: |
-        source $HOME/miniconda/bin/activate nest-env
-        python -m build
       working-directory: ./PyNEST
-      
-    - name: Check package
+      run: python -m build
+
+    - name: Run basic test
       run: |
-        source $HOME/miniconda/bin/activate nest-env
-        python -m twine check PyNEST/dist/*
-      
-    - name: Test package before publishing
-      run: |
-        source $HOME/miniconda/bin/activate nest-env
-        # Install package locally for testing
         pip install PyNEST/dist/*.whl
-        # Test import
-        python -c "import microcircuit; print(f'Successfully imported microcircuit version {microcircuit.__version__}')"
-        
+        python -c "import microcircuit; print(f'✓ Successfully imported microcircuit version {microcircuit.__version__}')"
+        python -c "import nest; import microcircuit; print('✓ Basic imports working')"
+
+    # Skip the publish step for PRs
     - name: Publish to PyPI
-      if: github.repository_owner == 'INM-6'
-      run: |
-        source $HOME/miniconda/bin/activate nest-env
-        cd PyNEST
-        python -m twine upload dist/*
+      if: github.event_name == 'release'  # Only run on release events
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        # Install twine
+        pip install twine
+
+        # Publish to PyPI
+        python -m twine upload --repository pypi PyNEST/dist/*
