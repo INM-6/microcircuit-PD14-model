@@ -25,6 +25,6 @@
 PyNEST implementation of the cortical microcircuit model of Potjans & Diesmann (2014).
 '''
 
-__version__ = '0.1-rc.1'
+__version__ = '0.1rc2'
 
 from microcircuit.network import Network
