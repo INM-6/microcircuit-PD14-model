@@ -69,6 +69,9 @@ A list of studies citing and/or using the microcircuit model is given [here](htt
 ## Contribute
 We welcome contributions to the documentation and the code. For bug reports, feature requests, documentation improvements, or other issues, please create a [GitHub issue](https://github.com/INM-6/microcircuit-PD14-model/issues/new/choose).
 
+## Acknowledgments
+This project has received funding from the European Union’s Horizon Europe Programme under the Specific Grant Agreement No. 101147319 (EBRAINS 2.0 Project).
+
 ## License
 
 The material in this repository is subject to different licenses:
