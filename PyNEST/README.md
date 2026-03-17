@@ -58,10 +58,11 @@ The `microcircuit` python package can be installed by one of the following metho
   ```
 - Python 3.x
 - docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
+- pytest (for testing)
 
 ## Testing
 
-Executing
+In the root directory of the repository `microcircuit-PD14-model`, executing
 ```bash
 pytest
 ```
@@ -75,7 +76,7 @@ After installation, the `microcircuit` python package can be imported in a pytho
 import microcircuit
 ```
 
-See [this examples](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
+See [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
 
 ## Memory requirements
 
