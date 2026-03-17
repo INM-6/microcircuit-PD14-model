@@ -19,7 +19,7 @@ Specifically, the model demonstrates that the **observed cell-type and layer spe
 |--|--|--|
 | <img src="figures/potjans_2014_microcircuit.png" width="300"/> | <img src="figures/potjans_2014_raster_plot.png" width="400"/> | <img src="figures/potjans_2014_box_plot.png" width="400"/> |
 
-*Sketch of the cortical microcircuit model (left), spiking activity (middle) and distributions of time averaged single-neuron firing rates across neurons in each subpopulation (right). Sketch adapted from ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291))*
+*Sketch of the cortical microcircuit model (left), spiking activity (middle) and distributions of time averaged single-neuron firing rates across neurons in each subpopulation (right). Sketch adapted from ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291)).*
 
 In recent years, the PD14 model became an established Computational Neuroscience [benchmark](https://microcircuit-pd14-model.readthedocs.io/en/latest/benchmarking/benchmarking.html) for various soft- and hardware architectures (for an overview, see [Senk et al., 2026](https://doi.org/10.1088/2634-4386/ae379a)).
 
@@ -35,7 +35,7 @@ A detailed mathematical, implementation-agnostic description of the model and it
 ## Model implementation
 [<img src="figures/modelimplementation_icon.png" height="200"/>](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html)
 
-A PyNEST implementation in the form of a Python package is [documented here](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html), see [below](?tab=readme-ov-file#repository-contents) for finding the source code and reference data.
+A PyNEST implementation in the form of a Python package is [documented here](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html), see the [repository contents below](#repository-contents) for finding the source code and reference data.
 
 ## Performance benchmarking
 [<img src="figures/benchmarking_icon.png" height="200"/>](https://microcircuit-pd14-model.readthedocs.io/en/latest/benchmarking/benchmarking.html)
@@ -52,7 +52,7 @@ A list of studies citing and/or using the PD14 model are given [here](https://mi
 |  |  |
 |--|--|
 | [`docs`](docs) | Documentation|
-| &emsp;[`docs/model_description`](blob/main/docs/model_description) | Model description (implementation-agnostic) |
+| &emsp;[`docs/model_description`](docs/model_description) | Model description (implementation-agnostic) |
 | &emsp;[`docs/benchmarking`](docs/benchmarking) | Performance benchmarking results and recommendations|
 | &emsp;[`docs/publications`](docs/publications) | Publications citing/using the PD14 model|
 | [`PyNEST`](PyNEST) | PyNEST implementation (Python package)|
