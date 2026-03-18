@@ -9,7 +9,7 @@ The statistics (dark cyan curve) of the simulated activity (dark cyan dots) is c
 
 ## Performance data of different computing platforms
 
-:::{figure} figures/performance_summary.png
+:::{figure} ../_static/images/performance_summary.png
 :width: 800px
 
 Progress of the community in reduction of time to solution and energy consumption for the PD14 model. Colors group
