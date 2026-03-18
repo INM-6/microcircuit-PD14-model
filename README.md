@@ -21,7 +21,7 @@ Specifically, the model demonstrates that the observed cell-type and layer speci
 
 *Sketch of the cortical microcircuit model (left), spiking activity (middle) and distributions of time averaged single-neuron firing rates across neurons in each subpopulation (right). Adapted from ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291))*
 
-In recent years, the model became an established Computational Neuroscience [benchmark](docs/benchmarking/benchmarking.md) for various soft- and hardware architectures ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291); [Rhodes et al., 2020](https://doi.org/10.1098/rsta.2019.0160); [Dasbach et al., 2021](https://doi.org/10.3389/fnins.2021.757790); [Albers et al., 2022](https://doi.org/10.3389/fninf.2022.837549); [Kurth et al., 2022](https://doi.org/10.1088/2634-4386/ac55fc); [Heittmann et al., 2022](https://doi.org/10.3389/fnins.2021.728460); [Golosio et al., 2023](https://doi.org/10.3390/app13179598); [Kauth et al., 2023](https://doi.org/10.3389/fncom.2023.1144143); [Schmidt et al., 2024](https://doi.org/10.48550/arXiv.2412.02619); [Senk et al., 2026](https://doi.org/10.1088/2634-4386/ae379a)).
+In recent years, the model became an established Computational Neuroscience [benchmark](https://microcircuit-pd14-model.readthedocs.io/en/latest/benchmarking/benchmarking.html) for various soft- and hardware architectures ([van Albada et al., 2018](https://doi.org/10.3389/fnins.2018.00291); [Jordan et al., 2018](https://doi.org/10.3389/fninf.2018.00002); [Rhodes et al., 2020](https://doi.org/10.1098/rsta.2019.0160); [Dasbach et al., 2021](https://doi.org/10.3389/fnins.2021.757790); [Albers et al., 2022](https://doi.org/10.3389/fninf.2022.837549); [Kurth et al., 2022](https://doi.org/10.1088/2634-4386/ac55fc); [Heittmann et al., 2022](https://doi.org/10.3389/fnins.2021.728460); [Pronold et al., 2022](https://doi.org/10.3389/fninf.2021.785068); [Pronold et al., 2022](https://doi.org/10.1016/j.parco.2022.102952); [Golosio et al., 2023](https://doi.org/10.3390/app13179598); [Kauth et al., 2023](https://doi.org/10.3389/fncom.2023.1144143); [Schmidt et al., 2024](https://doi.org/10.48550/arXiv.2412.02619); [Senk et al., 2026](https://doi.org/10.1088/2634-4386/ae379a)).
 
 A community review ([Plesser et al., 2025](https://doi.org/10.1093/cercor/bhaf295)) prepared on the occassion of the 10th anniversary of the original publication of the model provides an historical account of the impact of the model.
 
@@ -68,6 +68,9 @@ A list of studies citing and/or using the microcircuit model is given [here](htt
 
 ## Contribute
 We welcome contributions to the documentation and the code. For bug reports, feature requests, documentation improvements, or other issues, please create a [GitHub issue](https://github.com/INM-6/microcircuit-PD14-model/issues/new/choose).
+
+## Acknowledgments
+This project has received funding from the European Union’s Horizon Europe Programme under the Specific Grant Agreement No. 101147319 (EBRAINS 2.0 Project).
 
 ## License
 

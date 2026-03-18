@@ -21,17 +21,23 @@ We recommend installing the python package inside a python environment:
   pip install -U pip
   ```
 
-The `microcircuit` python package can be installed by 
-  ```bash
-  git clone https://github.com/inm-6/microcircuit-PD14-model
-  pip install microcircuit-PD14-model/PyNEST
-  ```
-  
-or, without cloning the entire repository, by
+The `microcircuit` python package can be installed by one of the following methods:
 
-  ```
-  pip install "git+https://github.com/INM-6/microcircuit-PD14-model.git/#egg=microcircuit&subdirectory=PyNEST"
-  ```
+1) Install the package directly from PyPI:
+    ```bash
+    pip install microcircuit
+    ```
+
+3) Clone the repository and install the python package from the local sources:
+   ```bash
+    git clone https://github.com/inm-6/microcircuit-PD14-model
+    pip install microcircuit-PD14-model/PyNEST
+    ```
+  
+6) Install the package from the repository without cloning the entire repository:
+    ```
+    pip install "git+https://github.com/INM-6/microcircuit-PD14-model.git/#egg=microcircuit&subdirectory=PyNEST"
+    ```
 
 ## Software requirements
 
