@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a **detailed mathematical description and a reference implementation of the model** of a cortical microcircuit proposed by [Potjans & Diesmann (2014, The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785-806)](https://doi.org/10.1093/cercor/bhs358).
+[This repository](https://github.com/INM-6/microcircuit-PD14-model) contains a **detailed mathematical description and a reference implementation of the model** of a cortical microcircuit proposed by [Potjans & Diesmann (2014, The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. Cerebral Cortex, 24(3), 785-806)](https://doi.org/10.1093/cercor/bhs358).
 The **PD14 model** describes the neuronal circuitry under one square millimeter of cortical surface.
 It comprises **four cortical layers (L2/3, L4, L5, L6), each represented by a randomly connected network of excitatory and inhibitory spiking point neurons**.
 The network connectivity is derived from anatomical and electrophysiological data.
