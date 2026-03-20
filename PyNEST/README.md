@@ -75,7 +75,7 @@ The `microcircuit` python package can be installed by one of the following metho
 ## Testing
 
 To enable testing, make sure that the microcircuit package is installed with testing dependencies:
-```
+```bash
 pip install microcircuit[test]
 ```
 
@@ -83,7 +83,7 @@ Executing
 ```bash
 pytest
 ```
-runs the unit test(s) in `microcircuit-PD14-model/PyNEST/tests`.
+in the root directory of the repository `microcircuit-PD14-model` runs the test(s) in `microcircuit-PD14-model/PyNEST/tests`.
 
 ## Usage
 
@@ -93,7 +93,7 @@ After installation, the `microcircuit` python package can be imported in a pytho
 import microcircuit
 ```
 
-See [this examples](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
+See [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
 
 ## Memory requirements
 
