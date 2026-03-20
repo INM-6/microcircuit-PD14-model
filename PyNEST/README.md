@@ -27,14 +27,27 @@ The `microcircuit` python package can be installed by one of the following metho
     ```bash
     pip install microcircuit
     ```
+    
+    Optionally, you may want to install additional dependencies by using extra flags:
+    | Option | Flag |
+    |--|--|
+    | runtime testing | `test` |
+    | development tools | `dev` |
+    | documentation build tools | `doc` |
+   
+    Example: 
+  
+    ```bash
+    pip install microcircuit[dev,doc] 
+    ```
 
-3) Clone the repository and install the python package from the local sources:
+1) Clone the repository and install the python package from the local sources:
    ```bash
     git clone https://github.com/inm-6/microcircuit-PD14-model
     pip install microcircuit-PD14-model/PyNEST
     ```
   
-6) Install the package from the repository without cloning the entire repository:
+1) Install the package from the repository without cloning the entire repository:
     ```
     pip install "git+https://github.com/INM-6/microcircuit-PD14-model.git/#egg=microcircuit&subdirectory=PyNEST"
     ```
@@ -60,6 +73,11 @@ The `microcircuit` python package can be installed by one of the following metho
 - docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
 
 ## Testing
+
+To enable testing, make sure that the microcircuit package is installed with testing dependencies:
+```
+pip install microcircuit[test]
+```
 
 Executing
 ```bash
