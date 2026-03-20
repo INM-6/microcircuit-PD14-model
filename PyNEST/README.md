@@ -71,7 +71,6 @@ The `microcircuit` python package can be installed by one of the following metho
   ```
 - Python 3.x
 - docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
-- pytest (for testing)
 
 ## Testing
 
@@ -80,7 +79,7 @@ To enable testing, make sure that the microcircuit package is installed with tes
 pip install microcircuit[test]
 ```
 
-Executing 
+Executing
 ```bash
 pytest
 ```
