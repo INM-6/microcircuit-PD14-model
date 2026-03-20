@@ -1,6 +1,6 @@
 # Publications
 
-Please contact us in case publications are missing from the list below.
+Please contact us in case publications are missing from the list below by creating a [GitHub issue](https://github.com/INM-6/microcircuit-PD14-model/issues/new/choose).
 
 ## Citation Statistics
 

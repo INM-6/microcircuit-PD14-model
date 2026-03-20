@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path('..', 'PyNEST/src').resolve()))
 # -- Run publication processing scripts --------------------------------------
 # Add docs directory to path so we can import _scripts
 sys.path.insert(0, str(Path(__file__).parent.resolve()))
+sys.path.insert(0, str(Path(__file__).parent / "benchmarking" / "_scripts"))
 
 nb_source = Path(__file__).parent.parent / "PyNEST/examples/microcircuit_example.ipynb"
 nb_dest = Path(__file__).parent / "microcircuit_example.ipynb"

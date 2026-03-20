@@ -95,6 +95,7 @@ pdfkeywords={}
 \noindent
 This document contains a detailed, mathematical description of the Cortical Microcircuit model, initially developed by \citet{Potjans14}.
 It does not contain any information on specific numerical implementations.
+The description follows the guidelines of \citet{Nordlie09_e1000456}.
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -270,7 +271,7 @@ It does not contain any information on specific numerical implementations.
                            \begin{equation}
 			     \label{eq:membrane_potential}
                              \begin{aligned}
-                               &\forall{}k,\ \forall t \notin \left[t_{i}^{k},\,t_{i}^{k}+\tauR\right):\\
+                               &\forall{}k,\ \forall t \notin \left[t_{i}^{k},\,t_{i}^{k}+\tauR\right]:\\
                                &\qquad\tauM\frac{\diff{}V_i(t)}{\diff{}t} =
                                \Bigl[E_\text{L}-V_i(t)\Bigr]+\RM I_i(t) + \RM I_{i,\mathcal{C}_y}
                              \end{aligned}
@@ -860,7 +861,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
 \item \label{remark:initial_conditions} The original model of \citet{Potjans14} uses \emph{population unspecific} normal distributions of initial membrane potentials.
 By default, the current implementation uses \emph{population specific} initial membrane potential distributions instead to speed up convergence to the stationary state.
 In the reference implementation provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, the type of initial conditions can be set by the parameter \texttt{V0\_type} (\texttt{"optimized"} [default] or \texttt{"original"}).
-In \citep{Senk25_arxiv}, the population specific initial conditions are referred to as \emph{amended} initial conditions.
+In \citep{Senk26_012001}, the population specific initial conditions are referred to as \emph{amended} initial conditions.
   %%% 
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -877,8 +878,14 @@ In \citep{Senk25_arxiv}, the population specific initial conditions are referred
   \newblock Scalability of asynchronous networks is limited by one-to-one mapping between effective connectivity and correlations.
   \newblock {\em PLoS Computational Biology} 11(9):e1004490.
   \newblock \url{https://doi.org/10.1371/journal.pcbi.1004490}
-    
-\bibitem[Potjans et al., 2014]{Potjans14}
+
+\bibitem[Nordlie et al., 2009]{Nordlie09_e1000456}
+   Nordlie, E., Gewaltig, M.O., Plesser, H.E. (2009).
+  \newblock Towards reproducible descriptions of neuronal network models.
+  \newblock {\em PLoS Computational Biology} 5(8):e1000456.
+  \newblock \url{https://doi.org/10.1371/journal.pcbi.1000456}
+
+\bibitem[Potjans \& Diesmann, 2014]{Potjans14}
   Potjans, T. C., Diesmann, M. (2014).
   \newblock The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. 
   \newblock {\em Cerebral Cortex} 24(3):785–806.
@@ -896,11 +903,12 @@ In \citep{Senk25_arxiv}, the population specific initial conditions are referred
   \newblock {\em PLoS Computational Biology} 18(9):e1010086.
   \newblock \url{https://doi.org/10.1371/journal.pcbi.1010086}
   
-  \bibitem[Senk et al., 2025]{Senk25_arxiv}
-  Senk, J., Kurth, A., Furber, S., Gemmeke, T., Golosio, B., Heittmann, A., Knight, J. C., M\"uller, E., Noll, T., Nowotny, T., Peraza Coppola, G., Peres, L., Rhodes, O., Rowley, A., Schemmel, J., Stadtmann, T., Tetzlaff, T., Tiddia, G., van Albada, S. J., Villamar, J., \& Diesmann, M. (2025). 
+  \bibitem[Senk et al., 2026]{Senk26_012001}
+  Senk, J., Kurth, A., Furber, S., Gemmeke, T., Golosio, B., Heittmann, A., Knight, J. C., M\"uller, E., Noll, T., Nowotny, T., Peraza Coppola, G., Peres, L., Rhodes, O., Rowley, A., Schemmel, J., Stadtmann, T., Tetzlaff, T., Tiddia, G., van Albada, S. J., Villamar, J., \& Diesmann, M. (2026). 
   \newblock Constructive community race: full-density spiking neural network model drives neuromorphic computing.
-  \newblock arXiv:2505.21185.
-  \newblock \url{https://doi.org/10.48550/arXiv.2505.21185}  
+  \newblock {\em Neuromorphic Computing and Engineering} 6(1):012001.
+  \newblock \url{http://dx.doi.org/10.1088/2634-4386/ae379a}  
+  
 \end{thebibliography}
 
 \end{document}

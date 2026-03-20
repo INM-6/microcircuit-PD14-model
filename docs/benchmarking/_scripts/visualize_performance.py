@@ -106,8 +106,9 @@ def export_latex(data):
         inplace=True,
     )
 
-    os.system("mkdir -p figures")
-    fname = "figures/performance_summary.tex"
+    figures_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures")
+    os.makedirs(figures_dir, exist_ok=True)
+    fname = os.path.join(figures_dir, "performance_summary.tex")
     df.to_latex(
         index=False,
         float_format="%g",
@@ -115,7 +116,7 @@ def export_latex(data):
         formatters={r"\#Nodes": int, r"Process size (nm)": int},
         buf=fname,
     )
-    fname = "figures/performance_summary.md"
+    fname = os.path.join(figures_dir, "performance_summary.md")
     df.to_markdown(
         index=False,
         # float_format="%g",
