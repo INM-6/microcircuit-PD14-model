@@ -1,5 +1,12 @@
 # Performance benchmarking
 
+In recent years, the PD14 model became an established Computational Neuroscience benchmark for various soft- and hardware architectures.
+The article “Constructive community race: full-density spiking neural network model drives neuromorphic computing” [(Senk et al., 2026)][1] reflects on this development and presents the performance data points available at the time of publication. We suggest to cite this article as a permanent reference. This documentation instead represents a living reference for the performance results in figure and table format below and welcomes new data points.
+If you have managed to implement and run PD14 on a new computing platform not yet discussed in [1], we are happy to add your performance result if a corresponding published article can be cited describing the technology.
+
+[<img src="figures/thumbnail_johanna.png" height="200" alt="Watch the introductory video on YouTube"/>](https://www.youtube.com/watch?v=8MT3hzvRJlo)
+
+
 :::{figure} figures/Senk26_012001.png
 :width: 800px
 
@@ -15,7 +22,7 @@ The statistics (dark cyan curve) of the simulated activity (dark cyan dots) is c
 Progress of the community in reduction of time to solution and energy consumption for the PD14 model. Colors group
 hardware architectures and shapes indicate algorithmic approach (legend). Abbreviations in panels further disambiguate
 individual studies. (a) Ratio between time passed on wall-clock and stretch of time covered by the model (real-time factor) versus the
-year of publication in semi logarithmic representation. (b) Real-time factor as a function of energy per synaptic event in double
+year of publication in semi logarithmic reesentation. (b) Real-time factor as a function of energy per synaptic event in double
 logarithmic representation. Dashed line from fit through all data points with a slope of one. (c) Real-time factor versus process
 node in double logarithmic representation. Dashed line from fit through CPU and GPU data points with a slope of two. Citations
 of studies and values are given in the following table. Figure from [(Senk et al., 2026)][1].
