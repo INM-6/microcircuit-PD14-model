@@ -2,7 +2,7 @@
 
 <!-- Short introductory text for the video to be added here. -->
 
-<a href="https://www.youtube.com/watch?v=8MT3hzvRJlo"><img src="figures/thumbnail_johanna.png" alt="Watch the introductory video on YouTube" width="480"/></a>
+[<img src="figures/thumbnail_johanna.png" height="200"alt="Watch the introductory video on YouTube" />](https://www.youtube.com/watch?v=8MT3hzvRJlo)
 
 ## Overview
 
