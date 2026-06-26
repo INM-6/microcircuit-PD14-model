@@ -4,11 +4,10 @@ In recent years, the PD14 model became an established Computational Neuroscience
 The article “Constructive community race: full-density spiking neural network model drives neuromorphic computing” [(Senk et al., 2026)][1] reflects on this development and presents the performance data points available at the time of publication. We suggest to cite this article as a permanent reference. This documentation instead represents a living reference for the performance results in figure and table format below and welcomes new data points.
 If you have managed to implement and run PD14 on a new computing platform not yet discussed in [1], we are happy to add your performance result if a corresponding peer-reviewed, published article can be cited describing the technology.
 Alternatively, if the technology is already published and you have obtained a new result based on further optimizations of software or hardware, we may not require a separate publication but just an explanatory paragraph to be published in this repository.
-In case you plan such a submission please reach out to the contacts of this repository before doing a pull request.
+In case you plan such a submission please reach out to the [contacts](https://github.com/INM-6/microcircuit-PD14-model#contact) of this repository before doing a pull request.
 
 Watch this video for an introduction to the benchmark and the history of this community race:
-[<img src="figures/thumbnail_johanna.png" height="200" alt="Watch the introductory video on YouTube"/>](https://www.youtube.com/watch?v=8MT3hzvRJlo)
-
+[<img src="figures/thumbnail_johanna.png" height="200" alt="Video on YouTube"/>](https://www.youtube.com/watch?v=8MT3hzvRJlo)
 
 :::{figure} figures/Senk26_012001.png
 :width: 800px
