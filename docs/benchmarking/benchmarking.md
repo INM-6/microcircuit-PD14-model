@@ -6,9 +6,6 @@ If you have managed to implement and run PD14 on a new computing platform not ye
 Alternatively, if the technology is already published and you have obtained a new result based on further optimizations of software or hardware, we may not require a separate publication but just an explanatory paragraph to be published in this repository.
 In case you plan such a submission please reach out to the [contacts](https://github.com/INM-6/microcircuit-PD14-model#contact) of this repository before doing a pull request.
 
-Watch this video for an introduction to the benchmark and the history of this community race:
-[<img src="figures/thumbnail_johanna.png" height="200" alt="Video on YouTube"/>](https://www.youtube.com/watch?v=8MT3hzvRJlo)
-
 :::{figure} figures/Senk26_012001.png
 :width: 800px
 
@@ -24,7 +21,7 @@ The statistics (dark cyan curve) of the simulated activity (dark cyan dots) is c
 Progress of the community in reduction of time to solution and energy consumption for the PD14 model. Colors group
 hardware architectures and shapes indicate algorithmic approach (legend). Abbreviations in panels further disambiguate
 individual studies. (a) Ratio between time passed on wall-clock and stretch of time covered by the model (real-time factor) versus the
-year of publication in semi logarithmic reesentation. (b) Real-time factor as a function of energy per synaptic event in double
+year of publication in semi logarithmic representation. (b) Real-time factor as a function of energy per synaptic event in double
 logarithmic representation. Dashed line from fit through all data points with a slope of one. (c) Real-time factor versus process
 node in double logarithmic representation. Dashed line from fit through CPU and GPU data points with a slope of two. Citations
 of studies and values are given in the following table. Figure from [(Senk et al., 2026)][1].
@@ -49,6 +46,12 @@ of studies and values are given in the following table. Figure from [(Senk et al
 | Performance metrics | Measure real-time factor $q_\text{RTF}$ and the energy per synaptic event $E_\text{syn}$ (include all contributions necessary for running the simulations at the power outlet)|
 
 Checklist with recommended model and simulation parameters for the PD14 model. Table adapted from [(Senk et al., 2026)][1].
+
+## Video
+
+Watch this video for an introduction to the benchmark and the history of this community race:  
+
+[<img src="figures/thumbnail_johanna.png" height="200" alt="Constructive community race on YouTube"/>](https://www.youtube.com/watch?v=8MT3hzvRJlo)
 
 ## References
 
