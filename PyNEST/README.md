@@ -55,8 +55,12 @@ The `microcircuit` python package can be installed by one of the following metho
 ## Software requirements
 
 - NEST (see [NEST installation](https://nest-simulator.readthedocs.io/en/stable/installation))
+  As of NEST 3.10, we recommend installing NEST directly from PyPI within your virtual environment:
+  ```bash
+  pip install nest-simulator
+  ```
 
-  We recommend installing NEST locally within the virtual environment:
+  If you require an older NEST version (e.g. < 3.10), you can build NEST from source:
   ```bash
   git clone https://github.com/nest/nest-simulator
   ## for a specific <VERSION> (e.g. <VERSION>=v3.9), use
