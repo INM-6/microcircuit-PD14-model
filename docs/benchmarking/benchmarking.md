@@ -51,7 +51,7 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 
 Watch this video for an introduction to the benchmark and the history of this community race:  
 
-[<img src="figures/thumbnail_johanna.png" height="200" alt="Constructive community race on YouTube"/>](https://www.youtube.com/watch?v=8MT3hzvRJlo)
+[![Constructive community race on YouTube](figures/thumbnail_johanna.png)](https://www.youtube.com/watch?v=8MT3hzvRJlo)
 
 ## References
 
