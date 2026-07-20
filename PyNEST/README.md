@@ -61,7 +61,7 @@ The `microcircuit` python package can be installed by one of the following metho
   source venv/bin/activate
   ```
 
-  NEST >= 3.10 can be installed directly from PyPI:
+  To run NEST with a basic configuration on a laptop, NEST >= 3.10 can be installed directly from PyPI:
   ```bash
   pip install nest-simulator
   ```
@@ -79,6 +79,9 @@ The `microcircuit` python package can be installed by one of the following metho
   make
   make install
   ```
+
+  For a customized NEST configuration (e.g., for HPC users), see [CMake Options for NEST](https://nest-simulator.readthedocs.io/en/stable/installation/cmake_options.html).
+  
 - Python 3.x
 - docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
 
