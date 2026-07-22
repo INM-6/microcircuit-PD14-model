@@ -1,5 +1,11 @@
 # Performance benchmarking
 
+In recent years, the PD14 model became an established Computational Neuroscience benchmark for various soft- and hardware architectures.
+The article “Constructive community race: full-density spiking neural network model drives neuromorphic computing” [(Senk et al., 2026)][1] reflects on this development and presents the performance data points available at the time of publication. We suggest to cite this article as a permanent reference. This documentation instead represents a living reference for the performance results in figure and table format below and welcomes new data points.
+If you have managed to implement and run PD14 on a new computing platform not yet discussed in [1], we are happy to add your performance result if a corresponding peer-reviewed, published article can be cited describing the technology.
+Alternatively, if the technology is already published and you have obtained a new result based on further optimizations of software or hardware, we may not require a separate publication but just an explanatory paragraph to be published in this repository.
+In case you plan such a submission please reach out to the [contacts](https://github.com/INM-6/microcircuit-PD14-model#contact) of this repository before doing a pull request.
+
 :::{figure} figures/Senk26_012001.png
 :width: 800px
 
@@ -18,7 +24,12 @@ individual studies. (a) Ratio between time passed on wall-clock and stretch of t
 year of publication in semi logarithmic representation. (b) Real-time factor as a function of energy per synaptic event in double
 logarithmic representation. Dashed line from fit through all data points with a slope of one. (c) Real-time factor versus process
 node in double logarithmic representation. Dashed line from fit through CPU and GPU data points with a slope of two. Citations
-of studies and values are given in this {download}`table <figures/performance_summary.md>`. Figure from [(Senk et al., 2026)][1].
+of studies and values are given in the following table. Figure from [(Senk et al., 2026)][1].
+:::
+
+### Performance summary table
+
+:::{include} figures/performance_summary.md
 :::
 
 ## Benchmarking recipe
@@ -35,6 +46,12 @@ of studies and values are given in this {download}`table <figures/performance_su
 | Performance metrics | Measure real-time factor $q_\text{RTF}$ and the energy per synaptic event $E_\text{syn}$ (include all contributions necessary for running the simulations at the power outlet)|
 
 Checklist with recommended model and simulation parameters for the PD14 model. Table adapted from [(Senk et al., 2026)][1].
+
+## Video
+
+Watch this video for an introduction to the benchmark and the history of this community race:  
+
+[![Constructive community race on YouTube](figures/thumbnail_johanna.png)](https://www.youtube.com/watch?v=8MT3hzvRJlo)
 
 ## References
 

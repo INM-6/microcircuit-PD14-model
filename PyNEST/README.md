@@ -27,23 +27,46 @@ The `microcircuit` python package can be installed by one of the following metho
     ```bash
     pip install microcircuit
     ```
+    
+    Optionally, you may want to install additional dependencies by using extra flags:
+    | Option | Flag |
+    |--|--|
+    | runtime testing | `test` |
+    | development tools | `dev` |
+    | documentation build tools | `doc` |
+   
+    Example: 
+  
+    ```bash
+    pip install microcircuit[dev,doc] 
+    ```
 
-3) Clone the repository and install the python package from the local sources:
+1) Clone the repository and install the python package from the local sources:
    ```bash
     git clone https://github.com/inm-6/microcircuit-PD14-model
     pip install microcircuit-PD14-model/PyNEST
     ```
   
-6) Install the package from the repository without cloning the entire repository:
+1) Install the package from the repository without cloning the entire repository:
     ```
     pip install "git+https://github.com/INM-6/microcircuit-PD14-model.git/#egg=microcircuit&subdirectory=PyNEST"
     ```
 
 ## Software requirements
 
-- NEST (see [NEST installation](https://nest-simulator.readthedocs.io/en/stable/installation))
+- [NEST](https://github.com/nest/nest-simulator) (see [NEST installation](https://nest-simulator.readthedocs.io/en/stable/installation))
 
-  We recommend installing NEST locally within the virtual environment:
+  We recommend installing NEST locally within the virtual environment created above, so make sure it is activated:
+  ```
+  source venv/bin/activate
+  ```
+
+  To run NEST with a basic configuration on a laptop, NEST >= 3.10 can be installed directly from PyPI:
+  ```bash
+  pip install nest-simulator
+  ```
+  
+  If you require an older NEST version (< 3.10), you can build it from source:
   ```bash
   git clone https://github.com/nest/nest-simulator
   ## for a specific <VERSION> (e.g. <VERSION>=v3.9), use
@@ -56,16 +79,24 @@ The `microcircuit` python package can be installed by one of the following metho
   make
   make install
   ```
+
+  For a customized NEST configuration (e.g., for HPC users), see [CMake Options for NEST](https://nest-simulator.readthedocs.io/en/stable/installation/cmake_options.html).
+  
 - Python 3.x
 - docopt-ng, matplotlib, numpy, psutil, ruamel.yaml, scipy (handled by python package dependencies)
 
 ## Testing
 
+To enable testing, make sure that the microcircuit package is installed with testing dependencies:
+```bash
+pip install microcircuit[test]
+```
+
 Executing
 ```bash
 pytest
 ```
-runs the unit test(s) in `microcircuit-PD14-model/PyNEST/tests`.
+in the root directory of the repository `microcircuit-PD14-model` runs the test(s) in `microcircuit-PD14-model/PyNEST/tests`.
 
 ## Usage
 
@@ -75,7 +106,7 @@ After installation, the `microcircuit` python package can be imported in a pytho
 import microcircuit
 ```
 
-See [this examples](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
+See [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
 
 ## Memory requirements
 
