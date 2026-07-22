@@ -66,6 +66,8 @@ dependencies = [
     # "nest-simulator",   ## needs `pip install nest-simulator` to become available
     "numpy",
     "psutil",
+    "pydantic",    
+    "rich",
     "ruamel.yaml",
     "scipy",
 ]
