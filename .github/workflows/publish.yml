@@ -13,10 +13,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  
       
     - name: Setup Python
-      uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
       with:
         python-version: '3.11'
         
@@ -76,11 +76,10 @@ jobs:
         python -c "import microcircuit; print(f'Successfully imported microcircuit version {microcircuit.__version__}')"
         
     - name: Publish to PyPI
-      if: github.repository_owner == 'INM-6'
       run: |
         source $HOME/miniconda/bin/activate nest-env
         cd PyNEST
-        python -m twine upload dist/*
+        python -m twine upload --verbose dist/*
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}

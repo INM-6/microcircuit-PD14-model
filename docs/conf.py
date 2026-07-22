@@ -25,12 +25,36 @@ sys.path.insert(0, str(Path('..', 'PyNEST/src').resolve()))
 # -- Run publication processing scripts --------------------------------------
 # Add docs directory to path so we can import _scripts
 sys.path.insert(0, str(Path(__file__).parent.resolve()))
+sys.path.insert(0, str(Path(__file__).parent / "benchmarking" / "_scripts"))
 
+nb_source = Path(__file__).parent.parent / "PyNEST/examples/microcircuit_example.ipynb"
 nb_dest = Path(__file__).parent / "microcircuit_example.ipynb"
-shutil.copy(
-    Path(__file__).parent.parent / "PyNEST/examples/microcircuit_example.ipynb",
-    nb_dest,
+shutil.copy(nb_source, nb_dest)
+shutil.copy(nb_source, Path(__file__).parent / "_static" / "microcircuit_example.ipynb")
+
+_EBRAINS_URL = (
+    "https://lab.ebrains.eu/hub/user-redirect/git-pull"
+    "?repo=https%3A%2F%2Fgithub.com%2FINM-6%2Fmicrocircuit-PD14-model"
+    "&urlpath=lab%2Ftree%2Fmicrocircuit-PD14-model%2FPyNEST%2Fexamples%2Fmicrocircuit_example.ipynb"
+    "&branch=main"
 )
+
+_BUTTONS_HTML = f"""\
+```{{raw}} html
+<style>
+  .nb-buttons {{ display: flex; align-items: center; gap: 20px; }}
+  .ebrains-btn {{ display: inline-block; }}
+  .ebrains-btn img {{ border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: block; transition: box-shadow 0.2s, transform 0.2s; }}
+  .ebrains-btn:hover img {{ box-shadow: 0 6px 12px rgba(0,0,0,0.4); transform: translateY(-2px); }}
+  .ebrains-btn:active img {{ box-shadow: 0 1px 3px rgba(0,0,0,0.3); transform: translateY(0); }}
+  .download-link {{ text-decoration: none; font-size: 0.9em; white-space: nowrap; }}
+  .download-link:hover {{ text-decoration: underline; }}
+</style>
+<div class="nb-buttons">
+  <a href="{_EBRAINS_URL}" class="ebrains-btn"><img src="https://nest-simulator.org/TryItOnEBRAINS.png" alt="Try It On EBRAINS"></a>
+  <a href="_static/microcircuit_example.ipynb" download class="download-link">⬇ Download this notebook</a>
+</div>
+```"""
 
 try:
     with open(nb_dest) as f:
@@ -39,7 +63,7 @@ try:
         "cell_type": "markdown",
         "id": str(uuid.uuid4()),
         "metadata": {},
-        "source": ["{octicon}`download;1em` {download}`Download this notebook <microcircuit_example.ipynb>`"],
+        "source": [_BUTTONS_HTML],
     })
     with open(nb_dest, "w") as f:
         json.dump(nb, f, indent=1)
@@ -53,6 +77,15 @@ try:
     charts_main()
 except Exception as e:
     print(f"Warning: Could not run generate_pd14_charts.py: {e}")
+
+try:
+    # Import and run visulize performance script
+    from benchmarking._scripts.visualize_performance import main as visualize_main
+    print("Running visualize_performance.py...")
+    visualize_main()
+except Exception as e:
+    print(f"Warning: Could not run visualize_performance.py: {e}")
+
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -74,6 +107,7 @@ myst_enable_extensions = ["colon_fence",
 bibtex_bibfiles = ["publications/publications.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "unsrt"
+
 
 class SortByYearDescending(BaseSortingStyle):
     def sort(self, entries):

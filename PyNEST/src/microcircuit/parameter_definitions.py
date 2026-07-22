@@ -891,8 +891,8 @@ class Parameters(BaseModel):
 
     #########################################################################
     def print(self) -> None:
-        rich.print(self)
-        # rich.print(dict(self))
+        # rich.print(self)
+        rich.print(dict(self))
         # rich.print(self.model_dump_json(indent=4))
 
 
