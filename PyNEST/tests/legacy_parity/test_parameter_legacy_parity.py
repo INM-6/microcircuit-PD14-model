@@ -166,6 +166,7 @@ def _legacy_derive_parameters(net_dict, stim_dict):
         "dc_amp_stim": dc_amp_stim,
         "PSP_matrix_mean": net_dict["PSP_matrix_mean"],
         "delay_matrix_mean": net_dict["delay_matrix_mean"],
+        "delay_th_mean": stim_dict["delay_th_mean"],
     }
 
 
@@ -183,6 +184,7 @@ def _assert_matches_legacy(params, legacy):
     assert np.array(params.dc_transient_amp_populations) == pytest.approx(legacy["dc_amp_stim"])
     assert np.array(params.PSP_matrix_mean) == pytest.approx(legacy["PSP_matrix_mean"])
     assert np.array(params.delay_matrix_mean) == pytest.approx(legacy["delay_matrix_mean"])
+    assert params.delay_th_mean == pytest.approx(legacy["delay_th_mean"])
 
 
 def test_legacy_parity_at_default_scaling():

@@ -30,6 +30,7 @@ build and simulate the network.
 """
 
 import os
+import warnings
 
 import nest
 import numpy as np
@@ -60,7 +61,6 @@ class Model:
     def __init__(self, P):
 
         self.P = P
-        self.data_path = P.data_path
 
         if nest.Rank() == 0:
             if os.path.isdir(self.P.data_path):
@@ -143,9 +143,10 @@ Storing simulation metadata to {self.P.data_path}
                 pop_name = self.P.populations[i]
                 nodes[str(pop_name)] = pop.tolist()
 
-            for i, spike_recorder in enumerate(self.spike_recorders):
-                pop_name = self.P.populations[i]
-                nodes[f"spike_recorder_{pop_name}"] = spike_recorder.tolist()
+            if "spike_recorder" in self.P.rec_dev:
+                for i, spike_recorder in enumerate(self.spike_recorders):
+                    pop_name = self.P.populations[i]
+                    nodes[f"spike_recorder_{pop_name}"] = spike_recorder.tolist()
 
             helpers.dict2json(nodes, self.P.data_path / "nodes.json")
 
@@ -196,7 +197,7 @@ Storing simulation metadata to {self.P.data_path}
         if nest.Rank() == 0:
             print("Interval to plot spikes: {} ms".format(raster_plot_interval))
             helpers.plot_raster(
-                self.data_path,
+                self.P.data_path,
                 "spike_recorder",
                 raster_plot_interval[0],
                 raster_plot_interval[1],
@@ -207,12 +208,12 @@ Storing simulation metadata to {self.P.data_path}
                 "Interval to compute firing rates: {} ms".format(firing_rates_interval)
             )
             helpers.firing_rates(
-                self.data_path,
+                self.P.data_path,
                 "spike_recorder",
                 firing_rates_interval[0],
                 firing_rates_interval[1],
             )
-            helpers.boxplot(self.data_path, self.P.populations)
+            helpers.boxplot(self.P.data_path, self.P.populations)
 
     def __setup_nest(self):
         """Initializes the NEST kernel.
@@ -269,24 +270,25 @@ Storing simulation metadata to {self.P.data_path}
                         self.P.V0_std_optimized[i],
                     )
                 )
-            elif self.P.V0_type == "original":
+            else:
                 population.set(
                     V_m=nest.random.normal(
                         self.P.V0_mean_original,
                         self.P.V0_std_original,
                     )
                 )
-            else:
-                raise ValueError(
-                    "V0_type is incorrect. "
-                    + 'Valid options are "optimized" and "original".'
-                )
 
             self.pops.append(population)
 
+        if nest.Rank() == 0 and self.P.subthreshold_populations:
+            warnings.warn(
+                "DC-compensated populations below rheobase (may go silent): "
+                f"{self.P.subthreshold_populations}"
+            )
+
         # write node ids to file
         if nest.Rank() == 0:
-            fn = os.path.join(self.data_path, "population_nodeids.dat")
+            fn = os.path.join(self.P.data_path, "population_nodeids.dat")
             with open(fn, "w+") as f:
                 for pop in self.pops:
                     f.write("{} {}\n".format(pop[0].global_id, pop[-1].global_id))
@@ -305,7 +307,7 @@ Storing simulation metadata to {self.P.data_path}
                 print("  Creating spike recorders.")
             sd_dict = {
                 "record_to": "ascii",
-                "label": os.path.join(self.data_path, "spike_recorder"),
+                "label": os.path.join(self.P.data_path, "spike_recorder"),
             }
             self.spike_recorders = nest.Create(
                 "spike_recorder", n=self.P.num_pops, params=sd_dict
@@ -318,7 +320,7 @@ Storing simulation metadata to {self.P.data_path}
                 "interval": self.P.rec_V_int,
                 "record_to": "ascii",
                 "record_from": ["V_m"],
-                "label": os.path.join(self.data_path, "voltmeter"),
+                "label": os.path.join(self.P.data_path, "voltmeter"),
             }
             self.voltmeters = nest.Create(
                 "voltmeter", n=self.P.num_pops, params=vm_dict
@@ -336,7 +338,7 @@ Storing simulation metadata to {self.P.data_path}
             print("Creating Poisson generators for background input.")
 
         self.poisson_bg_input = nest.Create("poisson_generator", n=self.P.num_pops)
-        self.poisson_bg_input.rate = self.P.rate_CC * self.P.K_CC
+        self.poisson_bg_input.rate = (np.array(self.P.K_CC) * self.P.rate_CC).tolist()
 
     def __create_thalamic_stim_input(self):
         """Creates the thalamic neuronal population if specified in
@@ -374,7 +376,7 @@ Storing simulation metadata to {self.P.data_path}
         The final amplitude is the ``P.dc_amp * P.K_CC_full``.
 
         """
-        dc_amp_stim = self.P.dc_transient_amp * self.P.K_CC_full
+        dc_amp_stim = self.P.dc_transient_amp_populations
 
         if nest.Rank() == 0:
             print("Creating DC generators for external stimulation.")
@@ -393,17 +395,21 @@ Storing simulation metadata to {self.P.data_path}
         if nest.Rank() == 0:
             print("Connecting neuronal populations recurrently.")
 
+        delay_matrix_mean = self.P.delay_matrix_mean
+        num_synapses = self.P.num_synapses
+        PSC_matrix_mean = self.P.PSC_matrix_mean
+
         for i, target_pop in enumerate(self.pops):
             for j, source_pop in enumerate(self.pops):
                 ## this case distinction would not have been necessary if
                 ## nest.random.normal(mean,std) permitted std=0
                 if self.P.delay_cv == 0:
-                    delay = self.P.delay_matrix_mean[i][j]
+                    delay = delay_matrix_mean[i][j]
                 else:
                     delay = nest.math.redraw(
                         nest.random.normal(
-                            mean=self.P.delay_matrix_mean[i][j],
-                            std=(self.P.delay_matrix_mean[i][j] * self.P.delay_cv),
+                            mean=delay_matrix_mean[i][j],
+                            std=(delay_matrix_mean[i][j] * self.P.delay_cv),
                         ),
                         min=nest.resolution - 0.5 * nest.resolution,
                         max=np.inf,
@@ -412,13 +418,13 @@ Storing simulation metadata to {self.P.data_path}
                     # https://nest-simulator.readthedocs.io/en/latest/nest_behavior
                     # /random_numbers.html#rounding-effects-when-randomizing-delays
 
-                if self.P.num_synapses[i][j] >= 0.0:
+                if num_synapses[i][j] >= 0.0:
                     conn_dict_rec = {
                         "rule": "fixed_total_number",
-                        "N": self.P.num_synapses[i][j],
+                        "N": num_synapses[i][j],
                     }
 
-                    if self.P.PSC_matrix_mean[i][j] < 0:
+                    if PSC_matrix_mean[i][j] < 0:
                         w_min = -np.inf
                         w_max = 0.0
                     else:
@@ -429,10 +435,8 @@ Storing simulation metadata to {self.P.data_path}
                         "synapse_model": "static_synapse",
                         "weight": nest.math.redraw(
                             nest.random.normal(
-                                mean=self.P.PSC_matrix_mean[i][j],
-                                std=abs(
-                                    self.P.PSC_matrix_mean[i][j] * self.P.weight_cv
-                                ),
+                                mean=PSC_matrix_mean[i][j],
+                                std=abs(PSC_matrix_mean[i][j] * self.P.weight_cv),
                             ),
                             min=w_min,
                             max=w_max,
@@ -448,7 +452,7 @@ Storing simulation metadata to {self.P.data_path}
 
     def __connect_recording_devices(self):
         """Connects the recording devices to the microcircuit."""
-        if nest.Rank == 0:
+        if nest.Rank() == 0:
             print("Connecting recording devices.")
 
         for i, target_pop in enumerate(self.pops):
@@ -504,8 +508,8 @@ Storing simulation metadata to {self.P.data_path}
                 ),
                 "delay": nest.math.redraw(
                     nest.random.normal(
-                        mean=self.P.delay_exc_mean,
-                        std=self.P.delay_exc_mean * self.P.delay_cv,
+                        mean=self.P.delay_th_mean,
+                        std=self.P.delay_th_mean * self.P.delay_cv,
                     ),
                     # resulting minimum delay is equal to resolution, see:
                     # https://nest-simulator.readthedocs.io/en/latest/nest_behavior

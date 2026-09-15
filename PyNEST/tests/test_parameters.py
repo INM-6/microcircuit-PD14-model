@@ -663,6 +663,15 @@ def test_weight_th_scales_by_inverse_sqrt_K_scaling():
     assert params.weight_th == pytest.approx(baseline / (0.25**0.5))
 
 
+def test_delay_th_mean_matches_delay_exc_mean():
+    params = Parameters()
+
+    assert params.delay_th_mean == pytest.approx(params.delay_exc_mean)
+
+    params.delay_exc_mean = 2.0
+    assert params.delay_th_mean == pytest.approx(2.0)
+
+
 @pytest.mark.parametrize(
     "field_name",
     [
@@ -686,6 +695,7 @@ def test_weight_th_scales_by_inverse_sqrt_K_scaling():
         "delay_matrix_mean",
         "num_th_synapses",
         "weight_th",
+        "delay_th_mean",
     ],
 )
 def test_derived_secondary_fields_are_read_only(field_name):
