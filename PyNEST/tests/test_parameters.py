@@ -703,3 +703,79 @@ def test_derived_secondary_fields_are_read_only(field_name):
 
     with pytest.raises(AttributeError):
         setattr(params, field_name, 0.0)
+
+
+# ---------------------------------------------------------------------------
+# YAML override workflow
+# ---------------------------------------------------------------------------
+
+
+def test_from_yaml_empty_file_yields_defaults(tmp_path):
+    f = tmp_path / "empty.yaml"
+    f.write_text("# only comments\n")
+
+    params = Parameters.from_yaml(f)
+
+    assert params == Parameters()
+    assert params.model_fields_set == set()
+
+
+def test_from_yaml_overlays_file_on_defaults(tmp_path):
+    f = tmp_path / "p.yaml"
+    f.write_text("N_scaling: 0.2\nt_sim: 200.0\n")
+
+    params = Parameters.from_yaml(f)
+
+    assert params.N_scaling == 0.2
+    assert params.t_sim == 200.0
+    assert params.t_presim == Parameters().t_presim
+    assert params.model_fields_set == {"N_scaling", "t_sim"}
+
+
+def test_from_yaml_kwargs_override_file(tmp_path):
+    f = tmp_path / "p.yaml"
+    f.write_text("rng_seed: 1\nN_scaling: 0.2\n")
+
+    params = Parameters.from_yaml(f, rng_seed=7, data_path="out")
+
+    assert params.rng_seed == 7
+    assert params.N_scaling == 0.2
+    assert params.data_path == Path("out")
+
+
+def test_from_yaml_rejects_unknown_key(tmp_path):
+    f = tmp_path / "p.yaml"
+    f.write_text("sim_time: 200.0\n")
+
+    with pytest.raises(ValidationError, match="sim_time"):
+        Parameters.from_yaml(f)
+
+
+def test_from_yaml_rejects_non_mapping(tmp_path):
+    f = tmp_path / "p.yaml"
+    f.write_text("- 1\n- 2\n")
+
+    with pytest.raises(TypeError, match="mapping"):
+        Parameters.from_yaml(f)
+
+
+def test_generated_template_loads_to_defaults(tmp_path):
+    from microcircuit.parameter_definitions import generate_example_config
+
+    f = tmp_path / "template.yaml"
+    generate_example_config(f)
+
+    assert Parameters.from_yaml(f) == Parameters()
+    # every primary parameter is present, commented out, with its default
+    text = f.read_text()
+    for name in Parameters.model_fields:
+        assert f"# {name}: " in text
+
+
+def test_packaged_example_params_scale_down():
+    from microcircuit.parameter_definitions import example_params_file
+
+    params = Parameters.from_yaml(example_params_file())
+
+    assert params.N_scaling < 1.0
+    assert params.K_scaling < 1.0

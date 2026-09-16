@@ -1,0 +1,15 @@
+# Parameter overrides used by the bundled entry points (`microcircuit run`,
+# `microcircuit config`, and the reference data generator) when no `--params`
+# file is given.
+#
+# Only the parameters listed here differ from the defaults defined in
+# `parameter_definitions.py`. The network is scaled down so that the example
+# runs on a laptop; the full-scale model needs about 14 GB of memory.
+#
+# To generate a template listing every parameter, run
+#   from microcircuit.parameter_definitions import generate_example_config
+#   generate_example_config("params.yaml")
+
+N_scaling: 0.2
+K_scaling: 0.2
+data_path: data_scale_0.20

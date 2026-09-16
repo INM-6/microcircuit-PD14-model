@@ -29,7 +29,10 @@ Example illustrating usage of the `microcircuit` python package.
 """
 
 #####################
+import sys
 import time
+from pathlib import Path
+
 import nest
 import numpy as np
 
@@ -40,15 +43,15 @@ from microcircuit.parameter_definitions import Parameters
 
 #####################
 
-P = Parameters()
+## Parameters are read from a YAML override file: everything not listed there
+## takes its default from the Parameters class. By default the `params.yaml`
+## next to this script is used (it scales the network down to 20 %); an
+## alternative file can be passed as the first command line argument:
+##
+##     python run_microcircuit.py my_params.yaml
 
-## set network scale
-scaling_factor = 0.2
-P.N_scaling = scaling_factor
-P.K_scaling = scaling_factor
-
-## set path for storing spike data and figures
-P.data_path = "data_scale_%.2f/" % scaling_factor
+params_file = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "params.yaml"
+P = Parameters.from_yaml(params_file)
 
 
 def main():

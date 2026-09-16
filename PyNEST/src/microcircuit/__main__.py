@@ -30,8 +30,13 @@ Usage: microcircuit [options] run
        microcircuit [options] config
 
 Options:
-    -v, --verbose       increase output
-    -h, --help          print this text
+    -p FILE, --params FILE  YAML file with parameter overrides. Parameters not
+                            listed in the file take their defaults from the
+                            Parameters class. Without this option the small
+                            override file shipped with the package is used,
+                            which scales the network down to 20 %.
+    -v, --verbose           increase output
+    -h, --help              print this text
 """
 
 import logging
@@ -45,22 +50,13 @@ import nest
 import numpy as np
 
 from microcircuit.model import Model
-from microcircuit.parameter_definitions import Parameters
+from microcircuit.parameter_definitions import Parameters, example_params_file
 
 log = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
 
-P = Parameters()
 
-## set network scale
-scaling_factor = 0.2
-P.N_scaling = scaling_factor
-P.K_scaling = scaling_factor
-
-P.data_path = "data_scale_%.2f/" % scaling_factor
-
-
-def run_example():
+def run_example(P):
     time_start = time.time()
     model = Model(P)
 
@@ -126,10 +122,12 @@ def main():
         log.setLevel(logging.DEBUG)
     log.debug(pformat(args))
 
-    # log.info("Hello World")
+    params_file = args["--params"] or example_params_file()
+    log.info("Reading parameter overrides from %s", params_file)
+    P = Parameters.from_yaml(params_file)
 
     if args["run"]:
-        run_example()
+        run_example(P)
 
     if args["config"]:
         print()

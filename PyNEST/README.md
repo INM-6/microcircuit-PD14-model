@@ -97,7 +97,22 @@ See [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/micr
 
 ### Configuring via YAML
 
-Model, simulation, and stimulus parameters can also be set from a YAML file instead of in Python. Generate a template with every parameter and its description, unit, and default value as comments:
+Model, simulation, and stimulus parameters can be set from a YAML file instead of in Python. The YAML file is a *sparse override file*: it only needs to contain the parameters that should differ from the defaults defined in the `Parameters` class. Everything else takes its default from the class, which remains the single source of truth.
+
+Construct the parameters from a file, optionally with per-job overrides on top:
+
+```python
+from microcircuit.model import Model
+from microcircuit.parameter_definitions import Parameters
+
+P = Parameters.from_yaml("params.yaml")               # defaults + file
+P = Parameters.from_yaml("params.yaml", rng_seed=7)   # defaults + file + job-specific values
+model = Model(P)
+```
+
+`from_yaml()` validates the whole result against the same schema as `Parameters()` itself, so an unknown key, wrong type, or out-of-range value fails immediately at load time rather than surfacing later as a wrong simulation result. If anything is invalid, no instance is created. Derived parameters (e.g. `num_neurons`, `PSC_matrix_mean`) are always recomputed from the primary parameters and cannot be set from a file.
+
+To get a template listing every parameter, commented out, with its default value, description, and unit:
 
 ```python
 from microcircuit.parameter_definitions import generate_example_config
@@ -105,19 +120,19 @@ from microcircuit.parameter_definitions import generate_example_config
 generate_example_config("params.yaml")
 ```
 
-Edit the values you want to change, then load and validate the result:
+Uncomment and edit the lines you want to change. A ready-made example is [examples/params.yaml](examples/params.yaml), which scales the network down to 20 %.
 
-```python
-from microcircuit.model import Model
-from microcircuit.parameter_definitions import load_parameters_from_yaml
+### Bundled entry points
 
-P = load_parameters_from_yaml("params.yaml")
-model = Model(P)
-```
+All bundled entry points read their parameters from a YAML file and hardcode nothing else:
 
-`load_parameters_from_yaml()` validates the file against the same schema as `Parameters()` itself, so an unknown key, wrong type, or out-of-range value fails immediately at load time rather than surfacing later as a wrong simulation result. Derived parameters (e.g. `num_neurons`, `PSC_matrix_mean`) appear in the generated template as comments only — they're always recomputed from the primary parameters, never read back in.
+| Entry point | Parameter file |
+|--|--|
+| `python examples/run_microcircuit.py [FILE]` | `examples/params.yaml` next to the script, or `FILE` if given |
+| `microcircuit run [--params FILE]` | the small override file shipped with the package (`example_params.yaml`, 20 % scale), or `FILE` if given |
+| `microcircuit config [--params FILE]` | same as `run`; prints the full resolved parameter set including derived values |
 
-For setting parameters directly in Python instead — e.g. `P = Parameters(); P.N_scaling = 0.2` — see [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html).
+None of them runs the full-scale model unless a file says so. For setting parameters directly in Python instead, e.g. `P = Parameters(); P.N_scaling = 0.2`, see [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html).
 
 ## Memory requirements
 
