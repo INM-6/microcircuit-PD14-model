@@ -780,12 +780,11 @@ def truncate_spike_data(spikes, interval):
     assert "times" in spikes
     assert len(spikes["senders"]) == len(spikes["times"])
 
-    ind1 = np.where(spikes["times"] >= interval[0])[0]
-    ind2 = np.where(spikes["times"][ind1] <= interval[1])[0]
+    within = (spikes["times] >= interval[0]) & (spikes["times"] <= interval[1])
 
     spikes_trunc = {}
-    spikes_trunc["senders"] = spikes["senders"][ind2]
-    spikes_trunc["times"] = spikes["times"][ind2]
+    spikes_trunc["senders"] = spikes["senders"][within]
+    spikes_trunc["times"] = spikes["times"][within]
 
     return spikes_trunc
 
