@@ -13,41 +13,40 @@ Unit test including network creation, connection and simulation.
 #####################
 import nest
 import pytest
-import numpy as np
 
 ## import model implementation
-from microcircuit import network
+from microcircuit.model import Model
 
-## import (default) parameters (network, simulation, stimulus)
-from microcircuit.network_params import default_net_dict as net_dict
-from microcircuit.sim_params import default_sim_dict as sim_dict
-from microcircuit.stimulus_params import default_stim_dict as stim_dict
+## import parameter definitions
+from microcircuit.parameter_definitions import Parameters
 
 #####################
 
-# set scaling factor of simulation
-scaling_factor = 0.2
-net_dict['N_scaling'] = scaling_factor
-net_dict['K_scaling'] = scaling_factor
-
 def test_simulation():
-    
+
+    P = Parameters()
+
+    ## set scaling factor of simulation
+    scaling_factor = 0.2
+    P.N_scaling = scaling_factor
+    P.K_scaling = scaling_factor
+
     ## set simulation time
-    sim_dict['t_sim'] = 100.0 
+    P.t_sim = 100.0
 
     def run_simulation():
-        
-        ## create instance of the network
-        net = network.Network(sim_dict, net_dict, stim_dict)
+
+        ## create instance of the model
+        model = Model(P)
 
         ## create all nodes (neurons, devices)
-        net.create()
+        model.create()
 
         ## connect nework
-        net.connect()
+        model.connect()
 
         ## simulation
-        net.simulate(sim_dict["t_sim"])
+        model.simulate(P.t_sim)
 
         return not None
 

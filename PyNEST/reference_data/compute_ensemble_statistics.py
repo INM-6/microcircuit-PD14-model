@@ -19,33 +19,32 @@ import numpy as np
 import json
 from scipy.stats import ks_2samp as ks
 import random
+from pathlib import Path
 
 ## import model implementation
-from microcircuit import network
 from microcircuit import helpers
 
-## import (default) parameters (network, simulation, stimulus)
-from microcircuit.network_params import default_net_dict as net_dict
-from microcircuit.sim_params import default_sim_dict as sim_dict
-from microcircuit.stimulus_params import default_stim_dict as stim_dict
+## import parameter class
+from microcircuit.parameter_definitions import Parameters
 
 ## import analysis parameters
 from params import params as ref_dict
 
 #####################
-populations = net_dict['populations'] # list of populations
+P = Parameters()
+populations = P.populations # list of populations
 #####################
 
 ## set network scale
 scaling_factor = ref_dict['scaling_factor']
-net_dict["N_scaling"] = scaling_factor
-net_dict["K_scaling"] = scaling_factor
+P.N_scaling = scaling_factor
+P.K_scaling = scaling_factor
 
 random.seed( ref_dict['seed_subsampling'] )  # set seed for reproducibility
 
 seeds = ref_dict['RNG_seeds'] # list of seeds
 
-sim_dict['data_path'] = ref_dict['data_path'] + '/data_T' + str( int( ref_dict['t_sim'] * 1.0e-3 ) ) + 's/'
+P.data_path = Path(ref_dict['data_path']) / f"data_T{int(ref_dict['t_sim'] * 1.0e-3)}s"
 
 #######################################################
 # Define auxiliary functions to analyze and plot data #
@@ -68,13 +67,13 @@ def concatenate_data( observable_name: str ) -> dict:
 
     for cseed, seed in enumerate( seeds ):
         observable[cseed] = {}
-        data_path = sim_dict['data_path'] + 'seed-%s/' % seed
+        data_path = Path(P.data_path) / f'seed-{seed}'
 
-        data_per_seed = helpers.json2dict( f'{data_path}{observable_name}.json' ) # load data per seed as dictionary sorted by populations
+        data_per_seed = helpers.json2dict( data_path / f'{observable_name}.json' ) # load data per seed as dictionary sorted by populations
 
         observable[cseed] = data_per_seed # concatenate data
-    
-    helpers.dict2json( observable, sim_dict['data_path'] + f'{observable_name}.json' ) # store concatenated data as json file
+
+    helpers.dict2json( observable, Path(P.data_path) / f'{observable_name}.json' ) # store concatenated data as json file
 
     return observable
 
@@ -112,7 +111,7 @@ def compute_ks_distances( observable: dict, observable_name: str ) -> dict:
                 observable_ks_distances[pop]["seeds"][i][j] = observable_ks_distance
                 observable_ks_distances[pop]["list"].append( observable_ks_distance )
 
-    helpers.dict2json( observable_ks_distances, sim_dict['data_path'] + f'{observable_name}_ks_distances.json' ) # save ks distances as json file
+    helpers.dict2json( observable_ks_distances, Path(P.data_path) / f'{observable_name}_ks_distances.json' ) # save ks distances as json file
 
     return observable_ks_distances
 

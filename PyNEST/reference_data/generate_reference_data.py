@@ -16,12 +16,10 @@ import nest
 import numpy as np
 
 ## import model implementation
-from microcircuit import network
+from microcircuit.model import Model
 
-## import (default) parameters (network, simulation, stimulus)
-from microcircuit.network_params import default_net_dict as net_dict
-from microcircuit.sim_params import default_sim_dict as sim_dict
-from microcircuit.stimulus_params import default_stim_dict as stim_dict
+## import parameter class
+from microcircuit.parameter_definitions import Parameters
 
 ## import analysis parameters
 from params import params as ref_dict
@@ -35,50 +33,47 @@ parser.add_argument("--path", type=str, default="data")
 args = parser.parse_args()
 
 path = Path(args.path)
-sim_dict.update(
-        {
-            "data_path": str(path) + "/",
-            "rng_seed": args.seed,
-        }
-)
+P = Parameters()
+P.data_path = str(path) + "/"
+P.rng_seed = args.seed
 
 #####################
 
 ## set network scale
 scaling_factor = ref_dict['scaling_factor']
-net_dict["N_scaling"] = scaling_factor
-net_dict["K_scaling"] = scaling_factor
+P.N_scaling = scaling_factor
+P.K_scaling = scaling_factor
 
 ## set pre-simulation time to 0 and desired simulation time
-sim_dict["t_presim"] = ref_dict["t_presim"]
-sim_dict["t_sim"] = ref_dict["t_sim"] # simulate for 10.0s
+P.t_presim = ref_dict["t_presim"]
+P.t_sim = ref_dict["t_sim"] # simulate for 10.0s
 
 ## set number of local number of threads
-sim_dict["local_num_threads"] = ref_dict['local_num_threads']
+P.local_num_threads = ref_dict['local_num_threads']
 
 def main():
 
     ## start timer 
     time_start = time.time()
 
-    ## create instance of the network
-    net = network.Network(sim_dict, net_dict, stim_dict)
+    ## create instance of the model
+    model = Model(P)
     time_network = time.time()
 
     ## create all nodes (neurons, devices)
-    net.create()
+    model.create()
     time_create = time.time()
 
     ## connect nework
-    net.connect()
+    model.connect()
     time_connect = time.time()
 
     ## pre-simulation (warm-up phase)
-    net.simulate(sim_dict["t_presim"])
+    model.simulate(P.t_presim)
     time_presimulate = time.time()
 
     ## simulation
-    net.simulate(sim_dict["t_sim"])
+    model.simulate(P.t_sim)
     time_simulate = time.time()
 
     ## current memory consumption of the python process (in MB)
@@ -93,11 +88,11 @@ def main():
     print()
     print('##########################################')
     print()
-    observation_interval = np.array([sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]])
-    net.evaluate(observation_interval , observation_interval )
+    observation_interval = np.array([P.t_presim, P.t_presim + P.t_sim])
+    model.evaluate(observation_interval , observation_interval )
     print()
-    print('Raster plot                  : see %s ' % (sim_dict['data_path'] + 'raster_plot.png') )
-    print('Distributions of firing rates: see %s ' % (sim_dict['data_path'] + 'box_plot.png'   ) )
+    print('Raster plot                  : see %s ' % (P.data_path / 'raster_plot.png') )
+    print('Distributions of firing rates: see %s ' % (P.data_path / 'box_plot.png'   ) )
     time_evaluate = time.time()
 
     #####################
@@ -120,7 +115,7 @@ def main():
     print('##########################################')
     print()
 
-    net.store_metadata()
+    model.store_metadata()
     
 #####################
 

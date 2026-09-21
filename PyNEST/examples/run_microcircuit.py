@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# network.py
+# run_microcircuit.py
 #
 # This file is part of NEST.
 #
@@ -21,101 +21,106 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'''
+"""
 Microcircuit example (Potjans & Diesmann 2014)
 ----------------------------------------------
 
 Example illustrating usage of the `microcircuit` python package.
-'''
+"""
 
 #####################
+import sys
 import time
+from pathlib import Path
+
 import nest
 import numpy as np
 
-## import model implementation
-from microcircuit import network
+from microcircuit.model import Model
 
-## import (default) parameters (network, simulation, stimulus)
-from microcircuit.network_params import default_net_dict as net_dict
-from microcircuit.sim_params import default_sim_dict as sim_dict
-from microcircuit.stimulus_params import default_stim_dict as stim_dict
+## import parameter definitions
+from microcircuit.parameter_definitions import Parameters
 
 #####################
 
-## set network scale
-scaling_factor = 0.2
-net_dict["N_scaling"] = scaling_factor
-net_dict["K_scaling"] = scaling_factor
+## Parameters are read from a YAML override file: everything not listed there
+## takes its default from the Parameters class. By default the `params.yaml`
+## next to this script is used (it scales the network down to 20 %); an
+## alternative file can be passed as the first command line argument:
+##
+##     python run_microcircuit.py my_params.yaml
 
-## set path for storing spike data and figures
-sim_dict['data_path'] = 'data_scale_%.2f/' % scaling_factor
-    
+params_file = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "params.yaml"
+P = Parameters.from_yaml(params_file)
+
+
 def main():
-
-    ## start timer 
+    ## start timer
     time_start = time.time()
 
-    ## create instance of the network
-    net = network.Network(sim_dict, net_dict, stim_dict)
+    ## create instance of the model
+    model = Model(P)
+
     time_network = time.time()
 
     ## create all nodes (neurons, devices)
-    net.create()
+    model.create()
     time_create = time.time()
 
     ## connect nework
-    net.connect()
+    model.connect()
     time_connect = time.time()
 
     ## pre-simulation (warm-up phase)
-    net.simulate(sim_dict["t_presim"])
+    model.simulate(P.t_presim)
     time_presimulate = time.time()
 
     ## simulation
-    net.simulate(sim_dict["t_sim"])
+    model.simulate(P.t_sim)
     time_simulate = time.time()
 
     ## store metadata
-    net.store_metadata()
+    model.store_metadata()
 
     ## current memory consumption of the python process (in MB)
     import psutil
+
     mem = psutil.Process().memory_info().rss / (1024 * 1024)
-    
+
     #####################
     ## plot spikes and firing rate distribution
     print()
-    print('##########################################')
+    print("##########################################")
     print()
-    observation_interval = np.array([sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]])
-    net.evaluate(observation_interval , observation_interval )
+    observation_interval = np.array([P.t_presim, P.t_presim + P.t_sim])
+    model.evaluate(observation_interval, observation_interval)
     print()
-    print('Raster plot                  : see %s ' % (sim_dict['data_path'] + 'raster_plot.png') )
-    print('Distributions of firing rates: see %s ' % (sim_dict['data_path'] + 'box_plot.png'   ) )
+    print("Raster plot                  : see %s " % (P.data_path / "raster_plot.png"))
+    print("Distributions of firing rates: see %s " % (P.data_path / "box_plot.png"))
     time_evaluate = time.time()
 
     #####################
     ## print timers and memory consumption
 
     print()
-    print('##########################################')
+    print("##########################################")
     print()
-    print('Times of Rank %d:' % nest.Rank())
-    print('    Total time:')
-    print('    Time to initialize  : %.3fs' % (time_network - time_start))
-    print('    Time to create      : %.3fs' % (time_create - time_network))
-    print('    Time to connect     : %.3fs' % (time_connect - time_create))
-    print('    Time to presimulate : %.3fs' % (time_presimulate - time_connect))
-    print('    Time to simulate    : %.3fs' % (time_simulate - time_presimulate))
-    print('    Time to evaluate    : %.3fs' % (time_evaluate - time_simulate))
+    print("Times of Rank %d:" % nest.Rank())
+    print("    Total time:")
+    print("    Time to initialize  : %.3fs" % (time_network - time_start))
+    print("    Time to create      : %.3fs" % (time_create - time_network))
+    print("    Time to connect     : %.3fs" % (time_connect - time_create))
+    print("    Time to presimulate : %.3fs" % (time_presimulate - time_connect))
+    print("    Time to simulate    : %.3fs" % (time_simulate - time_presimulate))
+    print("    Time to evaluate    : %.3fs" % (time_evaluate - time_simulate))
     print()
     print("Memory consumption: %dMB" % mem)
     print()
-    print('##########################################')
+    print("##########################################")
     print()
-    
+
+
 #####################
 
-if __name__== '__main__':
+if __name__ == "__main__":
     main()

@@ -42,6 +42,47 @@ if "DISPLAY" not in os.environ:
 
     matplotlib.use("Agg")
 
+#########################################################################
+
+
+def get_exc_inh_matrix(val_exc, val_inh, num_pops) -> np.ndarray:
+    """
+    Creates a matrix of size `num_pops` x `num_pops`, where columns with even
+    indices (0, 2, 4, ...) are filled with `val_exc`, and columns with odd
+    indices (1, 3, 5, ...) are filled with `val_inh`. This is used to create
+    matrices of synaptic weights or delays for all pairs of presynaptic and
+    postsynaptic populations, based on the assumption that populations with
+    even indices in the `populations` list are excitatory and populations with
+    odd indices are inhibitory.
+
+    Parameters:
+    -----------
+    val_exc: float
+             Excitatory value.
+
+    val_inh: float
+             Inhibitory value.
+
+    num_pops: int
+              Number of populations.
+
+    Returns:
+    ---------
+
+    matrix: np.ndarray(float)
+            Matrix of of size (num_pops x num_pops).
+
+    """
+
+    matrix = np.zeros((num_pops, num_pops))
+    matrix[:, 0:num_pops:2] = val_exc
+    matrix[:, 1:num_pops:2] = val_inh
+
+    return matrix
+
+
+#########################################################################
+
 
 def num_synapses_from_conn_probs(conn_probs, popsize1, popsize2):
     """Computes the total number of synapses between two populations from
@@ -64,8 +105,12 @@ def num_synapses_from_conn_probs(conn_probs, popsize1, popsize2):
         Matrix of synapse numbers.
     """
     prod = np.outer(popsize1, popsize2)
-    num_synapses = np.log(1.0 - conn_probs) / np.log((prod - 1.0) / prod)
+    num_synapses = np.log(1.0 - np.array(conn_probs)) / np.log((prod - 1.0) / prod)
+
     return num_synapses
+
+
+#########################################################################
 
 
 def postsynaptic_potential_to_current(C_m, tau_m, tau_syn):
@@ -120,14 +165,17 @@ def postsynaptic_potential_to_current(C_m, tau_m, tau_syn):
     return PSC_over_PSP
 
 
-def dc_input_compensating_poisson(bg_rate, K_ext, tau_syn, PSC_ext):
+#########################################################################
+
+
+def dc_input_compensating_poisson(rate_CC, K_CC_full, tau_syn, PSC_ext):
     """Computes DC input if no Poisson input is provided to the microcircuit.
 
     Parameters
     ----------
-    bg_rate
+    rate_CC
         Rate of external Poisson generators (in spikes/s).
-    K_ext
+    K_CC_full
         External indegrees.
     tau_syn
         Synaptic time constant (in ms).
@@ -139,8 +187,11 @@ def dc_input_compensating_poisson(bg_rate, K_ext, tau_syn, PSC_ext):
     DC
         DC input (in pA) which compensates lacking Poisson input.
     """
-    DC = bg_rate * K_ext * PSC_ext * tau_syn * 0.001
+    DC = rate_CC * K_CC_full * PSC_ext * tau_syn * 0.001
     return DC
+
+
+#########################################################################
 
 
 def adjust_weights_and_input_to_synapse_scaling(
@@ -153,9 +204,9 @@ def adjust_weights_and_input_to_synapse_scaling(
     full_mean_rates,
     DC_amp,
     # poisson_input,
-    bg_input_type,
-    bg_rate,
-    K_ext,
+    CC_type,
+    rate_CC,
+    K_CC_full,
 ):
     """Adjusts weights and external input to scaling of indegrees.
 
@@ -183,11 +234,11 @@ def adjust_weights_and_input_to_synapse_scaling(
         DC input current (in pA).
     #poisson_input
         #True if Poisson input is used.
-    bg_input_type
+    CC_type
         Type of background input, either "poisson" or "dc".
-    bg_rate
+    rate_CC
         Firing rate of Poisson generators (in spikes/s).
-    K_ext
+    K_CC_full
         External indegrees.
 
     Returns
@@ -211,14 +262,17 @@ def adjust_weights_and_input_to_synapse_scaling(
 
     DC_amp_new = DC_amp + 0.001 * tau_syn * (1.0 - np.sqrt(K_scaling)) * input_rec
 
-    if bg_input_type == "poisson":
-        input_ext = PSC_ext * K_ext * bg_rate
+    if CC_type == "poisson":
+        input_ext = PSC_ext * K_CC_full * rate_CC
         DC_amp_new += 0.001 * tau_syn * (1.0 - np.sqrt(K_scaling)) * input_ext
 
     return PSC_matrix_new, PSC_ext_new, DC_amp_new
 
 
-def compute_rheo_base_current(V_th, E_L, C_m, tau_m):
+#########################################################################
+
+
+def compute_rheo_base_current(V_th, V_rest, C_m, tau_m):
     """Computes the rheobase current for a given threshold voltage, resting potential, membrane capacitance, and membrane time constant.
 
     The rheobase current is the minimum current required to bring the membrane potential to the threshold voltage.
@@ -227,7 +281,7 @@ def compute_rheo_base_current(V_th, E_L, C_m, tau_m):
     ----------
     V_th
         Threshold voltage (in mV).
-    E_L
+    V_rest
         Resting membrane potential (in mV).
     C_m
         Membrane capacitance (in pF).
@@ -240,9 +294,12 @@ def compute_rheo_base_current(V_th, E_L, C_m, tau_m):
         Rheobase current (in pA).
     """
 
-    I_rh = C_m * (V_th - E_L) / tau_m
+    I_rh = C_m * (V_th - V_rest) / tau_m
 
     return I_rh
+
+
+#########################################################################
 
 
 def plot_raster(path, name, begin, end, N_scaling):
@@ -337,6 +394,9 @@ def plot_raster(path, name, begin, end, N_scaling):
     plt.savefig(os.path.join(path, "raster_plot.png"))
 
 
+#########################################################################
+
+
 def firing_rates(path, name, begin, end):
     """Computes mean and standard deviation of firing rates per population.
 
@@ -379,6 +439,9 @@ def firing_rates(path, name, begin, end):
             np.around(all_std_rates, decimals=3)
         )
     )
+
+
+#########################################################################
 
 
 def boxplot(path, populations):
@@ -429,7 +492,7 @@ def boxplot(path, populations):
     rcParams["legend.framealpha"] = 1.0
     rcParams["legend.edgecolor"] = "k"
 
-    plt.figure(1)
+    plt.figure(2)
     plt.clf()
 
     bp = plt.boxplot(
@@ -468,6 +531,9 @@ def boxplot(path, populations):
     plt.savefig(os.path.join(path, "box_plot.png"))
 
 
+#########################################################################
+
+
 def __gather_metadata(path, name):
     """Reads names and ids of spike recorders and first and last ids of
     neurons in each population.
@@ -504,12 +570,15 @@ def __gather_metadata(path, name):
                 sd_names.append(fnsplit)
 
     # load node IDs
-    node_idfile = open(path + "population_nodeids.dat", "r")
+    node_idfile = open(path / "population_nodeids.dat", "r")
     node_ids = []
     for node_id in node_idfile:
         node_ids.append(node_id.split())
     node_ids = np.array(node_ids, dtype="i4")
     return sd_files, sd_names, node_ids
+
+
+#########################################################################
 
 
 def __load_spike_times(path, name, begin, end):
@@ -535,7 +604,9 @@ def __load_spike_times(path, name, begin, end):
     """
     sd_files, sd_names, node_ids = __gather_metadata(path, name)
     data = {}
-    dtype = {"names": ("sender", "time_ms"), "formats": ("i4", "f8")}  # as in header
+    dtype = np.dtype(
+        {"names": ("sender", "time_ms"), "formats": ("i4", "f8")}
+    )  # as in header
     for i, name in enumerate(sd_names):
         data_i_raw = np.array([[]], dtype=dtype)
         for j, f in enumerate(sd_files):
@@ -552,7 +623,9 @@ def __load_spike_times(path, name, begin, end):
     return sd_names, node_ids, data
 
 
-#################################################
+#########################################################################
+
+
 def get_data_file_list(path, label):
     """
     Searches for files with extension "*.dat" in directory "path" with names starting with "label",
@@ -589,7 +662,9 @@ def get_data_file_list(path, label):
     return files
 
 
-#################################################
+#########################################################################
+
+
 def load_spike_data(path, label, time_interval=None, pop=None, skip_rows=3):
     """
     Load spike data from files.
@@ -706,7 +781,9 @@ def load_spike_data(path, label, time_interval=None, pop=None, skip_rows=3):
     return spike_dict
 
 
-##########################################################################
+#########################################################################
+
+
 def dict2json(dictionary, filename):
     """
     Writes python dictionary to json file.
@@ -730,7 +807,9 @@ def dict2json(dictionary, filename):
         json.dump(dictionary, file, indent=4, default=to_list)
 
 
-##########################################################################
+#########################################################################
+
+
 def json2dict(filename):
     """
     Read python dictionary from json file.
@@ -753,7 +832,9 @@ def json2dict(filename):
     return dictionary
 
 
-#################################################
+#########################################################################
+
+
 def truncate_spike_data(spikes, interval):
     """
     Extracts spike data from a specified time interval (including left an right bound).
@@ -790,7 +871,9 @@ def truncate_spike_data(spikes, interval):
     return spikes_trunc
 
 
-#################################################
+#########################################################################
+
+
 def time_averaged_single_neuron_firing_rates(spikes, pop, interval):
     """
     Computes single-neuron firing rates for a specified population of neurons,
@@ -827,7 +910,9 @@ def time_averaged_single_neuron_firing_rates(spikes, pop, interval):
     return rates
 
 
-#################################################
+#########################################################################
+
+
 def single_neuron_isi_cvs(spikes, pop, interval):
     """
     Computes coefficient of variation (CV) of inter-spike intervals (ISIs)
@@ -876,7 +961,9 @@ def single_neuron_isi_cvs(spikes, pop, interval):
     return np.array(cvs)
 
 
-#################################################
+#########################################################################
+
+
 def generate_spike_counts(spikes, pop, interval, binsize):
     """
     Converts spike data into spike-count signals.
@@ -921,7 +1008,9 @@ def generate_spike_counts(spikes, pop, interval, binsize):
     return spike_counts, times
 
 
-#################################################
+#########################################################################
+
+
 def pairwise_spike_count_correlations(spikes, pop, interval, binsize):
     """
     Computes pairwise spike-count correlation coefficients.
@@ -971,7 +1060,9 @@ def pairwise_spike_count_correlations(spikes, pop, interval, binsize):
     return np.array(ccs)
 
 
-#################################################
+#########################################################################
+
+
 def data_distribution(data, label, unit="", hist_bin=None):
     """
     Calculates distribution (histogram) of a given data array, and basic statistics.
@@ -1071,4 +1162,4 @@ def data_distribution(data, label, unit="", hist_bin=None):
     return data_hist, bins[:-1], stat
 
 
-##########################################################################
+#########################################################################
