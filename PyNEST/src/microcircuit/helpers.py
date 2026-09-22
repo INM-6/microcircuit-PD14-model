@@ -780,7 +780,7 @@ def truncate_spike_data(spikes, interval):
     assert "times" in spikes
     assert len(spikes["senders"]) == len(spikes["times"])
 
-    within = (spikes["times] >= interval[0]) & (spikes["times"] <= interval[1])
+    within = (spikes["times"] >= interval[0]) & (spikes["times"] <= interval[1])
 
     spikes_trunc = {}
     spikes_trunc["senders"] = spikes["senders"][within]
