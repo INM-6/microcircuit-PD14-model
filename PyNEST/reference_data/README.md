@@ -21,7 +21,7 @@ The analysis of the spike data documented here closely follows the strategy used
 ### Single network realization
 
 In a first step, we compute and store the time averaged firing rates and the coefficients of variation of inter-spike intervals (ISI CVs) for each individual neuron in each population of the network (`rates.json`, `spikes_cvs.json`).
-Similarly, we calculate and store the spike spike-count correlation coefficients (on a millisecond timescale) for all pairs of neurons within a smaller subset of neurons for each population  (`spikes_ccs.json`).
+Similarly, we calculate and store the spike-count correlation coefficients (on a millisecond timescale) for all pairs of neurons within a smaller subset of neurons for each population  (`spikes_ccs.json`).
 The script [`analyze_reference_data.py`](analyze_reference_data.py) implements this part of the data analysis.
 
 Usage:
@@ -67,7 +67,7 @@ Distributions of the time averaged single-neuron firing rates (left), the coeffi
 |--|--|--|
 | <img src="figures/rate_KS_distances_T900s.png" width="300"/> | <img src="figures/spike_cvs_KS_distances_T900s.png" width="300"/> | <img src="figures/spike_ccs_KS_distances_T900s.png" width="300"/> |
 
-Distributions of Kolmogorov–Smirnov (KS) scores across pairs of network realizations for each spike statistics (firing rates, ISI CVs and spike correlations) and each neuronal population of the microcircuit model (simulation time $`T = 15`$min).
+Distributions of Kolmogorov–Smirnov (KS) scores across pairs of network realizations for each spike statistic (firing rates, ISI CVs and spike correlations) and each neuronal population of the microcircuit model (simulation time $`T = 15`$min).
 Red and blue vertical lines depict average KS scores $`D_\text{KS}`$ and standard deviations across pairs of network realizations.
 
 ## Snakemake workflow for local running
