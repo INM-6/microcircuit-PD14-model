@@ -1,2 +1,1 @@
-Examples using Cortical Microcircuit Model
-==========================================
+# Examples using the cortical microcircuit model
