@@ -35,11 +35,11 @@ The parameters of the data analysis are set in [`params.py`](params.py).
 ### Ensemble of network realizations
 
 The microcircuit model is a probabilistic model: both the network connectivity as well as the initial membrane potentials are randomly generated according to the rules specified in the [model documentation](https://microcircuit-PD14-model.readthedocs.io/en/latest/model_description.html).
-To quantifiy the variability in the above computed spike statistics across the ensemble of network realizations, we compute the Kolmogorov–Smirnov (KS) statistics for the respective distributions (time averaged firing rates, ISI CVs and spike correlations) for each pair of network realizations (`rate_ks_distances.json`, `spike_cvs_ks_distances.json`, `spike_ccs_ks_distances.json`).
-These KS scores quantify the natural variability intrinsic to the model, and are useful when verifying other implementions of the model based on the reference ("ground truth") data provided here.
+To quantify the variability in the above computed spike statistics across the ensemble of network realizations, we compute the Kolmogorov–Smirnov (KS) statistics for the respective distributions (time averaged firing rates, ISI CVs and spike correlations) for each pair of network realizations (`rate_ks_distances.json`, `spike_cvs_ks_distances.json`, `spike_ccs_ks_distances.json`).
+These KS scores quantify the natural variability intrinsic to the model, and are useful when verifying other implementations of the model based on the reference ("ground truth") data provided here.
 For further details, see [(Dasbach et al., 2021)](https://doi.org/10.3389/fnins.2021.757790).
 
-This second step of the analysis, the quantification of the ensemble statistis, is implemented in [compute_ensemble_stats.py](compute_ensemble_stats.py).
+This second step of the analysis, the quantification of the ensemble statistics, is implemented in [compute_ensemble_stats.py](compute_ensemble_stats.py).
 
 Usage:
 ```bash
@@ -97,7 +97,7 @@ Note that these examples are user and system specific and need to be adapted to 
 
 ## Sets of simulated and analyzed reference data
 
-For convenience, we provide sets of simulated and ananlyzed reference data for different simulation times and network realizations (RNG seeds) at [Zenodo](https://doi.org/10.5281/zenodo.18957278).
+For convenience, we provide sets of simulated and analyzed reference data for different simulation times and network realizations (RNG seeds) at [Zenodo](https://doi.org/10.5281/zenodo.18957278).
 
 The spike data is stored in text files `data_T<sim_time_in_s>s/seed-<RNGseed>/spike_recorder-<rec-id>-<thread-id>.dat` (1st column: neuron ID, 2nd column: spike time in ms).
 Here, `<sim_time_in_s>` refers to the simulation time in seconds, `<RNGseed>` to the random number generator seed used to generate a specific realization of the model, `<rec-id>` to the population specific spike-recorder ID, and `<thread-id>` to the thread ID.
