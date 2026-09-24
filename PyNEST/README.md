@@ -106,7 +106,7 @@ After installation, the `microcircuit` python package can be imported in a pytho
 import microcircuit
 ```
 
-See [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustrations of how the package can be used.
+See [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html) for a more detailed illustration of how the package can be used.
 
 ## Memory requirements
 
@@ -122,7 +122,7 @@ Recent performance benchmarking results for the microcircuit model can be found 
 
 ## Implementation details
 
-This implementation uses the [`iaf_psc_exp`](https://nest-simulator.org/documentation/models/iaf_psc_exp.html) neuron and the [`static_synapse`](https://nest-simulator.org/documentation/models/static_synapse.html) synapse models provided in [NEST]. 
+This implementation uses the [`iaf_psc_exp`](https://nest-simulator.org/documentation/models/iaf_psc_exp.html) neuron and the [`static_synapse`](https://nest-simulator.org/documentation/models/static_synapse.html) synapse models provided in [NEST](https://www.nest-simulator.org/). 
 The network is connected according to the [`fixed_total_number`](https://nest-simulator.org/documentation/synapses/connectivity_concepts.html#random-fixed-total-number) connection rule in NEST. 
 The neuron dynamics is integrated in a time-driven manner using exact integration with a simulation step size `sim_resolution` [(Rotter & Diesmann, 1999)][1].
 
