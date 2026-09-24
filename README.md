@@ -23,7 +23,7 @@ Specifically, the model demonstrates that the **observed cell-type and layer spe
 
 In recent years, the PD14 model became an established Computational Neuroscience [benchmark](https://microcircuit-pd14-model.readthedocs.io/en/latest/benchmarking/benchmarking.html) for various soft- and hardware architectures (for an overview, see [Senk et al., 2026](https://doi.org/10.1088/2634-4386/ae379a)).
 
-A community review ([Plesser et al., 2025](https://doi.org/10.1093/cercor/bhaf295)) prepared on the occassion of the 10th anniversary of the original publication of the model provides an historical account of the impact of the model.
+A community review ([Plesser et al., 2025](https://doi.org/10.1093/cercor/bhaf295)) prepared on the occasion of the 10th anniversary of the original publication of the model provides an historical account of the impact of the model.
 
 ## Model description
 [<img src="figures/modeldescription_icon.png" height="200"/>](https://microcircuit-pd14-model.readthedocs.io/en/latest/_static/microcircuit-pd14-model.pdf)
