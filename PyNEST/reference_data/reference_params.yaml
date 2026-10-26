@@ -3,9 +3,10 @@
 # Model and simulation parameters are set in `model_params.yaml`.
 
 # RNG seeds for generating model realizations
-RNG_seeds: ["123450", "123451", "123452", "123453", "123454"]
-# RNG_seeds: ["123450", "123451", "123452", "123453", "123454",
-#             "123455", "123456", "123457", "123458", "123459"]
+# RNG_seeds: ["123450", "123451", "123452", "123453", "123454"]
+RNG_seeds: [
+  "123450", "123451", "123452", "123453", "123454", "123455", "123456", "123457", "123458", "123459"
+]
 
 # base directory of the data; data of each realization is stored in
 # <data_path>/data_T<sim_time_in_s>s/seed-<RNGseed>
@@ -17,8 +18,8 @@ analysis:
   # RNG seed for random neuron subsampling (for CC analysis)
   seed_subsampling: 12345
   # number of neurons per population for pairwise statistics
-  subsample_size: 50
-  # subsample_size: 250
+  # subsample_size: 50
+  subsample_size: 250
   # bin size for generation of spike-count signals (for CC analysis) in ms
   binsize: 2.0
 

@@ -7,19 +7,19 @@
 #   microcircuit --params model_params.yaml run
 
 # network scale
-N_scaling: 0.2
-K_scaling: 0.2
-# N_scaling: 1.0
-# K_scaling: 1.0
+# N_scaling: 0.2
+# K_scaling: 0.2
+N_scaling: 1.0
+K_scaling: 1.0
 
 # pre-simulation time (for network stabilization) in ms
 t_presim: 500.0
 
 # simulation time in ms
-t_sim: 1000.0
-# t_sim: 10000.0
+# t_sim: 1000.0
+t_sim: 10000.0
 # t_sim: 900000.0
 
 # local number of threads
-local_num_threads: 4
-# local_num_threads: 64
+# local_num_threads: 4
+local_num_threads: 64
