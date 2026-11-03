@@ -46,7 +46,7 @@ K_scaling: 0.2
 # section: network
 
 # K_CC_full: [1600, 1500, 2100, 1900, 2000, 1900, 2900, 2100]
-# Number of cortico-cortical inputs per neuron (in-degree) in the full-scalenework for each cortical population $y$ (same order as in `populations`).
+# Number of cortico-cortical inputs per neuron (in-degree) in the full-scale network for each cortical population $y$ (same order as in `populations`).
 # unit: 
 # LaTeX: $\tilde{K}_{\mathcal{C}_y}$
 # section: network
@@ -178,7 +178,7 @@ K_scaling: 0.2
 # section: initialization
 
 # thalamic_input: False
-# Turn (transient) thalamic input on ('True) or off ('False'; default).
+# Turn (transient) thalamic input on ('True') or off ('False'; default).
 # unit: 
 # LaTeX: thalamic\_input
 # section: stimulus
@@ -214,7 +214,7 @@ K_scaling: 0.2
 # section: stimulus
 
 # dc_transient: False
-# Turn (transient) DC input on ('True) or off ('False'; default).
+# Turn (transient) DC input on ('True') or off ('False'; default).
 # unit: 
 # LaTeX: dc\_transient
 # section: stimulus

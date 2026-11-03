@@ -190,6 +190,8 @@ def dc_input_compensating_poisson(rate_CC, K_CC_full, tau_syn, PSC_ext):
         DC input (in pA) which compensates lacking Poisson input.
     """
 
+    # mean current of the omitted Poisson input, K_CC_full * PSC_ext * rate_CC * tau_syn;
+    # the factor 0.001 converts tau_syn from ms to s, since rate_CC is given in spikes/s
     DC = rate_CC * K_CC_full * PSC_ext * tau_syn * 0.001
     return DC
 
@@ -261,6 +263,8 @@ def adjust_weights_and_input_to_synapse_scaling(
     # local input currents in full scale network
     input_rec = np.sum(mean_PSC_matrix * indegree_matrix * full_mean_rates, axis=1)
 
+    # here and below, the factor 0.001 converts tau_syn from ms to s, since the rates are given
+    # in spikes/s
     DC_amp_new = DC_amp + 0.001 * tau_syn * (1.0 - np.sqrt(K_scaling)) * input_rec
 
     if CC_type == "poisson":

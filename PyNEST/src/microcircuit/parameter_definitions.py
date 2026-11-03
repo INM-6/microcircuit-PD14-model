@@ -168,8 +168,8 @@ class Parameters(BaseModel):
         max_length=len(populations),
         min_length=len(populations),
         description=(
-            r"Number of cortico-cortical inputs per neuron (in-degree) in the full-scalenework for "
-            r"each cortical population $y$ (same order as in `populations`)."
+            r"Number of cortico-cortical inputs per neuron (in-degree) in the full-scale network "
+            r"for each cortical population $y$ (same order as in `populations`)."
         ),
         json_schema_extra={
             "unit": "",
@@ -434,7 +434,7 @@ class Parameters(BaseModel):
     # stimulus parameters
     thalamic_input: bool = Field(
         default=False,
-        description=r"Turn (transient) thalamic input on ('True) or off ('False'; default).",
+        description=r"Turn (transient) thalamic input on ('True') or off ('False'; default).",
         json_schema_extra={
             "unit": "",
             "latex": r"thalamic\_input",
@@ -503,7 +503,7 @@ class Parameters(BaseModel):
 
     dc_transient: bool = Field(
         default=False,
-        description=r"Turn (transient) DC input on ('True) or off ('False'; default).",
+        description=r"Turn (transient) DC input on ('True') or off ('False'; default).",
         json_schema_extra={
             "unit": "",
             "latex": r"dc\_transient",
@@ -997,9 +997,9 @@ class Parameters(BaseModel):
     )
     @property
     def weight_th(self) -> float:
-        # Not `self.PSC_ext`: that will carry the joint K-scaling adjustment
-        # (adjust_weights_and_input_to_synapse_scaling) once ported, while
-        # thalamic input scales only by 1/sqrt(K_scaling).
+        # Not `self.PSC_ext`: that carries the joint K-scaling adjustment
+        # (adjust_weights_and_input_to_synapse_scaling), while thalamic input
+        # scales only by 1/sqrt(K_scaling). Both currently give the same value.
         weight_th = self.weight_exc_mean / self.J_unit
         if self.K_scaling != 1:
             weight_th /= np.sqrt(self.K_scaling)
