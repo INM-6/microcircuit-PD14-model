@@ -6,48 +6,48 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'''
+"""
 Unit test including network creation, connection and simulation.
-'''
+"""
 
 #####################
 import nest
 import pytest
-import numpy as np
 
 ## import model implementation
-from microcircuit import network
+from microcircuit.model import Model
 
-## import (default) parameters (network, simulation, stimulus)
-from microcircuit.network_params import default_net_dict as net_dict
-from microcircuit.sim_params import default_sim_dict as sim_dict
-from microcircuit.stimulus_params import default_stim_dict as stim_dict
+## import parameter definitions
+from microcircuit.parameter_definitions import Parameters
 
 #####################
 
-# set scaling factor of simulation
-scaling_factor = 0.2
-net_dict['N_scaling'] = scaling_factor
-net_dict['K_scaling'] = scaling_factor
 
 def test_simulation():
-    
+
+    params = Parameters()
+
+    ## set scaling factor of simulation
+    scaling_factor = 0.2
+    params.N_scaling = scaling_factor
+    params.K_scaling = scaling_factor
+
     ## set simulation time
-    sim_dict['t_sim'] = 100.0 
+    params.t_sim = 100.0
 
     def run_simulation():
-        
-        ## create instance of the network
-        net = network.Network(sim_dict, net_dict, stim_dict)
+
+        ## create instance of the model
+        model = Model(params)
 
         ## create all nodes (neurons, devices)
-        net.create()
+        model.create_nodes()
 
         ## connect nework
-        net.connect()
+        model.connect()
 
         ## simulation
-        net.simulate(sim_dict["t_sim"])
+        model.simulate(params.t_sim)
 
         return not None
 
@@ -55,18 +55,57 @@ def test_simulation():
         result = run_simulation()
 
     except Exception as e:
-        pytest.fail(f'Simulation raised an exception: {e}')
+        pytest.fail(f"Simulation raised an exception: {e}")
 
     assert result is not None
 
-    print('======================================')
-    print('')
-    print('Test passed')
-    print('')
-    print('microcircuit.simulate() runs correctly')
-    print('')
-    print('======================================')
+    print("======================================")
+    print("")
+    print("Test passed")
+    print("")
+    print("microcircuit.simulate() runs correctly")
+    print("")
+    print("======================================")
 
-if __name__ == '__main__':
+
+def run_and_evaluate(data_path, rec_dev, scaling):
+    """Runs a short simulation, evaluates it and stores the metadata."""
+
+    params = Parameters(
+        data_path=data_path,
+        rec_dev=rec_dev,
+        N_scaling=scaling,
+        K_scaling=scaling,
+        t_sim=100.0,
+        print_time=False,
+    )
+
+    model = Model(params)
+    model.create_nodes()
+    model.connect()
+    model.simulate(params.t_sim)
+    model.evaluate([0.0, params.t_sim], [0.0, params.t_sim])
+    model.store_metadata()
+
+
+def test_evaluate_without_spike_recorder(tmp_path):
+    """Evaluation is skipped, but metadata is stored, if no spike recorder was used."""
+
+    run_and_evaluate(tmp_path, rec_dev=[], scaling=0.05)
+
+    assert not (tmp_path / "raster_plot.png").exists()
+    assert not (tmp_path / "box_plot.png").exists()
+    assert (tmp_path / "params.json").is_file()
+
+
+def test_evaluate_with_spike_recorder(tmp_path):
+    """Evaluation creates the raster plot and the box plot if a spike recorder was used."""
+
+    run_and_evaluate(tmp_path, rec_dev=["spike_recorder"], scaling=0.1)
+
+    assert (tmp_path / "raster_plot.png").is_file()
+    assert (tmp_path / "box_plot.png").is_file()
+
+
+if __name__ == "__main__":
     test_simulation()
-

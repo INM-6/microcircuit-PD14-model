@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# network.py
+# __init__.py
 #
 # This file is part of NEST.
 #
@@ -21,10 +21,10 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'''
+"""
 PyNEST implementation of the cortical microcircuit model of Potjans & Diesmann (2014).
-'''
+"""
 
-__version__ = '1.1-dev.1'
+__version__ = "1.1-dev.1"
 
-from microcircuit.network import Network
+from microcircuit.model import Model

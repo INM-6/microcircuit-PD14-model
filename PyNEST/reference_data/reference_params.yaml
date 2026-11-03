@@ -1,0 +1,36 @@
+# Settings for the generation, analysis, and plotting of reference data.
+#
+# Model and simulation parameters are set in `model_params.yaml`.
+
+# RNG seeds for generating model realizations
+# RNG_seeds: ["123450", "123451", "123452", "123453", "123454"]
+RNG_seeds: [
+  "123450", "123451", "123452", "123453", "123454", "123455", "123456", "123457", "123458", "123459"
+]
+
+# base directory of the data; data of each realization is stored in
+# <data_path>/data_T<sim_time_in_s>s/seed-<RNGseed>
+data_path: data
+
+analysis:
+  # start of analysis time interval in ms
+  t_min: 500.0
+  # RNG seed for random neuron subsampling (for CC analysis)
+  seed_subsampling: 12345
+  # number of neurons per population for pairwise statistics
+  # subsample_size: 50
+  subsample_size: 250
+  # bin size for generation of spike-count signals (for CC analysis) in ms
+  binsize: 2.0
+
+plotting:
+  # limits for rate, CV, and CC histograms
+  cc_lim: [-0.015, 0.015]
+  rate_lim: [0.0, 20.0]
+  cv_lim: [0.5, 1.5]
+  # bin sizes for histograms
+  cc_binsize: 0.001
+  rate_binsize: 1.0
+  cv_binsize: 0.05
+  # maximal figure width in inches
+  max_fig_width: 7.5

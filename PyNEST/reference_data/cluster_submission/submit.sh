@@ -8,8 +8,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-sim_time=$(python3 -c "import sys; sys.path.append('../'); from params import params as ref_dict; print(int(ref_dict['t_sim'] * 1.0e-3))")
-range=$(python3 -c "import sys; sys.path.append('../'); from params import params as ref_dict; print(' '.join(ref_dict['RNG_seeds']))")
+sim_time=$(python3 -c "from microcircuit.parameter_definitions import Parameters; print(int(Parameters.from_yaml('../model_params.yaml').t_sim * 1.0e-3))" | tail -n 1)
+range=$(python3 -c "from ruamel.yaml import YAML; print(' '.join(YAML(typ='safe').load(open('../reference_params.yaml'))['RNG_seeds']))")
 
 results="../data/data_T${sim_time}s"
 results_log="../log_T${sim_time}s"
