@@ -68,5 +68,44 @@ def test_simulation():
     print("======================================")
 
 
+def run_and_evaluate(data_path, rec_dev, scaling):
+    """Runs a short simulation, evaluates it and stores the metadata."""
+
+    params = Parameters(
+        data_path=data_path,
+        rec_dev=rec_dev,
+        N_scaling=scaling,
+        K_scaling=scaling,
+        t_sim=100.0,
+        print_time=False,
+    )
+
+    model = Model(params)
+    model.create_nodes()
+    model.connect()
+    model.simulate(params.t_sim)
+    model.evaluate([0.0, params.t_sim], [0.0, params.t_sim])
+    model.store_metadata()
+
+
+def test_evaluate_without_spike_recorder(tmp_path):
+    """Evaluation is skipped, but metadata is stored, if no spike recorder was used."""
+
+    run_and_evaluate(tmp_path, rec_dev=[], scaling=0.05)
+
+    assert not (tmp_path / "raster_plot.png").exists()
+    assert not (tmp_path / "box_plot.png").exists()
+    assert (tmp_path / "params.json").is_file()
+
+
+def test_evaluate_with_spike_recorder(tmp_path):
+    """Evaluation creates the raster plot and the box plot if a spike recorder was used."""
+
+    run_and_evaluate(tmp_path, rec_dev=["spike_recorder"], scaling=0.1)
+
+    assert (tmp_path / "raster_plot.png").is_file()
+    assert (tmp_path / "box_plot.png").is_file()
+
+
 if __name__ == "__main__":
     test_simulation()

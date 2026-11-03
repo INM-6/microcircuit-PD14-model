@@ -155,6 +155,7 @@ class Model:
         """Displays simulation results.
         Creates a spike raster plot.
         Calculates the firing rate of each population and displays them as a box plot.
+        Does nothing if ``spike_recorder`` is not in ``params.rec_dev``.
 
         Parameters
         ----------
@@ -170,6 +171,10 @@ class Model:
         """
 
         if nest.Rank() != 0:
+            return
+
+        if "spike_recorder" not in self.params.rec_dev:
+            print("No spike recorder in rec_dev, skipping evaluation.")
             return
 
         print(f"Interval to plot spikes: {raster_plot_interval} ms")
