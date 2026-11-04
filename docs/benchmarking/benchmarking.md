@@ -49,13 +49,47 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 
 ### Running the recipe yourself
 
-To run the PyNEST implementation with the performance setting of the recipe, install the `microcircuit` package from a clone of this repository (see [PyNEST implementation](../pynest_implementation.md)) and run from the root of the repository
+To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package from a clone of this repository (see [PyNEST implementation](../pynest_implementation.md)) and run from the root of the repository
 
 ```bash
 python PyNEST/examples/run_microcircuit.py --benchmark --threads 64 --seed 55
 ```
 
 Set `--threads` to the number of available cores and vary `--seed` for repeated simulations. The script prints the timers and the real-time factor.
+
+For meaningful performance results, NEST has to be built with optimization, for example
+
+```bash
+cmake -Dwith-optimize="-O3;-march=native" -Dwith-defines="-DNDEBUG" <path to NEST sources>
+```
+
+and the simulation has to run with the memory allocator [jemalloc](https://github.com/jemalloc/jemalloc), threads pinned to cores, and an active OpenMP wait policy. A Slurm job script for a single node:
+
+```bash
+#!/bin/bash -l
+#SBATCH --partition=<your partition>
+#SBATCH --account=<your account>
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=<number of cores>
+#SBATCH --hint=nomultithread
+#SBATCH --exclusive
+#SBATCH --mem=0
+#SBATCH --time=00:30:00
+
+source <path to the Python environment with NEST and microcircuit>/bin/activate
+
+export LD_PRELOAD=<path to>/libjemalloc.so
+export OMP_NUM_THREADS=<number of cores>
+export OMP_PROC_BIND=spread
+export OMP_PLACES=threads
+export OMP_WAIT_POLICY=ACTIVE
+export NUMEXPR_MAX_THREADS=<number of cores>
+
+srun --cpus-per-task=<number of cores> python PyNEST/examples/run_microcircuit.py --benchmark --threads <number of cores> --seed 55
+```
+
+`--cpus-per-task` has to be given to `srun` explicitly, because newer Slurm versions do not pass it on from the job allocation.
 
 :::{warning}
 With `--benchmark` the model runs at full scale and needs about 14 GB of memory, more than most laptops have. Without `--benchmark` the script runs a downscaled version, which is suitable for testing the setup but not for benchmarking.
