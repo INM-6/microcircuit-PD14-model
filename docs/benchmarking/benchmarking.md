@@ -52,7 +52,7 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 To run the PyNEST implementation with the performance setting of the recipe, install the `microcircuit` package from a clone of this repository (see [PyNEST implementation](../pynest_implementation.md)) and run from the root of the repository
 
 ```bash
-python PyNEST/examples/run_microcircuit.py --benchmark --threads 64
+python PyNEST/examples/run_microcircuit.py --benchmark --threads 64 --seed 55
 ```
 
 Set `--threads` to the number of available cores and vary `--seed` for repeated simulations. The script prints the timers and the real-time factor.
