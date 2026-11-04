@@ -29,6 +29,7 @@ Example illustrating usage of the `microcircuit` python package.
 '''
 
 #####################
+import argparse
 import time
 import nest
 import numpy as np
@@ -52,6 +53,27 @@ net_dict["K_scaling"] = scaling_factor
 sim_dict['data_path'] = 'data_scale_%.2f/' % scaling_factor
     
 def main():
+
+    ## command line options
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--benchmark', action='store_true', help='performance setting of the benchmarking recipe (see documentation)')
+    parser.add_argument('--seed', type=int, help='seed of the random number generator')
+    parser.add_argument('--threads', type=int, help='number of threads')
+    args = parser.parse_args()
+
+    if args.benchmark:
+        ## performance setting of the benchmarking recipe (full scale, no spike recording)
+        net_dict["N_scaling"] = 1.0
+        net_dict["K_scaling"] = 1.0
+        sim_dict["t_sim"] = 10000.0
+        sim_dict["rec_dev"] = []
+        sim_dict['data_path'] = 'data_scale_1.00/'
+        ## the progress output of NEST slows down the simulation by about 10 %
+        sim_dict["print_time"] = False
+    if args.seed is not None:
+        sim_dict["rng_seed"] = args.seed
+    if args.threads is not None:
+        sim_dict["local_num_threads"] = args.threads
 
     ## start timer 
     time_start = time.time()
@@ -84,15 +106,16 @@ def main():
     mem = psutil.Process().memory_info().rss / (1024 * 1024)
     
     #####################
-    ## plot spikes and firing rate distribution
-    print()
-    print('##########################################')
-    print()
-    observation_interval = np.array([sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]])
-    net.evaluate(observation_interval , observation_interval )
-    print()
-    print('Raster plot                  : see %s ' % (sim_dict['data_path'] + 'raster_plot.png') )
-    print('Distributions of firing rates: see %s ' % (sim_dict['data_path'] + 'box_plot.png'   ) )
+    ## plot spikes and firing rate distribution (requires spike recording)
+    if not args.benchmark:
+        print()
+        print('##########################################')
+        print()
+        observation_interval = np.array([sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]])
+        net.evaluate(observation_interval , observation_interval )
+        print()
+        print('Raster plot                  : see %s ' % (sim_dict['data_path'] + 'raster_plot.png') )
+        print('Distributions of firing rates: see %s ' % (sim_dict['data_path'] + 'box_plot.png'   ) )
     time_evaluate = time.time()
 
     #####################
@@ -109,6 +132,7 @@ def main():
     print('    Time to presimulate : %.3fs' % (time_presimulate - time_connect))
     print('    Time to simulate    : %.3fs' % (time_simulate - time_presimulate))
     print('    Time to evaluate    : %.3fs' % (time_evaluate - time_simulate))
+    print('    Real-time factor    : %.3f' % ((time_simulate - time_presimulate) / (sim_dict["t_sim"] / 1000.0)))
     print()
     print("Memory consumption: %dMB" % mem)
     print()

@@ -154,9 +154,10 @@ Storing simulation metadata to {self.sim_dict['data_path']}
                 pop_name = self.net_dict['populations'][i]
                 nodes[str(pop_name)] = pop.tolist()
 
-            for i, spike_recorder in enumerate(self.spike_recorders):
-                pop_name = self.net_dict['populations'][i]
-                nodes[f'spike_recorder_{pop_name}'] = spike_recorder.tolist()
+            if "spike_recorder" in self.sim_dict["rec_dev"]:
+                for i, spike_recorder in enumerate(self.spike_recorders):
+                    pop_name = self.net_dict['populations'][i]
+                    nodes[f'spike_recorder_{pop_name}'] = spike_recorder.tolist()
 
             helpers.dict2json(nodes, self.sim_dict['data_path'] + '/' + 'nodes.json')
 
