@@ -47,6 +47,23 @@ of studies and values are given in the following table. Figure from [(Senk et al
 
 Checklist with recommended model and simulation parameters for the PD14 model. Table adapted from [(Senk et al., 2026)][1].
 
+### Running the recipe yourself
+
+The following commands run the PyNEST implementation with the performance setting of the recipe (full scale, DC input, optimized initial conditions, 500 ms warm-up, $T_\text{model}=10\ \text{s}$, no spike recording). They require an installation of NEST (see [PyNEST implementation](../pynest_implementation.md)).
+
+```bash
+git clone https://github.com/INM-6/microcircuit-PD14-model
+cd microcircuit-PD14-model
+pip install ./PyNEST
+python PyNEST/examples/run_benchmark.py --threads 64
+```
+
+Set `--threads` to the number of cores per MPI process and vary `--seed` for repeated simulations. The script prints the timers and the real-time factor.
+
+:::{warning}
+At full scale the model needs about 14 GB of memory, more than most laptops have. `--scale 0.5` (about 4.4 GB) can be used to test the setup, but only `--scale 1` (the default) follows the recipe and gives comparable timings.
+:::
+
 ## Video
 
 Watch this video for an introduction to the benchmark and the history of this community race:  
