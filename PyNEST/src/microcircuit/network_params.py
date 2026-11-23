@@ -62,6 +62,8 @@ net_dict = {
     "K_scaling": 1.,
     # neuron model
     "neuron_model": "iaf_psc_exp",
+    # synapse model of all connections
+    "synapse_model": "static_synapse",
     # names of the simulated neuronal populations
     "populations": ["L23E", "L23I", "L4E", "L4I", "L5E", "L5I", "L6E", "L6I"],
     # number of neurons in the different populations (same order as

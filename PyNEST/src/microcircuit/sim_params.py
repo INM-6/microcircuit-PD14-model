@@ -64,4 +64,7 @@ default_sim_dict = {
     "print_time": True,
     # store meta data
     "store_metadata": True,
+    # further kernel parameters of NEST, set after the reset of the kernel and before
+    # any node is created (for example to test variants of the simulation code)
+    "kernel_params": {},
 }

@@ -30,6 +30,7 @@ Example illustrating usage of the `microcircuit` python package.
 
 #####################
 import argparse
+import json
 import time
 import nest
 import numpy as np
@@ -59,6 +60,10 @@ def main():
     parser.add_argument('--benchmark', action='store_true', help='performance setting of the benchmarking recipe (see documentation)')
     parser.add_argument('--seed', type=int, help='seed of the random number generator')
     parser.add_argument('--threads', type=int, help='number of threads')
+    parser.add_argument('--neuron-model', help='neuron model (default: %s)' % net_dict["neuron_model"])
+    parser.add_argument('--synapse-model', help='synapse model of all connections (default: %s)' % net_dict["synapse_model"])
+    parser.add_argument('--kernel-params', type=json.loads, default={},
+                        help='further NEST kernel parameters as a JSON dictionary, e.g. \'{"tree_barrier": true}\'')
     args = parser.parse_args()
 
     if args.benchmark:
@@ -74,6 +79,11 @@ def main():
         sim_dict["rng_seed"] = args.seed
     if args.threads is not None:
         sim_dict["local_num_threads"] = args.threads
+    if args.neuron_model is not None:
+        net_dict["neuron_model"] = args.neuron_model
+    if args.synapse_model is not None:
+        net_dict["synapse_model"] = args.synapse_model
+    sim_dict["kernel_params"] = args.kernel_params
 
     ## start timer 
     time_start = time.time()
