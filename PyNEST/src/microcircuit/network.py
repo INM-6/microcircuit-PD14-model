@@ -322,6 +322,7 @@ Storing simulation metadata to {self.sim_dict['data_path']}
         nest.rng_seed = self.sim_dict["rng_seed"]
         nest.overwrite_files = self.sim_dict["overwrite_files"]
         nest.print_time = self.sim_dict["print_time"]
+        nest.set(**self.sim_dict["kernel_params"])
 
         rng_seed = nest.rng_seed
         vps = nest.total_num_virtual_procs
@@ -506,7 +507,7 @@ Storing simulation metadata to {self.sim_dict['data_path']}
                         w_max = np.inf
 
                     syn_dict = {
-                        "synapse_model": "static_synapse",
+                        "synapse_model": self.net_dict["synapse_model"],
                         "weight": nest.math.redraw(
                             nest.random.normal(
                                 mean=self.weight_matrix_mean[i][j],
@@ -539,7 +540,7 @@ Storing simulation metadata to {self.sim_dict['data_path']}
             conn_dict_poisson = {"rule": "all_to_all"}
 
             syn_dict_poisson = {
-                "synapse_model": "static_synapse",
+                "synapse_model": self.net_dict["synapse_model"],
                 "weight": self.weight_ext,
                 "delay": self.net_dict["delay_poisson"],
             }

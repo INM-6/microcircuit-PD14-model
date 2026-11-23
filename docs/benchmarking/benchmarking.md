@@ -57,6 +57,15 @@ python PyNEST/examples/run_microcircuit.py --benchmark --threads 64 --seed 55
 
 Set `--threads` to the number of available cores and vary `--seed` for repeated simulations. The script prints the timers and the real-time factor.
 
+The options `--neuron-model`, `--synapse-model` and `--kernel-params` select other models and set further kernel parameters of NEST, for example to measure a variant of the simulation code under the conditions of the recipe:
+
+```bash
+python PyNEST/examples/run_microcircuit.py --benchmark --threads 64 --seed 55 \
+    --synapse-model static_synapse_hpc --kernel-params '{"use_compressed_spikes": false}'
+```
+
+The kernel parameters are set after the reset of the kernel and before any node is created. Without these options the model runs as described above.
+
 For meaningful performance results, NEST has to be built with optimization, for example
 
 ```bash
