@@ -47,6 +47,69 @@ of studies and values are given in the following table. Figure from [(Senk et al
 
 Checklist with recommended model and simulation parameters for the PD14 model. Table adapted from [(Senk et al., 2026)][1].
 
+### Running the recipe yourself
+
+To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package (see [PyNEST implementation](../pynest_implementation.md)). The package reads its parameters from a YAML file that lists only the parameters that differ from their defaults. Write the performance setting into a file `benchmark.yaml`:
+
+```yaml
+N_scaling: 1.0          # full-scale network
+K_scaling: 1.0
+t_sim: 10000.0          # simulation duration (ms); the warm-up t_presim is not part of the measurement
+rec_dev: []             # no spike recording
+print_time: false       # progress output slows down the simulation by about 10 %
+local_num_threads: 64   # set to the number of available cores
+rng_seed: 55            # vary for repeated simulations
+data_path: data_benchmark
+```
+
+The same file ships with the package as `benchmark_params.yaml`; `microcircuit.parameter_definitions.benchmark_params_file()` returns its path. Run the simulation with
+
+```bash
+microcircuit run --params benchmark.yaml
+```
+
+The command prints the timers, the real-time factor of the simulation phase, and the memory consumption. For repeated simulations, vary `rng_seed` and `data_path`.
+
+Any other parameter of the model can be set in your own YAML file in the same way, for example the cortico-cortical input (`CC_type`) or the initial conditions (`V0_type`). `microcircuit show_config --params <file>` prints the resolved parameter set without running the simulation, and `generate_example_config()` writes a template that lists all parameters with their defaults (see *Configuring via YAML* in [PyNEST implementation](../pynest_implementation.md)).
+
+For meaningful performance results, NEST has to be built with optimization, for example
+
+```bash
+cmake -Dwith-optimize="-O3;-march=native" -Dwith-defines="-DNDEBUG" <path to NEST sources>
+```
+
+and the simulation has to run with the memory allocator [jemalloc](https://github.com/jemalloc/jemalloc), threads pinned to cores, and an active OpenMP wait policy. A Slurm job script for a single node:
+
+```bash
+#!/bin/bash -l
+#SBATCH --partition=<your partition>
+#SBATCH --account=<your account>
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=<number of cores>
+#SBATCH --hint=nomultithread
+#SBATCH --exclusive
+#SBATCH --mem=0
+#SBATCH --time=00:30:00
+
+source <path to the Python environment with NEST and microcircuit>/bin/activate
+
+export LD_PRELOAD=<path to>/libjemalloc.so
+export OMP_NUM_THREADS=<number of cores>
+export OMP_PROC_BIND=spread
+export OMP_PLACES=threads
+export OMP_WAIT_POLICY=ACTIVE
+export NUMEXPR_MAX_THREADS=<number of cores>
+
+srun --cpus-per-task=<number of cores> microcircuit run --params benchmark.yaml
+```
+
+`local_num_threads` in `benchmark.yaml` has to match `<number of cores>`. `--cpus-per-task` has to be given to `srun` explicitly, because newer Slurm versions do not pass it on from the job allocation.
+
+:::{warning}
+At full scale the model needs about 14 GB of memory, more than most laptops have. Without `--params`, `microcircuit run` runs a version scaled down to 20 %, which is suitable for testing the setup but not for benchmarking.
+:::
+
 ## Video
 
 Watch this video for an introduction to the benchmark and the history of this community race:  
