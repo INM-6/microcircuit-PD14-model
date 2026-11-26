@@ -146,7 +146,7 @@ All bundled entry points read their parameters from a YAML file and hardcode not
 | `microcircuit show_config [--params FILE]` | same as `run`; prints the full resolved parameter set including derived values |
 | `microcircuit.run(FILE)` (Python) | `FILE`; also accepts a `Parameters` instance and returns the timers |
 
-None of them runs the full-scale model unless a file says so. For setting parameters directly in Python instead, e.g. `params = Parameters(); params.N_scaling = 0.2`, see [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html).
+None of them runs the full-scale model unless a file says so. The package also ships `benchmark_params.yaml` with the performance setting of the benchmarking recipe (full scale, no spike recording); `parameter_definitions.benchmark_params_file()` returns its path. For setting parameters directly in Python instead, e.g. `params = Parameters(); params.N_scaling = 0.2`, see [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html).
 
 ## Memory requirements
 

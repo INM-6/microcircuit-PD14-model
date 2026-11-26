@@ -1255,6 +1255,17 @@ def example_params_file() -> Path:
     return Path(str(files("microcircuit") / "example_params.yaml"))
 
 
+def benchmark_params_file() -> Path:
+    """
+    Returns the path of the parameter override file shipped with the package for the performance
+    setting of the benchmarking recipe (`benchmark_params.yaml`: full scale, 10 s simulation, no
+    spike recording). Per-machine values can be set on load, e.g.
+    `Parameters.from_yaml(benchmark_params_file(), local_num_threads=64, rng_seed=1)`.
+    """
+
+    return Path(str(files("microcircuit") / "benchmark_params.yaml"))
+
+
 #########################################################################
 
 

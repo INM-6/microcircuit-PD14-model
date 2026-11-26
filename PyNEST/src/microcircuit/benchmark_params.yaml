@@ -1,0 +1,21 @@
+# Parameter overrides for the performance setting of the benchmarking recipe
+# (see the benchmarking section of the documentation).
+#
+# Only the parameters listed here differ from the defaults defined in
+# `parameter_definitions.py`. Copy this file, set `local_num_threads` to the
+# number of available cores, and vary `rng_seed` for repeated simulations.
+# At full scale, the model needs about 14 GB of memory.
+#
+# Run it with
+#   microcircuit run --params benchmark_params.yaml
+# or, in Python, with
+#   microcircuit.run("benchmark_params.yaml")
+
+N_scaling: 1.0          # full-scale network
+K_scaling: 1.0
+t_sim: 10000.0          # simulation duration (ms); the warm-up t_presim is not part of the measurement
+rec_dev: []             # no spike recording
+print_time: false       # progress output slows down the simulation by about 10 %
+local_num_threads: 4    # set to the number of available cores
+rng_seed: 55            # vary for repeated simulations
+data_path: data_benchmark

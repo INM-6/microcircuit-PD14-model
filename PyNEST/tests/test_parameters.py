@@ -762,3 +762,18 @@ def test_packaged_example_params_scale_down():
 
     assert params.N_scaling < 1.0
     assert params.K_scaling < 1.0
+
+
+def test_benchmark_params_file():
+    """The shipped benchmark file sets the performance setting of the benchmarking recipe."""
+
+    from microcircuit.parameter_definitions import benchmark_params_file
+
+    params = Parameters.from_yaml(benchmark_params_file(), local_num_threads=8)
+
+    assert params.N_scaling == 1.0
+    assert params.K_scaling == 1.0
+    assert params.t_sim == 10000.0
+    assert len(params.rec_dev) == 0
+    assert params.print_time is False
+    assert params.local_num_threads == 8
