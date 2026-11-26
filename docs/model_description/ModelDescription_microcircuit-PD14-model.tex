@@ -766,7 +766,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   In the following, we outline this compensation procedure.
   %%
   \par  
-  Under the assumption that the spike trains $s_j(t)$ can be described by stationary Poisson point processes with rates $\nu_j$, the mean and the variance of the total synaptic input current \cref{eq:total_synaptic_input_current} read\footnote{Here, we have absorbed the constant cortico-cortical input current $I_{i,\mathcal{C}_y}$ into the sum across all presynaptic sources.}
+  Under the assumption that the spike trains $s_j(t)$ can be described by stationary Poisson point processes with rates $\nu_j$, the mean and the variance of the total input current \cref{eq:total_synaptic_input_current} read\footnote{Here, we have absorbed the constant cortico-cortical input current $I_{i,\mathcal{C}_y}$ into the sum across all presynaptic sources.}
   \begin{equation}
     \label{eq:mean_and_variances_synaptic_input}
       \mu_i      =             \tauS \sum_{x\in\{\mathcal{E}_{23},\ldots,\mathcal{I}_{6},\mathcal{C}_y\}} \sum_j \hat{I}_{ij}   \nu_j 
@@ -828,13 +828,13 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
     \label{eq:dc_magnitude_rescaled}
     \begin{aligned}
     I_{\text{DC},y}
-    & = I_{y\mathcal{C}_y}^* + \left( 1 - \sqrt{\alpha_K} \right) \mu_y\\
-    & = \sqrt{\alpha_K} I_{y\mathcal{C}_y} + \left( 1 - \sqrt{\alpha_K} \right) \left( \mu_{y,\text{loc}} + I_{y\mathcal{C}_y}\right) \\
-    & = I_{y\mathcal{C}_y} + \left( 1 - \sqrt{\alpha_K} \right) \mu_{y,\text{loc}}
+    & = I_{\mathcal{C}_y}^* + \left( 1 - \sqrt{\alpha_K} \right) \mu_y\\
+    & = \sqrt{\alpha_K} I_{\mathcal{C}_y} + \left( 1 - \sqrt{\alpha_K} \right) \left( \mu_{y,\text{loc}} + I_{\mathcal{C}_y}\right) \\
+    & = I_{\mathcal{C}_y} + \left( 1 - \sqrt{\alpha_K} \right) \mu_{y,\text{loc}}
     ,      
     \end{aligned}
   \end{equation}
-  where $I_{y\mathcal{C}_y}^* = \tauS \cdot \alpha_K K_{y\mathcal{C}_y} \cdot \bar{I}_{y\mathcal{C}_y}/\sqrt{\alpha_K} = \sqrt{\alpha_K} I_{y\mathcal{C}_y}$ denotes the rescaled cortico-cortical input current, and  $\mu_{y,\text{loc}}=\mu_y - I_{y\mathcal{C}_y}$ the mean input current resulting from synaptic inputs from the local network.
+  where $I_{\mathcal{C}_y}^* = \tauS \cdot \alpha_K K_{y\mathcal{C}_y} \cdot \bar{I}_{y\mathcal{C}_y}/\sqrt{\alpha_K} = \sqrt{\alpha_K} I_{\mathcal{C}_y}$ denotes the rescaled cortico-cortical input current, and  $\mu_{y,\text{loc}}=\mu_y - I_{\mathcal{C}_y}$ the mean input current resulting from synaptic inputs from the local network.
   In the absence of any initial spikes, the neurons in the network can generate spikes only if $I_{\text{DC},y}$ exceeds the rheobase current
   \begin{equation}
     \label{eq:rheobase_current}
@@ -844,7 +844,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   To ensure that population $y$ of the scaled network becomes is activated by the external inputs, the scaling factor $\alpha_K$ must fulfill
   \begin{equation}
     \label{eq:scaling_factor_constraint}
-      I_{y\mathcal{C}_y} + \left( 1 - \sqrt{\alpha_K} \right) \mu_{y,\text{loc}} \geq I_{\text{rh},y} 
+      I_{\mathcal{C}_y} + \left( 1 - \sqrt{\alpha_K} \right) \mu_{y,\text{loc}} \geq I_{\text{rh},y} 
       \quad\Leftrightarrow\quad
       \alpha_K
       \begin{cases} 
@@ -855,7 +855,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
   with the critical scaling factor
   \begin{equation}
     \label{eq:critical_scaling_factor}
-    \alpha_{K,y}^* = \left(1 - \frac{I_{\text{rh},y} - I_{y\mathcal{C}_y}}{\mu_{y,\text{loc}}}\right)^2 .
+    \alpha_{K,y}^* = \left(1 - \frac{I_{\text{rh},y} - I_{\mathcal{C}_y}}{\mu_{y,\text{loc}}}\right)^2 .
   \end{equation}
   Typically, the mean of the local input current is negative, $\mu_{y,\text{loc}}<0$, due to the dominant inhibitory feedback in balanced networks.
   In this case, the critical scaling factor $\alpha_{K,y}^*$ defines a lower bound for $\alpha_K$.
