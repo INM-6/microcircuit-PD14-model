@@ -137,13 +137,14 @@ Uncomment and edit the lines you want to change. A ready-made example is [exampl
 
 ### Bundled entry points
 
-All bundled entry points read their parameters from a YAML file and hardcode nothing else:
+All bundled entry points read their parameters from a YAML file and hardcode nothing else. They all run the same function, `microcircuit.run()`:
 
 | Entry point | Parameter file |
 |--|--|
 | `python examples/run_microcircuit.py [FILE]` | `examples/params.yaml` next to the script, or `FILE` if given |
 | `microcircuit run [--params FILE]` | the small override file shipped with the package (`example_params.yaml`, 20 % scale), or `FILE` if given |
 | `microcircuit show_config [--params FILE]` | same as `run`; prints the full resolved parameter set including derived values |
+| `microcircuit.run(FILE)` (Python) | `FILE`; also accepts a `Parameters` instance and returns the timers |
 
 None of them runs the full-scale model unless a file says so. For setting parameters directly in Python instead, e.g. `params = Parameters(); params.N_scaling = 0.2`, see [this example](https://microcircuit-pd14-model.readthedocs.io/en/latest/microcircuit_example.html).
 

@@ -28,18 +28,10 @@ Microcircuit example (Potjans & Diesmann 2014)
 Example illustrating usage of the `microcircuit` python package.
 """
 
-#####################
 import sys
-import time
 from pathlib import Path
 
-import nest
-import numpy as np
-
-from microcircuit.model import Model
-
-## import parameter definitions
-from microcircuit.parameter_definitions import Parameters
+import microcircuit
 
 #####################
 
@@ -49,78 +41,12 @@ from microcircuit.parameter_definitions import Parameters
 ## alternative file can be passed as the first command line argument:
 ##
 ##     python run_microcircuit.py my_params.yaml
+##
+## `microcircuit.run()` creates and connects the network, simulates it, plots
+## the spikes and firing rates, stores the metadata, and prints the timers.
+## The command line interface does the same: `microcircuit run --params FILE`.
 
 params_file = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "params.yaml"
-params = Parameters.from_yaml(params_file)
-
-
-def main():
-    ## start timer
-    time_start = time.time()
-
-    ## create instance of the model
-    model = Model(params)
-
-    time_network = time.time()
-
-    ## create all nodes (neurons, devices)
-    model.create_nodes()
-    time_create = time.time()
-
-    ## connect nework
-    model.connect()
-    time_connect = time.time()
-
-    ## pre-simulation (warm-up phase)
-    model.simulate(params.t_presim)
-    time_presimulate = time.time()
-
-    ## simulation
-    model.simulate(params.t_sim)
-    time_simulate = time.time()
-
-    ## store metadata
-    model.store_metadata()
-
-    ## current memory consumption of the python process (in MB)
-    import psutil
-
-    mem = psutil.Process().memory_info().rss / (1024 * 1024)
-
-    #####################
-    ## plot spikes and firing rate distribution
-    print()
-    print("##########################################")
-    print()
-    observation_interval = np.array([params.t_presim, params.t_presim + params.t_sim])
-    model.evaluate(observation_interval, observation_interval)
-    print()
-    print(f"Raster plot                  : see {params.data_path / 'raster_plot.png'} ")
-    print(f"Distributions of firing rates: see {params.data_path / 'box_plot.png'} ")
-    time_evaluate = time.time()
-
-    #####################
-    ## print timers and memory consumption
-
-    print()
-    print("##########################################")
-    print()
-    print(f"Times of Rank {nest.Rank()}:")
-    print("    Total time:")
-    print(f"    Time to initialize  : {time_network - time_start:.3f}s")
-    print(f"    Time to create      : {time_create - time_network:.3f}s")
-    print(f"    Time to connect     : {time_connect - time_create:.3f}s")
-    print(f"    Time to presimulate : {time_presimulate - time_connect:.3f}s")
-    print(f"    Time to simulate    : {time_simulate - time_presimulate:.3f}s")
-    print(f"    Time to evaluate    : {time_evaluate - time_simulate:.3f}s")
-    print()
-    print(f"Memory consumption: {int(mem)}MB")
-    print()
-    print("##########################################")
-    print()
-
-
-#####################
 
 if __name__ == "__main__":
-    main()
+    microcircuit.run(params_file)

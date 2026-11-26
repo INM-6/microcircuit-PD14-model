@@ -15,6 +15,7 @@ import nest
 import pytest
 
 ## import model implementation
+import microcircuit
 from microcircuit.model import Model
 
 ## import parameter definitions
@@ -105,6 +106,27 @@ def test_evaluate_with_spike_recorder(tmp_path):
 
     assert (tmp_path / "raster_plot.png").is_file()
     assert (tmp_path / "box_plot.png").is_file()
+
+
+def test_run_from_yaml(tmp_path):
+    """`microcircuit.run()` accepts a YAML file, runs all phases and returns the timers."""
+
+    params_file = tmp_path / "params.yaml"
+    params_file.write_text(
+        "N_scaling: 0.1\n"
+        "K_scaling: 0.1\n"
+        "t_presim: 100.0\n"
+        "t_sim: 100.0\n"
+        "print_time: false\n"
+        f"data_path: {tmp_path / 'data'}\n"
+    )
+
+    timers = microcircuit.run(params_file)
+
+    for phase in ["initialize", "create", "connect", "presimulate", "simulate", "evaluate", "total"]:
+        assert timers[phase] >= 0.0
+    assert (tmp_path / "data" / "params.json").is_file()
+    assert (tmp_path / "data" / "raster_plot.png").is_file()
 
 
 if __name__ == "__main__":
