@@ -33,6 +33,7 @@ import time
 
 import nest
 import numpy as np
+import psutil
 
 from microcircuit.model import Model
 from microcircuit.parameter_definitions import Parameters
@@ -54,7 +55,10 @@ def run(params: "Parameters | str | os.PathLike") -> dict:
 
     dict
         Wall-clock times of the phases of this rank in s (`initialize`, `create`, `connect`,
-        `presimulate`, `simulate`, `evaluate`, `total`).
+        `presimulate`, `simulate`, `evaluate`, `total`), the real-time factor of the simulation
+        phase (`real_time_factor`: wall-clock time of `simulate` divided by `t_sim`; the
+        presimulation is excluded), and the memory consumption of the Python process in MB
+        (`memory`).
     """
 
     if not isinstance(params, Parameters):
@@ -116,6 +120,8 @@ def run(params: "Parameters | str | os.PathLike") -> dict:
         "simulate": time_simulate - time_presimulate,
         "evaluate": time_evaluate - time_simulate,
         "total": time_evaluate - time_start,
+        "real_time_factor": (time_simulate - time_presimulate) / (params.t_sim / 1000.0),
+        "memory": psutil.Process().memory_info().rss / (1024 * 1024),
     }
 
     print(
@@ -127,6 +133,8 @@ def run(params: "Parameters | str | os.PathLike") -> dict:
         f"  Time to presimulate: {timers['presimulate']:.3f} s\n"
         f"  Time to simulate:    {timers['simulate']:.3f} s\n"
         f"  Time to evaluate:    {timers['evaluate']:.3f} s\n"
+        f"  Real-time factor:    {timers['real_time_factor']:.3f}\n"
+        f"  Memory consumption:  {timers['memory']:.0f} MB\n"
     )
 
     model.store_metadata()

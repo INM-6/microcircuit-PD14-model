@@ -125,6 +125,8 @@ def test_run_from_yaml(tmp_path):
 
     for phase in ["initialize", "create", "connect", "presimulate", "simulate", "evaluate", "total"]:
         assert timers[phase] >= 0.0
+    assert timers["real_time_factor"] > 0.0
+    assert timers["memory"] > 0.0
     assert (tmp_path / "data" / "params.json").is_file()
     assert (tmp_path / "data" / "raster_plot.png").is_file()
 
