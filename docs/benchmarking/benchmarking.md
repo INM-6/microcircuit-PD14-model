@@ -49,7 +49,7 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 
 ### Running the recipe yourself
 
-To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package (see [PyNEST implementation](../pynest_implementation.md)). The package reads its parameters from a YAML file that lists only the parameters that differ from their defaults. Write the performance setting into a file `benchmark.yaml`:
+To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package (see [PyNEST implementation](../pynest_implementation.md)). The package reads its parameters from a YAML file that lists only the parameters that differ from their defaults. Write the performance setting into a file `benchmark_params.yaml`:
 
 ```yaml
 N_scaling: 1.0          # full-scale network
@@ -57,15 +57,15 @@ K_scaling: 1.0
 t_sim: 10000.0          # simulation duration (ms); the warm-up t_presim is not part of the measurement
 rec_dev: []             # no spike recording
 print_time: false       # progress output slows down the simulation by about 10 %
-local_num_threads: 64   # set to the number of available cores
+local_num_threads: 4    # set to the number of available cores
 rng_seed: 55            # vary for repeated simulations
 data_path: data_benchmark
 ```
 
-The same file ships with the package as `benchmark_params.yaml`; `microcircuit.parameter_definitions.benchmark_params_file()` returns its path. Run the simulation with
+This file also ships with the package; `microcircuit.parameter_definitions.benchmark_params_file()` returns its path. Run the simulation with
 
 ```bash
-microcircuit run --params benchmark.yaml
+microcircuit run --params benchmark_params.yaml
 ```
 
 The command prints the timers, the real-time factor of the simulation phase, and the memory consumption. For repeated simulations, vary `rng_seed` and `data_path`.
@@ -101,10 +101,10 @@ export OMP_PLACES=threads
 export OMP_WAIT_POLICY=ACTIVE
 export NUMEXPR_MAX_THREADS=<number of cores>
 
-srun --cpus-per-task=<number of cores> microcircuit run --params benchmark.yaml
+srun --cpus-per-task=<number of cores> microcircuit run --params benchmark_params.yaml
 ```
 
-`local_num_threads` in `benchmark.yaml` has to match `<number of cores>`. `--cpus-per-task` has to be given to `srun` explicitly, because newer Slurm versions do not pass it on from the job allocation.
+`local_num_threads` in `benchmark_params.yaml` has to match `<number of cores>`. `--cpus-per-task` has to be given to `srun` explicitly, because newer Slurm versions do not pass it on from the job allocation.
 
 :::{warning}
 At full scale the model needs about 14 GB of memory, more than most laptops have. Without `--params`, `microcircuit run` runs a version scaled down to 20 %, which is suitable for testing the setup but not for benchmarking.
