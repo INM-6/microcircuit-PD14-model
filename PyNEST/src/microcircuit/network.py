@@ -255,35 +255,35 @@ Storing simulation metadata to {self.sim_dict['data_path']}
                 self.net_dict["bg_rate"], self.net_dict["K_ext"], self.net_dict["neuron_params"]["tau_syn"], PSC_ext
             )
 
-        # adjust weights and DC amplitude if the indegree is scaled
-        if self.net_dict["K_scaling"] != 1:
-            PSC_matrix_mean, PSC_ext, DC_amp = helpers.adjust_weights_and_input_to_synapse_scaling(
-                self.net_dict["full_num_neurons"],
-                full_num_synapses,
-                self.net_dict["K_scaling"],
-                PSC_matrix_mean,
-                PSC_ext,
-                self.net_dict["neuron_params"]["tau_syn"],
-                self.net_dict["full_mean_rates"],
-                DC_amp,
-                self.net_dict["bg_input_type"],
-                self.net_dict["bg_rate"],
-                self.net_dict["K_ext"],
-            )
+        # adjust weights and DC amplitude to the scaling of the indegrees;
+        # for K_scaling = 1 the adjustment divides by 1 and adds 0, which changes nothing
+        PSC_matrix_mean, PSC_ext, DC_amp = helpers.adjust_weights_and_input_to_synapse_scaling(
+            self.net_dict["full_num_neurons"],
+            full_num_synapses,
+            self.net_dict["K_scaling"],
+            PSC_matrix_mean,
+            PSC_ext,
+            self.net_dict["neuron_params"]["tau_syn"],
+            self.net_dict["full_mean_rates"],
+            DC_amp,
+            self.net_dict["bg_input_type"],
+            self.net_dict["bg_rate"],
+            self.net_dict["K_ext"],
+        )
 
-            # check if all populations are supra-threshold with the changed DC input
-            if self.net_dict["bg_input_type"] == "dc":
-                I_rh = helpers.compute_rheo_base_current(
-                        self.net_dict["neuron_params"]["V_th"],
-                        self.net_dict["neuron_params"]["E_L"],
-                        self.net_dict["neuron_params"]["C_m"],
-                        self.net_dict["neuron_params"]["tau_m"],
-                    )
-                for i, pop in enumerate(self.net_dict["populations"]):
-                    if DC_amp[i] < I_rh:
-                        warnings.warn(
-                            "\nPopulation {} is sub-threshold with downscaled DC input amplitude and may not fire. ".format(pop)
-                        )          
+        # check if all populations are supra-threshold with the downscaled DC input
+        if self.net_dict["K_scaling"] != 1 and self.net_dict["bg_input_type"] == "dc":
+            I_rh = helpers.compute_rheo_base_current(
+                    self.net_dict["neuron_params"]["V_th"],
+                    self.net_dict["neuron_params"]["E_L"],
+                    self.net_dict["neuron_params"]["C_m"],
+                    self.net_dict["neuron_params"]["tau_m"],
+                )
+            for i, pop in enumerate(self.net_dict["populations"]):
+                if DC_amp[i] < I_rh:
+                    warnings.warn(
+                        "\nPopulation {} is sub-threshold with downscaled DC input amplitude and may not fire. ".format(pop)
+                    )          
 
         # store final parameters as class attributes
         self.weight_matrix_mean = PSC_matrix_mean
@@ -296,9 +296,8 @@ Storing simulation metadata to {self.sim_dict['data_path']}
                 self.stim_dict["conn_probs_th"], self.stim_dict["num_th_neurons"], self.net_dict["full_num_neurons"]
             )[0]
             self.weight_th = self.stim_dict["PSP_th"] * PSC_over_PSP
-            if self.net_dict["K_scaling"] != 1:
-                num_th_synapses *= self.net_dict["K_scaling"]
-                self.weight_th /= np.sqrt(self.net_dict["K_scaling"])
+            num_th_synapses *= self.net_dict["K_scaling"]
+            self.weight_th /= np.sqrt(self.net_dict["K_scaling"])
             self.num_th_synapses = np.round(num_th_synapses).astype(int)
 
         if nest.Rank() == 0:
