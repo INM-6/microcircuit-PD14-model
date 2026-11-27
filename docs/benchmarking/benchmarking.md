@@ -49,7 +49,7 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 
 ### Running the recipe yourself
 
-To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package (see [PyNEST implementation](../pynest_implementation.md)). The package reads its parameters from a YAML file that lists only the parameters that differ from their defaults. Write the performance setting into a file `benchmark_params.yaml`:
+To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package (see [PyNEST implementation](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html)). The package reads its parameters from a YAML file that lists only the parameters that differ from their defaults. Write the performance setting into a file `benchmark_params.yaml`:
 
 ```yaml
 N_scaling: 1.0          # full-scale network
@@ -70,7 +70,7 @@ microcircuit run --params benchmark_params.yaml
 
 The command prints the timers, the real-time factor of the simulation phase, and the memory consumption. For repeated simulations, vary `rng_seed` and `data_path`.
 
-Any other parameter of the model can be set in your own YAML file in the same way, for example the cortico-cortical input (`CC_type`) or the initial conditions (`V0_type`). `microcircuit show_config --params <file>` prints the resolved parameter set without running the simulation, and `generate_example_config()` writes a template that lists all parameters with their defaults (see *Configuring via YAML* in [PyNEST implementation](../pynest_implementation.md)).
+Any other parameter of the model can be set in your own YAML file in the same way, for example the cortico-cortical input (`CC_type`) or the initial conditions (`V0_type`). `microcircuit show_config --params <file>` prints the resolved parameter set without running the simulation, and `generate_example_config()` writes a template that lists all parameters with their defaults (see [Configuring via YAML](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html#configuring-via-yaml)).
 
 For meaningful performance results, NEST has to be built with optimization, for example
 
