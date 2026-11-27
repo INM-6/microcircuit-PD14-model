@@ -810,7 +810,7 @@ $y\in\left\{\mathcal{E}_{23},\mathcal{E}_{4},\mathcal{E}_{5},\mathcal{E}_{6},\ma
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \item \label{remark:cortico_cortical_dc}
-  In the original model of \citet{Potjans14}, the cortico-cortical inputs to neurons in population $y$ are modeled as $K_{y\mathcal{C}_{y}}$ independent realizations $s_j(t)$ ($j\in\mathcal{C}_y,\ y\in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$) of a Poisson point process with constant rate $\nu_{\mathcal{C}_y}$, filtered by an exponential kernel $\text{PSC}(t)$ with time constant $\tauS$ and amplitude $\bar{I}_{y\mathcal{C}_y}$.   
+  In the original model of \citet{Potjans14}, the cortico-cortical inputs to neurons in population $y$ are modeled as $K_{\mathcal{C}_y}$ independent realizations $s_j(t)$ ($j\in\mathcal{C}_y,\ y\in \{\mathcal{E}_{23},\ldots,\mathcal{I}_{6}\}$) of a Poisson point process with constant rate $\nu_\text{CC}$, filtered by an exponential kernel $\text{PSC}(t)$ with time constant $\tauS$ and amplitude $\bar{I}_\text{CC}$.   
   In the implementation provided \href{https://github.com/INM-6/microcircuit-PD14-model}{here}, these Poissonian inputs are replaced by constant external currents (DC).
   DC inputs are computationally less expensive, exactly reproducible, and lead to similar network activity statistics.
   When replacing cortico-cortical input spikes $s_j(t)$ by DC inputs, the current implementation preserves the mean input current
