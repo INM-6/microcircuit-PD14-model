@@ -88,14 +88,10 @@ class Network:
 
         """
         self.__create_neuronal_populations()
-        if len(self.sim_dict["rec_dev"]) > 0:
-            self.__create_recording_devices()
-        if self.net_dict["bg_input_type"] == "poisson":
-            self.__create_poisson_bg_input()
-        if self.stim_dict["dc_transient"]:
-            self.__create_dc_stim_input()
-        if self.stim_dict["thalamic_input"]:
-            self.__create_thalamic_stim_input()
+        self.__create_recording_devices()
+        self.__create_poisson_bg_input()
+        self.__create_dc_stim_input()
+        self.__create_thalamic_stim_input()
         
 
     def connect(self):
@@ -117,14 +113,10 @@ class Network:
         """
         self.__connect_neuronal_populations()
 
-        if len(self.sim_dict["rec_dev"]) > 0:
-            self.__connect_recording_devices()
-        if self.net_dict["bg_input_type"] == "poisson":
-            self.__connect_poisson_bg_input()
-        if self.stim_dict["dc_transient"]:
-            self.__connect_dc_stim_input()
-        if self.stim_dict["thalamic_input"]:
-            self.__connect_thalamic_stim_input()
+        self.__connect_recording_devices()
+        self.__connect_poisson_bg_input()
+        self.__connect_dc_stim_input()
+        self.__connect_thalamic_stim_input()
 
         nest.Prepare()
         nest.Cleanup()
@@ -388,6 +380,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
         Only devices which are given in ``sim_dict['rec_dev']`` are created.
 
         """
+        if len(self.sim_dict["rec_dev"]) == 0:
+            return
+
         if nest.Rank() == 0:
             print("Creating recording devices.")
 
@@ -416,6 +411,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
         in ``create_neuronal_populations()``.
 
         """
+        if self.net_dict["bg_input_type"] != "poisson":
+            return
+
         if nest.Rank() == 0:
             print("Creating Poisson generators for background input.")
 
@@ -439,6 +437,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
         ``N_scaling``.
 
         """
+        if not self.stim_dict["thalamic_input"]:
+            return
+
         if nest.Rank() == 0:
             print("Creating thalamic input for external stimulation.")
 
@@ -458,6 +459,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
         The final amplitude is the ``stim_dict['dc_amp'] * net_dict['K_ext']``.
 
         """
+        if not self.stim_dict["dc_transient"]:
+            return
+
         dc_amp_stim = self.stim_dict["dc_transient_amp"] * self.net_dict["K_ext"]
 
         if nest.Rank() == 0:
@@ -521,6 +525,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
 
     def __connect_recording_devices(self):
         """Connects the recording devices to the microcircuit."""
+        if len(self.sim_dict["rec_dev"]) == 0:
+            return
+
         if nest.Rank == 0:
             print("Connecting recording devices.")
 
@@ -532,6 +539,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
 
     def __connect_poisson_bg_input(self):
         """Connects the Poisson generators to the microcircuit."""
+        if self.net_dict["bg_input_type"] != "poisson":
+            return
+
         if nest.Rank() == 0:
             print("Connecting Poisson generators for background input.")
 
@@ -548,6 +558,9 @@ Storing simulation metadata to {self.sim_dict['data_path']}
 
     def __connect_thalamic_stim_input(self):
         """Connects the thalamic input to the neuronal populations."""
+        if not self.stim_dict["thalamic_input"]:
+            return
+
         if nest.Rank() == 0:
             print("Connecting thalamic input.")
 
@@ -581,6 +594,8 @@ Storing simulation metadata to {self.sim_dict['data_path']}
 
     def __connect_dc_stim_input(self):
         """Connects the DC generators to the neuronal populations."""
+        if not self.stim_dict["dc_transient"]:
+            return
 
         if nest.Rank() == 0:
             print("Connecting DC generators.")
