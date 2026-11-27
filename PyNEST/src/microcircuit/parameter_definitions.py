@@ -203,9 +203,13 @@ class Parameters(BaseModel):
     ###################################
     ## neuron parameters
 
-    neuron_model: str = Field(
+    neuron_model: Literal["iaf_psc_exp"] = Field(
         default="iaf_psc_exp",
-        description=r"NEST neuron model name.",
+        description=(
+            r"NEST neuron model name. Only 'iaf_psc_exp' is supported: the model passes parameters "
+            r"specific to this neuron model, and the conversion of PSPs to PSCs assumes exponential "
+            r"postsynaptic currents."
+        ),
         json_schema_extra={
             "unit": "",
             "latex": r"neuron\_model",

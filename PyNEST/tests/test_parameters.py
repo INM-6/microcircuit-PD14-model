@@ -327,6 +327,7 @@ def test_simulation_parameters_are_serializable():
         ("tau_syn", -1.0),
         ("tau_ref", 0.0),
         ("tau_ref", -1.0),
+        ("neuron_model", "iaf_psc_alpha"),
     ],
 )
 def test_invalid_neuron_assignment_is_rejected(field_name, invalid_value):

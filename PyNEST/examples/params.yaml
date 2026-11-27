@@ -64,7 +64,7 @@ K_scaling: 0.2
 # section: network
 
 # neuron_model: iaf_psc_exp
-# NEST neuron model name.
+# NEST neuron model name. Only 'iaf_psc_exp' is supported: the model passes parameters specific to this neuron model, and the conversion of PSPs to PSCs assumes exponential postsynaptic currents.
 # unit: 
 # LaTeX: neuron\_model
 # section: neuron
