@@ -11,7 +11,8 @@ Usage:
 python generate_reference_data.py --seed <RNGseed> --path <data_path>
 ```
 
-The script uses the parameters defined in [`params.py`](params.py), which overwrite some of the default parameters in [../src/microcircuit](../src/microcircuit).
+The script uses the model and simulation parameters defined in [`model_params.yaml`](model_params.yaml), which overwrite some of the default parameters in [../src/microcircuit](../src/microcircuit).
+The RNG seeds of the network realizations, the data path, and the parameters of the data analysis and visualization are defined in [`reference_params.yaml`](reference_params.yaml).
 The random number generator seed used to create a realization of the model and the data path can be set via the (optional) command line arguments `<RNGseed>` and `<data_path>`.
   
 ## Data analysis
@@ -30,7 +31,7 @@ python analyze_reference_data.py --seed <RNGseed> --path <data_path>
 ```
 
 The seed for the network realization and the data path are specified by the command line arguments `<RNGseed>` and `<data_path>`.
-The parameters of the data analysis are set in [`params.py`](params.py).
+The parameters of the data analysis are set in [`reference_params.yaml`](reference_params.yaml).
 
 ### Ensemble of network realizations
 
@@ -39,18 +40,18 @@ To quantify the variability in the above computed spike statistics across the en
 These KS scores quantify the natural variability intrinsic to the model, and are useful when verifying other implementations of the model based on the reference ("ground truth") data provided here.
 For further details, see [(Dasbach et al., 2021)](https://doi.org/10.3389/fnins.2021.757790).
 
-This second step of the analysis, the quantification of the ensemble statistics, is implemented in [compute_ensemble_stats.py](compute_ensemble_stats.py).
+This second step of the analysis, the quantification of the ensemble statistics, is implemented in [compute_ensemble_statistics.py](compute_ensemble_statistics.py).
 
 Usage:
 ```bash
-python compute_ensemble_stats.py
+python compute_ensemble_statistics.py
 ```
 
 The script assumes that the data is organized as described below in section "Sets of simulated and analyzed reference data".
 
 ## Data visualization
 
-The script [plot_reference_analysis.py](plot_reference_analysis.py) visualizes the statistics extracted by [`analyze_reference_data.py`](analyze_reference_data.py) and [compute_ensemble_stats.py](compute_ensemble_stats.py), and produces the figures below.
+The script [plot_reference_analysis.py](plot_reference_analysis.py) visualizes the statistics extracted by [`analyze_reference_data.py`](analyze_reference_data.py) and [compute_ensemble_statistics.py](compute_ensemble_statistics.py), and produces the figures below.
 
 Usage:
 ```bash
@@ -101,6 +102,6 @@ For convenience, we provide sets of simulated and analyzed reference data for di
 
 The spike data is stored in text files `data_T<sim_time_in_s>s/seed-<RNGseed>/spike_recorder-<rec-id>-<thread-id>.dat` (1st column: neuron ID, 2nd column: spike time in ms).
 Here, `<sim_time_in_s>` refers to the simulation time in seconds, `<RNGseed>` to the random number generator seed used to generate a specific realization of the model, `<rec-id>` to the population specific spike-recorder ID, and `<thread-id>` to the thread ID.
-Each subfolder in addition contains metadata documenting the node IDs for each neuron population (`nodes.json`), the complete sets of model and simulation parameters (`sim_dict.json`, `net_dict.json`, `stim_dict.json`), as well as the results of the data analysis for each network realization (`rates.json`, `spikes_cvs.json`, `spikes_ccs.json`).
+Each subfolder in addition contains metadata documenting the node IDs for each neuron population (`nodes.json`), the complete set of model and simulation parameters (`params.json`), as well as the results of the data analysis for each network realization (`rates.json`, `spikes_cvs.json`, `spikes_ccs.json`).
 The results of the data analysis describing the statistics of the respective ensemble of network realizations (seeds) are stored in `data_T<sim_time_in_s>s` (`rates.json`, `spikes_cvs.json`, `spikes_ccs.json`, `rate_ks_distances.json`, `spike_cvs_ks_distances.json`, `spike_ccs_ks_distances.json`). 
 

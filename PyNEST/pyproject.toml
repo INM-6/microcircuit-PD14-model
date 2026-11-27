@@ -66,6 +66,8 @@ dependencies = [
     # "nest-simulator",   ## needs `pip install nest-simulator` to become available
     "numpy",
     "psutil",
+    "pydantic",
+    "rich",
     "ruamel.yaml",
     "scipy",
 ]
@@ -126,3 +128,9 @@ doc = [
 [build-system]
 build-backend = "flit_core.buildapi"
 requires = ["flit_core >=3.2,<4"]
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100

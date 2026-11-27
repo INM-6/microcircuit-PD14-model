@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# network.py
+# run_microcircuit.py
 #
 # This file is part of NEST.
 #
@@ -21,125 +21,32 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-'''
+"""
 Microcircuit example (Potjans & Diesmann 2014)
 ----------------------------------------------
 
 Example illustrating usage of the `microcircuit` python package.
-'''
+"""
 
-#####################
-import argparse
-import time
-import nest
-import numpy as np
+import sys
+from pathlib import Path
 
-## import model implementation
-from microcircuit import network
-
-## import (default) parameters (network, simulation, stimulus)
-from microcircuit.network_params import default_net_dict as net_dict
-from microcircuit.sim_params import default_sim_dict as sim_dict
-from microcircuit.stimulus_params import default_stim_dict as stim_dict
+import microcircuit
 
 #####################
 
-## set network scale
-scaling_factor = 0.2
-net_dict["N_scaling"] = scaling_factor
-net_dict["K_scaling"] = scaling_factor
+## Parameters are read from a YAML override file: everything not listed there
+## takes its default from the Parameters class. By default the `params.yaml`
+## next to this script is used (it scales the network down to 20 %); an
+## alternative file can be passed as the first command line argument:
+##
+##     python run_microcircuit.py my_params.yaml
+##
+## `microcircuit.run()` creates and connects the network, simulates it, plots
+## the spikes and firing rates, stores the metadata, and prints the timers.
+## The command line interface does the same: `microcircuit run --params FILE`.
 
-## set path for storing spike data and figures
-sim_dict['data_path'] = 'data_scale_%.2f/' % scaling_factor
-    
-def main():
+params_file = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "params.yaml"
 
-    ## command line options
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--benchmark', action='store_true', help='performance setting of the benchmarking recipe (see documentation)')
-    parser.add_argument('--seed', type=int, help='seed of the random number generator')
-    parser.add_argument('--threads', type=int, help='number of threads')
-    args = parser.parse_args()
-
-    if args.benchmark:
-        ## performance setting of the benchmarking recipe (full scale, no spike recording)
-        net_dict["N_scaling"] = 1.0
-        net_dict["K_scaling"] = 1.0
-        sim_dict["t_sim"] = 10000.0
-        sim_dict["rec_dev"] = []
-        sim_dict['data_path'] = 'data_scale_1.00/'
-        ## the progress output of NEST slows down the simulation by about 10 %
-        sim_dict["print_time"] = False
-    if args.seed is not None:
-        sim_dict["rng_seed"] = args.seed
-    if args.threads is not None:
-        sim_dict["local_num_threads"] = args.threads
-
-    ## start timer 
-    time_start = time.time()
-
-    ## create instance of the network
-    net = network.Network(sim_dict, net_dict, stim_dict)
-    time_network = time.time()
-
-    ## create all nodes (neurons, devices)
-    net.create()
-    time_create = time.time()
-
-    ## connect nework
-    net.connect()
-    time_connect = time.time()
-
-    ## pre-simulation (warm-up phase)
-    net.simulate(sim_dict["t_presim"])
-    time_presimulate = time.time()
-
-    ## simulation
-    net.simulate(sim_dict["t_sim"])
-    time_simulate = time.time()
-
-    ## store metadata
-    net.store_metadata()
-
-    ## current memory consumption of the python process (in MB)
-    import psutil
-    mem = psutil.Process().memory_info().rss / (1024 * 1024)
-    
-    #####################
-    ## plot spikes and firing rate distribution (requires spike recording)
-    if not args.benchmark:
-        print()
-        print('##########################################')
-        print()
-        observation_interval = np.array([sim_dict["t_presim"], sim_dict["t_presim"] + sim_dict["t_sim"]])
-        net.evaluate(observation_interval , observation_interval )
-        print()
-        print('Raster plot                  : see %s ' % (sim_dict['data_path'] + 'raster_plot.png') )
-        print('Distributions of firing rates: see %s ' % (sim_dict['data_path'] + 'box_plot.png'   ) )
-    time_evaluate = time.time()
-
-    #####################
-    ## print timers and memory consumption
-
-    print()
-    print('##########################################')
-    print()
-    print('Times of Rank %d:' % nest.Rank())
-    print('    Total time:')
-    print('    Time to initialize  : %.3fs' % (time_network - time_start))
-    print('    Time to create      : %.3fs' % (time_create - time_network))
-    print('    Time to connect     : %.3fs' % (time_connect - time_create))
-    print('    Time to presimulate : %.3fs' % (time_presimulate - time_connect))
-    print('    Time to simulate    : %.3fs' % (time_simulate - time_presimulate))
-    print('    Time to evaluate    : %.3fs' % (time_evaluate - time_simulate))
-    print('    Real-time factor    : %.3f' % ((time_simulate - time_presimulate) / (sim_dict["t_sim"] / 1000.0)))
-    print()
-    print("Memory consumption: %dMB" % mem)
-    print()
-    print('##########################################')
-    print()
-    
-#####################
-
-if __name__== '__main__':
-    main()
+if __name__ == "__main__":
+    microcircuit.run(params_file)

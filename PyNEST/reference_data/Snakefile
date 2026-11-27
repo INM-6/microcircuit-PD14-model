@@ -10,11 +10,23 @@
 
 # Snakefile
 
-from params import params as ref_dict
+import subprocess
 
-SEEDS = ref_dict["RNG_seeds"]
-DATA_PATH = ref_dict["data_path"]
-SIM_TIME = str( int( ref_dict["t_sim"] * 1.0e-3 ) )
+configfile: "reference_params.yaml"
+
+SEEDS = config["RNG_seeds"]
+DATA_PATH = config["data_path"]
+# t_sim is read with the python3 that runs the rules below, since microcircuit (and NEST) may not
+# be installed in the Python environment of Snakemake itself
+SIM_TIME = subprocess.check_output(
+    [
+        "python3",
+        "-c",
+        "from microcircuit.parameter_definitions import Parameters; "
+        "print(int(Parameters.from_yaml('model_params.yaml').t_sim * 1.0e-3))",
+    ],
+    text=True,
+).split()[-1]
 
 rule all:
     """
@@ -109,7 +121,7 @@ onsuccess:
 ##############################################################################################
 def test_success():
     print("="*60)
-    print("✅ All tests completed successfully!")
+    print("All tests completed successfully!")
     print(f"  • Simulations ran for seeds: {SEEDS}")
     print("  • Analysis and ensemble statistics finished")
     print("  • Plots generated")

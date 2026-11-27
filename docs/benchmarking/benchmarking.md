@@ -49,13 +49,28 @@ Checklist with recommended model and simulation parameters for the PD14 model. T
 
 ### Running the recipe yourself
 
-To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package from a clone of this repository (see [PyNEST implementation](../pynest_implementation.md)) and run from the root of the repository
+To run the PyNEST implementation with the performance setting of the recipe, install NEST and the `microcircuit` package (see [PyNEST implementation](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html)). The package reads its parameters from a YAML file that lists only the parameters that differ from their defaults. Write the performance setting into a file `benchmark_params.yaml`:
 
-```bash
-python PyNEST/examples/run_microcircuit.py --benchmark --threads 64 --seed 55
+```yaml
+N_scaling: 1.0          # full-scale network
+K_scaling: 1.0
+t_sim: 10000.0          # simulation duration (ms); the warm-up t_presim is not part of the measurement
+rec_dev: []             # no spike recording
+print_time: false       # progress output slows down the simulation by about 10 %
+local_num_threads: 4    # set to the number of available cores
+rng_seed: 55            # vary for repeated simulations
+data_path: data_benchmark
 ```
 
-Set `--threads` to the number of available cores and vary `--seed` for repeated simulations. The script prints the timers and the real-time factor.
+This file also ships with the package; `microcircuit.parameter_definitions.benchmark_params_file()` returns its path. Run the simulation with
+
+```bash
+microcircuit run --params benchmark_params.yaml
+```
+
+The command prints the timers, the real-time factor of the simulation phase, and the memory consumption. For repeated simulations, vary `rng_seed` and `data_path`.
+
+Any other parameter of the model can be set in your own YAML file in the same way, for example the cortico-cortical input (`CC_type`) or the initial conditions (`V0_type`). `microcircuit show_config --params <file>` prints the resolved parameter set without running the simulation, and `generate_example_config()` writes a template that lists all parameters with their defaults (see [Configuring via YAML](https://microcircuit-PD14-model.readthedocs.io/en/latest/pynest_implementation.html#configuring-via-yaml)).
 
 For meaningful performance results, NEST has to be built with optimization, for example
 
@@ -86,13 +101,13 @@ export OMP_PLACES=threads
 export OMP_WAIT_POLICY=ACTIVE
 export NUMEXPR_MAX_THREADS=<number of cores>
 
-srun --cpus-per-task=<number of cores> python PyNEST/examples/run_microcircuit.py --benchmark --threads <number of cores> --seed 55
+srun --cpus-per-task=<number of cores> microcircuit run --params benchmark_params.yaml
 ```
 
-`--cpus-per-task` has to be given to `srun` explicitly, because newer Slurm versions do not pass it on from the job allocation.
+`local_num_threads` in `benchmark_params.yaml` has to match `<number of cores>`. `--cpus-per-task` has to be given to `srun` explicitly, because newer Slurm versions do not pass it on from the job allocation.
 
 :::{warning}
-With `--benchmark` the model runs at full scale and needs about 14 GB of memory, more than most laptops have. Without `--benchmark` the script runs a downscaled version, which is suitable for testing the setup but not for benchmarking.
+At full scale the model needs about 14 GB of memory, more than most laptops have. Without `--params`, `microcircuit run` runs a version scaled down to 20 %, which is suitable for testing the setup but not for benchmarking.
 :::
 
 ## Video
